@@ -1,0 +1,506 @@
+
+// -------------------------------------------------------------------------
+/**
+ * 
+ * Represents a binary tree of arbitrary structure. This class is different
+ * 
+ * from those in the textbook. It does not use a separate node class.
+ * 
+ *
+ * 
+ * 
+ * @param <T>
+ * 
+ *            The type of data elements contained in the tree.
+ * 
+ *
+ * 
+ *            Created by: John Lewis (lewis63) and Stephen Edwards (stedwar2)
+ * 
+ *            Revised (2015.04.30) by: Megan Rigsbee (mrigsbee)
+ * 
+ * 
+ * 
+ * @author <Evan Howe> <evanhowe03>
+ * 
+ * @version <11/16/2022>
+ * 
+ */
+
+public class BinaryTree<T> {
+    // ~ Instance/static variables .............................................
+
+    private T element;
+    private BinaryTree<T> left;
+    private BinaryTree<T> right;
+
+    // ~ Constructors ..........................................................
+
+    // ----------------------------------------------------------
+    /**
+     * 
+     * Creates a single binary tree node containing the
+     * 
+     * given element and no children.
+     * 
+     * 
+     * 
+     * 
+     * @param value
+     * 
+     *            The data element to store in the new tree node.
+     * 
+     */
+
+    public BinaryTree(T value) {
+
+        element = value;
+
+        left = null;
+
+        right = null;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 
+     * Creates a single binary tree node containing the given
+     *
+     * element and child subtrees.
+     * 
+     * 
+     * 
+     * 
+     * @param value
+     * 
+     *            The data value to store on the new node.
+     * 
+     * @param leftChild
+     * 
+     *            A reference to the left child for the new node.
+     * 
+     * @param rightChild
+     * 
+     *            A reference to the right child for the new node.
+     * 
+     */
+
+    public BinaryTree(
+
+        T value,
+
+        BinaryTree<T> leftChild,
+
+        BinaryTree<T> rightChild) {
+
+        element = value;
+
+        left = leftChild;
+
+        right = rightChild;
+
+    }
+
+    // ~ Public Methods ........................................................
+
+    // ----------------------------------------------------------
+
+
+    /**
+     * 
+     * Get the data element in this node (i.e., stored at the root of
+     * 
+     * this tree).
+     * 
+     * 
+     * 
+     * @return This node's data element
+     * 
+     */
+
+    public T getElement() {
+
+        return element;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 79
+     * Sets the data element in this node (i.e., store it at the root of
+     * 80
+     * this tree).
+     * 81
+     * 
+     * 82
+     * 
+     * @param value
+     *            83
+     *            The new data value to store in this node
+     *            84
+     */
+
+    public void setElement(T value) {
+
+        this.element = value;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 92
+     * Get the left child of this node.
+     * 93
+     * 
+     * 94
+     * 
+     * @return This node's left child, or null if none.
+     *         95
+     */
+
+    public BinaryTree<T> getLeft() {
+
+        return left;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 103
+     * Sets the left child of this node.
+     * 104
+     * 
+     * 105
+     * 
+     * @param subtree
+     *            106
+     *            A reference to the new left child for this node.
+     *            107
+     */
+
+    public void setLeft(BinaryTree<T> subtree) {
+
+        left = subtree;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 115
+     * Get the right child of this node.
+     * 116
+     * 
+     * 117
+     * 
+     * @return This node's right child, or null if none.
+     *         118
+     */
+
+    public BinaryTree<T> getRight() {
+
+        return right;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 127
+     * Sets the right child of this node.
+     * 128
+     * 
+     * 129
+     * 
+     * @param subtree
+     *            130
+     *            A reference to the new right child for this node.
+     *            131
+     */
+
+    public void setRight(BinaryTree<T> subtree) {
+
+        right = subtree;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 139
+     * Calculate the size of this binary tree.
+     * 140
+     * 
+     * 141
+     * 
+     * @return The size of this tree.
+     *         142
+     */
+
+    public int size() {
+
+        int size = 1;
+
+        if (left == null && right == null) {
+
+            return size;
+
+        }
+
+        if (left != null) {
+
+            size = size + left.size();
+
+        }
+
+        if (right != null) {
+
+            size = size + right.size();
+
+        }
+
+        return size;
+
+        // Base case: current node has 0 children
+
+        // Recursive Case 1: current node has 1 child on the left
+
+        // Recursive Case 2: current node has 1 child on the right
+
+        // Recursive Case 3: current node has 2 children
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 168
+     * Calculate the height of this binary tree.
+     * 169
+     * The height is longest path from the root to
+     * 170
+     * a leaf node.
+     * 171
+     * Examples:
+     * 172
+     * A A A
+     * 173
+     * / / \
+     * 174
+     * B B C
+     * 175
+     * Height: 1 2 2
+     * 176
+     * 
+     * 177
+     * 
+     * @return The height of this tree.
+     *         178
+     */
+
+    public int height() {
+
+        int height = 1; // base case returns 1 for height
+
+        if (left == null && right == null) {
+
+            return 1;
+
+        }
+
+        if (left != null) {
+
+            height = Math.max(height, 1 + left.height());
+
+        }
+
+        if (right != null) {
+
+            height = Math.max(height, 1 + right.height());
+
+        }
+
+        return height;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 198
+     * Generate a string containing the "printed version" of this binary
+     * 199
+     * tree using a pre-order traversal. The tree's contents are printed
+     * 200
+     * as a parenthesized list.
+     * 201
+     * 
+     * 202
+     * Example: (A(B)(C))
+     * 203
+     * Visually: A
+     * 204
+     * / \ Traversal: A B C
+     * 205
+     * B C
+     * 206
+     * 
+     * 207
+     * 
+     * @return a printable representation of this tree's contents, using
+     *         208
+     *         a pre-order traversal.
+     *         209
+     */
+
+    public String toPreOrderString() {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("(");
+
+        builder.append(element);
+
+        if (left != null) {
+
+            builder.append(left.toPreOrderString());
+
+        }
+
+        if (right != null) {
+
+            builder.append(right.toPreOrderString());
+
+        }
+
+        builder.append(")");
+
+        return builder.toString();
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 232
+     * Generate a string containing the "printed version" of this binary
+     * 233
+     * tree using a in-order traversal. The tree's contents are printed as
+     * 234
+     * a parenthesized list.
+     * 235
+     * 
+     * 236
+     * Example: ((B)A(C))
+     * 237
+     * Visually: A
+     * 238
+     * / \ Traversal: B A C
+     * 239
+     * B C
+     * 240
+     * 
+     * 241
+     * 
+     * @return a printable representation of this tree's contents, using
+     *         242
+     *         an in-order traversal.
+     *         243
+     */
+
+    public String toInOrderString() {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("(");
+
+        if (left != null) {
+
+            builder.append(left.toInOrderString());
+
+        }
+
+        builder.append(element);
+
+        if (right != null) {
+
+            builder.append(right.toInOrderString());
+        }
+
+        builder.append(")");
+
+        return builder.toString();
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * 263
+     * Generate a string containing the "printed version" of this binary
+     * 264
+     * tree using a post-order traversal. The tree's contents are printed
+     * 265
+     * as a parenthesized list.
+     * 266
+     * 
+     * 267
+     * For example, if a tree containing the data
+     * 268
+     * value A has a left child containing B and a right child containing C,
+     * 269
+     * it would be printed as ((B)(C)A).
+     * 270
+     * Visually: A
+     * 271
+     * / \ Traversal: B C A
+     * 272
+     * B C
+     * 273
+     * 
+     * 274
+     * The parentheses directly reflect
+     * 275
+     * the structure of each node in the tree.
+     * 276
+     * 
+     * 277
+     * 
+     * @return a printable representation of this tree's contents, using
+     *         278
+     *         a post-order traversal.
+     *         279
+     */
+
+    public String toPostOrderString() {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("(");
+
+        if (left != null) {
+
+            builder.append(left.toPostOrderString());
+
+        }
+
+        if (right != null) {
+
+            builder.append(right.toPostOrderString());
+
+        }
+
+        builder.append(element);
+
+        builder.append(")");
+
+        return builder.toString();
+
+    }
+
+}
