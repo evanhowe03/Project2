@@ -1,0 +1,65 @@
+
+public class DataBase {
+    private BinaryTree tree;
+    private int size;
+
+    public DataBase(int initialSize) {
+
+        tree = new BinaryTree(initialSize, tree, tree);
+        // fix later with correct params
+
+    }
+
+
+    public void add(Seminar Sem) {
+
+    }
+
+
+    public void searchId(int id) {
+    }
+
+
+    public void searchCost(int lowCost, int highCost) {
+
+    }
+
+
+    public void searchKeyWord(String key) {
+
+    }
+
+
+    public void searchDate(int firstDate, int secondDate) {
+
+    }
+
+
+    public void searchLocation(int x, int y, int radius) {
+
+    }
+
+
+    public void delete() {
+
+    }
+
+
+    public void printDate() {
+
+    }
+
+
+    public void printKeyword() {
+    }
+
+
+    public void printCost() {
+
+    }
+
+
+    public void printID() {
+
+    }
+}
