@@ -11,10 +11,12 @@ import java.util.Scanner;
  * @version 9/14/2023
  */
 public class CommandProcessor {
+    private DataBase dataBase;
 
     public CommandProcessor(int size, String file) throws Exception {
 
         int worldSize = size;
+        dataBase = new Database();
 
         try {
 
@@ -68,14 +70,39 @@ public class CommandProcessor {
         // create a Seminar
         Seminar mySeminar = new Seminar(id, title, date, length, x, y, cost,
             words, des);
-        
+
         // later add to database
+        dataBase.add(mySeminar);
 
     }
 
 
-    public void search(Scanner scannner) {
-
+    public void search(Scanner scanner) {
+        String search = scanner.next();
+        if (search.equalsIgnoreCase("ID")) {
+            int id = scanner.nextInt();
+            dataBase.searchId(id);
+        }
+        else if (search.equalsIgnoreCase("COST")) {
+            int lowCost = scanner.nextInt();
+            int highCost = scanner.nextInt();
+            dataBase.searchCost(lowCost, highCost);
+        }
+        else if (search.equalsIgnoreCase("DATE")) {
+            int firstDate = scanner.nextInt();
+            int secondDate = scanner.nextInt();
+            dataBase.searchDate(firstDate, secondDate);
+        }
+        else if (search.equalsIgnoreCase("keyword")) {
+            String key = scanner.next();
+            dataBase.searchKeyWord(key);
+        }
+        else {
+            int x = scanner.nextInt();
+            int y = scanner.nextInt();
+            int radius = scanner.nextInt();
+            dataBase.searchLocation(x, y, radius);
+        }
     }
 
 
