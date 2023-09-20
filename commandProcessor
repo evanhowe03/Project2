@@ -16,7 +16,7 @@ public class CommandProcessor {
     public CommandProcessor(int size, String file) throws Exception {
 
         int worldSize = size;
-        dataBase = new Database();
+        dataBase = new DataBase(worldSize);
 
         try {
 
@@ -107,11 +107,32 @@ public class CommandProcessor {
 
 
     public void delete(Scanner scanner) {
-
+        int delete = scanner.nextInt();
+        dataBase.delete(delete);
     }
 
 
-    public void print(Scanner scan) {
-
+    public void print(Scanner scanner) {
+        String print = scanner.next();
+        if (print.equalsIgnoreCase("ID")) {
+            String id = scanner.next();
+            dataBase.printID(id);
+        }
+        else if (print.equalsIgnoreCase("COST")) {
+            String cost = scanner.next();
+            dataBase.printCost(cost);
+        }
+        else if (print.equalsIgnoreCase("DATE")) {
+            String date = scanner.next();
+            dataBase.printDate(date);
+        }
+        else if (print.equalsIgnoreCase("keyword")) {
+            String keyword = scanner.next();
+            dataBase.printKeyword(keyword);
+        }
+        else {
+            String location = scanner.next();
+            dataBase.printLocation(location);
+        }
     }
 }
