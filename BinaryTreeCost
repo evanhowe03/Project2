@@ -75,12 +75,17 @@ private Node<Seminar> root;
             //collision
             return null;
         }
-        else if (val.cost() <= root.getElement().cost()) {
+        else if (val.cost() < root.getElement().cost()) {
             root.setLeft(insertRec(root.getLeft(), val));
         } 
         else {
             root.setRight(insertRec(root.getRight(), val));
         }
+        //System.out.println(val);
+        return root;
+    }
+    
+    public Node<Seminar> returnRoot() {
         return root;
     }
 
