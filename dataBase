@@ -1,18 +1,36 @@
 
 public class DataBase {
-    private BinaryTree tree;
-    private int size;
+    // private BinaryTree tree;
+    private int worldSize;
+    private BinaryTreeID<Seminar> tree;
 
     public DataBase(int initialSize) {
-
-        tree = new BinaryTree(initialSize, tree, tree);
-        // fix later with correct params
+        // size = worldSize - 1
+        worldSize = initialSize;
+        tree = new BinaryTreeID<Seminar>();
 
     }
 
 
-    public void add(Seminar Sem) {
+    public void add(Seminar sem) {
+        Seminar trial = sem;
 
+        int x = trial.x();
+        int y = trial.y();
+
+        if (x >= 0 && x < worldSize && y >= 0 && y < worldSize) {
+
+            Node<Seminar> insertNode = new Node<Seminar>(trial);
+            tree.insert(trial);
+
+            System.out.println("Successfully inserted record with ID " + trial
+                .id());
+            System.out.println(trial);
+
+        }
+        else {
+            System.out.println("Insert FAILED - Bad x, y coordinates: " + x + ", " + y);
+        }
     }
 
 
