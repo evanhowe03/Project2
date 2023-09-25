@@ -23,7 +23,7 @@ public class CommandProcessor {
             Scanner scanner = new Scanner(new File(file));
 
             while (scanner.hasNext()) {
-                String word = scanner.next();
+                String word = scanner.next().trim();
 
                 if (word.equals("insert")) {
                     // System.out.println("YESY");
