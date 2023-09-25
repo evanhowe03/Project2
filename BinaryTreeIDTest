@@ -1,0 +1,51 @@
+
+/**
+ * 
+ */
+import student.TestCase;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+/**
+ * 
+ */
+public class BinaryTreeIDTest extends TestCase {
+    BinaryTreeID<Seminar> tree;
+    Seminar sem;
+    private final ByteArrayOutputStream outputStreamCaptor =
+        new ByteArrayOutputStream();
+
+    public void setup() {
+
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        String title = "fish"; // Seminar title
+        String date = "0610071600"; // Seminar date
+        int length = 30; // Seminar length
+        String[] keywords = { "fish", "hampster", "wheel" }; // Seminar keywords
+        short x = 60; // Seminar x coord
+        short y = 20; // Seminar y coord
+        String desc =
+            "Introduction to   bioinformatics and computation biology"; // Seminar
+                                                                        // description
+        int cost = 300; // Seminar cost
+        int id = 1; // Seminar ID
+        
+        sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
+    }
+
+
+    public void testInsert() {
+        tree = new BinaryTreeID<Seminar>();
+        
+        tree.insert(sem);
+
+        //tree.insert(sem);
+
+        String printedText = outputStreamCaptor.toString();
+        assertEquals(printedText,
+            "Insert FAILED - There is already a record with ID 1");
+
+    }
+
+}
