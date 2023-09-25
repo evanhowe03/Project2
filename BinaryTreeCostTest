@@ -13,14 +13,17 @@ import student.TestCase;
  * 
  */
 public class BinaryTreeCostTest extends TestCase {
-    private BinaryTreeID<Seminar> tree;
+    private BinaryTreeCost<Seminar> tree;
     private Seminar sem;
+    private Seminar sem1;
+    private Seminar sem2;
+    private Seminar sem3;
     private final ByteArrayOutputStream outputStreamCaptor =
         new ByteArrayOutputStream();
 
     public void setUp() {
 
-        tree = new BinaryTreeID<Seminar>();
+        tree = new BinaryTreeCost<Seminar>();
         
         System.setOut(new PrintStream(outputStreamCaptor));
         
@@ -37,28 +40,26 @@ public class BinaryTreeCostTest extends TestCase {
         int id = 1; // Seminar ID
         
         sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
+        sem1 = new Seminar(0, title, date, length, x, y, 20, keywords, desc);
+        sem2 = new Seminar(3, title, date, length, x, y, 30, keywords, desc);
+        sem3 = new Seminar(4, title, date, length, x, y, 40, keywords, desc);
+    
     }
 
-
-    public void testInsertCollision() {
+    public void testInsert() {
         
         tree.insert(sem);
-
-        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
         
-        String print = tree.toPreOrderString(tree.returnRoot());
+        String print = tree.toInOrderString(tree.returnRoot());
         
         System.out.println(print);
 
         String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals(printedText,
-            "Insert FAILED - There is already a record with ID " + sem.id());
-
-    }
-    
-    public void testInsert() {
-        tree.insert(sem);
-        
+        assertFuzzyEquals(printedText, sem1.toString() + sem2.toString() +sem3.toString() + sem.toString());
+   
     }
 
 }
