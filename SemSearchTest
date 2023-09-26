@@ -18,16 +18,17 @@ public class SemSearchTest extends TestCase {
 
     /**
      * Get code coverage of the class declaration.
-     * @throws Exception 
-     * @throws NumberFormatException 
+     * 
+     * @throws Exception
+     * @throws NumberFormatException
      */
-    public void testMInitx() throws NumberFormatException, Exception
-    {
+    public void testMInitx() throws NumberFormatException, Exception {
         SemSearch sem = new SemSearch();
         assertNotNull(sem);
         SemSearch.main(null);
     }
-    
+
+
     /**
      * 
      * Read contents of a file into a string
@@ -52,9 +53,10 @@ public class SemSearchTest extends TestCase {
 
     /**
      * Full parser test
-     * @throws Exception 
-     * @throws NumberFormatException 
-    */
+     * 
+     * @throws Exception
+     * @throws NumberFormatException
+     */
     public void testParserfull() throws NumberFormatException, Exception {
         final String[] args = new String[2];
         args[0] = "218";
@@ -67,5 +69,17 @@ public class SemSearchTest extends TestCase {
         assertFuzzyEquals(referenceOutput, output);
 
     }
-}
 
+
+    public void testCommand() throws NumberFormatException, Exception {
+        final String[] args = new String[2];
+        args[0] = "1024";
+        args[1] = "cmd.txt";
+
+        SemSearch.main(args);
+        String output = systemOut().getHistory();
+
+        String referenceOutput = readFile("cmdout.txt");
+        assertFuzzyEquals(referenceOutput, output);
+    }
+}
