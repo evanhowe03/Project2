@@ -26,11 +26,13 @@ public class DataBase {
             System.out.println("Successfully inserted record with ID " + trial
                 .id());
             System.out.println(trial);
+           // sem.toString();  
 
         }
         else {
             System.out.println("Insert FAILED - Bad x, y coordinates: " + x + ", " + y);
         }
+       
     }
 
 
@@ -63,26 +65,26 @@ public class DataBase {
     }
 
 
-    public void printDate(String date) {
+    public void printDate() {
 
     }
 
 
-    public void printKeyword(String keyword) {
+    public void printKeyword() {
     }
 
 
-    public void printCost(String cost) {
-
-    }
-
-
-    public void printID(String id) {
+    public void printCost() {
 
     }
 
 
-    public void printLocation(String location) {
+    public void printID() {
+
+    }
+
+
+    public void printLocation() {
     }
 
 }
