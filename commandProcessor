@@ -25,20 +25,27 @@ public class CommandProcessor {
             while (scanner.hasNext()) {
                 String word = scanner.next().trim();
 
-                if (word.equals("insert")) {
-                    // System.out.println("YESY");
-                    insert(scanner);
+                try {
+                    if (word.equalsIgnoreCase("insert")) {
+                        insert(scanner);
+                    }
+                    else if (word.equalsIgnoreCase("search")) {
+                        search(scanner);
+                    }
+                    else if (word.equalsIgnoreCase("delete")) {
+                        delete(scanner);
+                    }
+                    else if (word.equalsIgnoreCase("print")) {
+                        print(scanner);
+                    }
+                    else {
+                        System.out.println("Unknown command: " + word);
+                    }
                 }
-                else if (word.equalsIgnoreCase("search")) {
-                    search(scanner);
-                }
-                else if (word.equalsIgnoreCase("delete")) {
-                    delete(scanner);
-                }
-                else {
-                    print(scanner);
-                }
+                catch (java.util.InputMismatchException e) {
+                    System.out.println("Input is not valid.");
 
+                }
             }
 
             scanner.close();
@@ -79,60 +86,82 @@ public class CommandProcessor {
 
     public void search(Scanner scanner) {
         String search = scanner.next();
-        if (search.equalsIgnoreCase("ID")) {
-            int id = scanner.nextInt();
-            dataBase.searchId(id);
+        try {
+            if (search.equalsIgnoreCase("ID")) {
+                int id = scanner.nextInt();
+                dataBase.searchId(id);
+            }
+            else if (search.equalsIgnoreCase("COST")) {
+                int lowCost = scanner.nextInt();
+                int highCost = scanner.nextInt();
+                dataBase.searchCost(lowCost, highCost);
+            }
+            else if (search.equalsIgnoreCase("DATE")) {
+                int firstDate = scanner.nextInt();
+                int secondDate = scanner.nextInt();
+                dataBase.searchDate(firstDate, secondDate);
+            }
+            else if (search.equalsIgnoreCase("keyword")) {
+                String key = scanner.next();
+                dataBase.searchKeyWord(key);
+            }
+            else {
+                // Assume this is the "location" case.
+                int x = scanner.nextInt();
+                int y = scanner.nextInt();
+                int radius = scanner.nextInt();
+                dataBase.searchLocation(x, y, radius);
+            }
         }
-        else if (search.equalsIgnoreCase("COST")) {
-            int lowCost = scanner.nextInt();
-            int highCost = scanner.nextInt();
-            dataBase.searchCost(lowCost, highCost);
+        catch (java.util.InputMismatchException e) {
+            System.out.println("Input is not valid.");
+            // You can handle the exception or rethrow it as needed.
         }
-        else if (search.equalsIgnoreCase("DATE")) {
-            int firstDate = scanner.nextInt();
-            int secondDate = scanner.nextInt();
-            dataBase.searchDate(firstDate, secondDate);
-        }
-        else if (search.equalsIgnoreCase("keyword")) {
-            String key = scanner.next();
-            dataBase.searchKeyWord(key);
-        }
-        else {
-            int x = scanner.nextInt();
-            int y = scanner.nextInt();
-            int radius = scanner.nextInt();
-            dataBase.searchLocation(x, y, radius);
-        }
+
     }
 
 
     public void delete(Scanner scanner) {
-        int delete = scanner.nextInt();
-        dataBase.delete(delete);
+        try {
+            int delete = scanner.nextInt();
+            dataBase.delete(delete);
+        }
+        catch (java.util.InputMismatchException e) {
+            System.out.println("Input is not a valid integer.");
+
+        }
     }
 
 
     public void print(Scanner scanner) {
-        String print = scanner.next();
-        if (print.equalsIgnoreCase("ID")) {
-            String id = scanner.next();
-            dataBase.printID(id);
+
+        try {
+            String print = scanner.next();
+            if (print.equalsIgnoreCase("ID")) {
+                dataBase.printID();
+            }
+            else if (print.equalsIgnoreCase("COST")) {
+                dataBase.printCost();
+            }
+            else if (print.equalsIgnoreCase("DATE")) {
+                dataBase.printDate();
+            }
+            else if (print.equalsIgnoreCase("keyword")) {
+                dataBase.printKeyword();
+            }
+            else if (print.equalsIgnoreCase("location")) {
+                // Assume this is the "location" case.
+                dataBase.printLocation();
+            }
+            else {
+                throw new java.util.InputMismatchException();
+
+            }
         }
-        else if (print.equalsIgnoreCase("COST")) {
-            String cost = scanner.next();
-            dataBase.printCost(cost);
-        }
-        else if (print.equalsIgnoreCase("DATE")) {
-            String date = scanner.next();
-            dataBase.printDate(date);
-        }
-        else if (print.equalsIgnoreCase("keyword")) {
-            String keyword = scanner.next();
-            dataBase.printKeyword(keyword);
-        }
-        else {
-            String location = scanner.next();
-            dataBase.printLocation(location);
+        catch (java.util.InputMismatchException e) {
+            System.out.println("YEYYE");
+            // You can handle the exception or rethrow it as needed.
         }
     }
+
 }
