@@ -1,0 +1,68 @@
+
+/**
+ * 
+ */
+
+import static org.junit.Assert.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import org.junit.Test;
+import student.TestCase;
+
+/**
+ * 
+ */
+public class BinaryTreeDateTest extends TestCase {
+
+    private BinaryTreeDate<Seminar> tree;
+    private Seminar sem;
+    private Seminar sem1;
+    private Seminar sem2;
+    private Seminar sem3;
+    private final ByteArrayOutputStream outputStreamCaptor =
+        new ByteArrayOutputStream();
+
+    public void setUp() {
+
+        tree = new BinaryTreeDate<Seminar>();
+
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        String title = "fish"; // Seminar title
+        String date = "0610071600"; // Seminar date
+        int length = 30; // Seminar length
+        String[] keywords = { "fish", "hampster", "wheel" }; // Seminar keywords
+        short x = 60; // Seminar x coord
+        short y = 20; // Seminar y coord
+        String desc =
+            "Introduction to   bioinformatics and computation biology"; // Seminar
+                                                                        // description
+        int cost = 300; // Seminar cost
+        int id = 1; // Seminar ID
+
+        sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
+        sem1 = new Seminar(0, title, "0610081600", length, x, y, 20, keywords, desc);
+        sem2 = new Seminar(3, title, "0210071600", length, x, y, 30, keywords, desc);
+        sem3 = new Seminar(4, title, "0810071900", length, x, y, 40, keywords, desc);
+
+    }
+
+
+    public void testInsert() {
+
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        String print = tree.toInOrderString(tree.returnRoot());
+
+        System.out.println(print);
+
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals(printedText, sem3.toString() + sem2.toString() + sem1
+            .toString() + sem.toString());
+
+    }
+
+}
