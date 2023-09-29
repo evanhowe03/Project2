@@ -91,49 +91,60 @@ public class BinaryTreeCost<T> {
         return root;
     }
 
-    //always pass in 1 for initial inOrderSearch call to account for root node
-    public int inOrderSearch(Node<Seminar> root, int low, int high, int nodeCount) {
-        
+
+    // always pass in 1 for initial inOrderSearch call to account for root node
+    public int inOrderSearch(
+        Node<Seminar> root,
+        int low,
+        int high,
+        int nodeCount,
+        boolean groot) {
+
         if (root == null) {
             return nodeCount;
         }
-        
-        if (root.getElement().cost() >= low && root.getElement().cost() <= high) {
+
+        if (root.getElement().cost() >= low && root.getElement().cost() <= high
+            && groot) {
             System.out.println(root.getElement());
         }
 
         if (root.getLeft() != null) {
-            
+
             nodeCount++;
-            
-            if (root.getElement().cost() >= low && root.getElement().cost() <= high) {
-                
+
+            if (root.getLeft().getElement().cost() >= low && root.getLeft().getElement()
+                .cost() <= high) {
+
                 System.out.println(root.getLeft().getElement());
 
             }
-            else {
-                // only included the else statements in the key tree
-                nodeCount = inOrderSearch(root.getLeft(), low, high, nodeCount);
-            }
+
+            // only included the else statements in the key tree
+            nodeCount = inOrderSearch(root.getLeft(), low, high, nodeCount,
+                false);
+
         }
 
         if (root.getRight() != null) {
-            
+
             nodeCount++;
-            
-            if (root.getElement().cost() >= low && root.getElement().cost() <= high) {
-                
+
+            if (root.getRight().getElement().cost() >= low && root.getRight().getElement()
+                .cost() <= high) {
+
                 System.out.println(root.getRight().getElement());
 
             }
-            else {
-                nodeCount = inOrderSearch(root.getRight(), low, high, nodeCount);
-            }
+
+            nodeCount = inOrderSearch(root.getRight(), low, high, nodeCount,
+                false);
+
         }
         return nodeCount;
-        
+
     }
- 
+
 
     // ----------------------------------------------------------
     /**
