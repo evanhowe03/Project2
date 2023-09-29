@@ -4,11 +4,14 @@ public class DataBase {
     private int worldSize;
     private BinaryTreeID<Seminar> treeID;
     private BinaryTreeCost<Seminar> treeCost;
+    private BinaryTreeDate<Seminar> treeDate;
 
     public DataBase(int initialSize) {
         // size = worldSize - 1
         worldSize = initialSize;
         treeID = new BinaryTreeID<Seminar>();
+        treeCost = new BinaryTreeCost<Seminar>();
+        treeDate = new BinaryTreeDate<Seminar>();
 
     }
 
@@ -23,12 +26,15 @@ public class DataBase {
 
             Node<Seminar> insertNode = new Node<Seminar>(trial);
             treeID.insert(trial);
-            treeCost.insert(trial);
+            
+            
 
             System.out.println("Successfully inserted record with ID " + trial
                 .id());
             System.out.println(trial);
-           // sem.toString();  
+           
+            treeCost.insert(trial);
+            treeDate.insert(trial);
 
         }
         else {
@@ -39,12 +45,13 @@ public class DataBase {
 
 
     public void searchId(int id) {
+        treeID.inOrderSearch(treeID.returnRoot(), id);
     }
 
 
     public void searchCost(int lowCost, int highCost) {
         
-        int nodeCount = treeCost.inOrderSearch(treeCost.returnRoot(), lowCost, highCost, 1);
+        int nodeCount = treeCost.inOrderSearch(treeCost.returnRoot(), lowCost, highCost, 1, true);
         System.out.println("Seminars with costs in range " + lowCost + " to " + highCost + ":");
         System.out.println(nodeCount + " nodes visited in this search");
 
@@ -56,8 +63,11 @@ public class DataBase {
     }
 
 
-    public void searchDate(int firstDate, int secondDate) {
-
+    public void searchDate(String firstDate, String secondDate) {
+        
+        System.out.println("Seminars with dates in range " + firstDate 
+            + " to " + secondDate + ":");
+        treeDate.inOrderSearch(treeCost.returnRoot(), firstDate, secondDate, true);
     }
 
 
