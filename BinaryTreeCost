@@ -6,14 +6,13 @@
  * 
  */
 public class BinaryTreeCost<T> {
-private Node<Seminar> root;
-    
+    private Node<Seminar> root;
+
     public BinaryTreeCost() {
-        //instantiate root node
+        // instantiate root node
         root = null;
     }
-    
-    
+
 
     // ----------------------------------------------------------
     /**
@@ -59,36 +58,82 @@ private Node<Seminar> root;
         // Recursive Case 3: current node has 2 children
 
     }
-    
+
+
     public void insert(Seminar val) {
         root = insertRec(root, val);
     }
 
+
     private Node<Seminar> insertRec(Node<Seminar> root, Seminar val) {
         if (root == null) {
             root = new Node<Seminar>(val);
-            //System.out.println(val);
+            // System.out.println(val);
             return root;
         }
-        
+
         if (val.id() == root.getElement().id()) {
-            //collision
+            // collision
             return null;
         }
         else if (val.cost() < root.getElement().cost()) {
             root.setLeft(insertRec(root.getLeft(), val));
-        } 
+        }
         else {
             root.setRight(insertRec(root.getRight(), val));
         }
-        //System.out.println(val);
+        // System.out.println(val);
         return root;
     }
-    
+
+
     public Node<Seminar> returnRoot() {
         return root;
     }
 
+    //always pass in 1 for initial inOrderSearch call to account for root node
+    public int inOrderSearch(Node<Seminar> root, int low, int high, int nodeCount) {
+        
+        if (root == null) {
+            return nodeCount;
+        }
+        
+        if (root.getElement().cost() >= low && root.getElement().cost() <= high) {
+            System.out.println(root.getElement());
+        }
+
+        if (root.getLeft() != null) {
+            
+            nodeCount++;
+            
+            if (root.getElement().cost() >= low && root.getElement().cost() <= high) {
+                
+                System.out.println(root.getLeft().getElement());
+
+            }
+            else {
+                // only included the else statements in the key tree
+                nodeCount = inOrderSearch(root.getLeft(), low, high, nodeCount);
+            }
+        }
+
+        if (root.getRight() != null) {
+            
+            nodeCount++;
+            
+            if (root.getElement().cost() >= low && root.getElement().cost() <= high) {
+                
+                System.out.println(root.getRight().getElement());
+
+            }
+            else {
+                nodeCount = inOrderSearch(root.getRight(), low, high, nodeCount);
+            }
+        }
+        return nodeCount;
+        
+    }
+ 
 
     // ----------------------------------------------------------
     /**
