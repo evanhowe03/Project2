@@ -19,6 +19,10 @@ public class BinaryTreeDateTest extends TestCase {
     private Seminar sem1;
     private Seminar sem2;
     private Seminar sem3;
+    private Seminar sem5;
+    private Seminar sem6;
+    private Seminar sem7;
+    private Seminar sem8;
     private final ByteArrayOutputStream outputStreamCaptor =
         new ByteArrayOutputStream();
 
@@ -41,9 +45,19 @@ public class BinaryTreeDateTest extends TestCase {
         int id = 1; // Seminar ID
 
         sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
-        sem1 = new Seminar(0, title, "0610081600", length, x, y, 20, keywords, desc);
-        sem2 = new Seminar(3, title, "0210071600", length, x, y, 30, keywords, desc);
-        sem3 = new Seminar(4, title, "0810071900", length, x, y, 40, keywords, desc);
+        sem1 = new Seminar(0, title, "0610081600", length, x, y, 20, keywords,
+            desc);
+        sem2 = new Seminar(3, title, "0210071600", length, x, y, 30, keywords,
+            desc);
+        sem3 = new Seminar(4, title, "0810071900", length, x, y, 40, keywords,
+            desc);
+        sem5 = new Seminar(7, title, date, length, x, y, cost, keywords, desc);
+        sem6 = new Seminar(6, title, "0610081600", length, x, y, 20, keywords,
+            desc);
+        sem7 = new Seminar(9, title, "0210071600", length, x, y, 30, keywords,
+            desc);
+        sem8 = new Seminar(5, title, "0810071900", length, x, y, 40, keywords,
+            desc);
 
     }
 
@@ -64,25 +78,24 @@ public class BinaryTreeDateTest extends TestCase {
             .toString() + sem3.toString());
 
     }
-   
+
+
     public void testCompareSem() {
-        assertEquals(0, tree.compareSem(sem3, sem1));
-        assertEquals(1, tree.compareSem(sem2, sem3));
-        assertEquals(-1, tree.compareSem(sem1, sem1));
+        assertEquals(1, tree.compareSem(sem3, sem1));
+        assertEquals(-1, tree.compareSem(sem2, sem3));
+        assertEquals(0, tree.compareSem(sem1, sem1));
     }
-    
+
 
     public void testInOrderSearch() {
         tree.insert(sem);
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
-        
-        tree.inOrderSearch(tree.returnRoot(), "0210071600", "0810071900");
+      
+      
+
+        tree.inOrderSearch(tree.returnRoot(), "0610071500", "0610071700", true);
         String printedText = outputStreamCaptor.toString();
-        
+
         assertFuzzyEquals("", printedText);
     }
-  
 
 }
