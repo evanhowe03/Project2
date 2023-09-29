@@ -1,0 +1,293 @@
+
+/**
+ * 
+ */
+import student.TestCase;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Scanner;
+
+/**
+ * 
+ */
+public class BinaryTreeIDTest extends TestCase {
+    BinaryTreeID<Seminar> tree;
+    Seminar sem;
+    Seminar sem1;
+
+    private Seminar sem2;
+    private Seminar sem3;
+    private BinaryTreeID<Seminar> trees;
+
+    private BinaryTreeID<Seminar> whole3;
+    private Seminar council;
+    private Seminar council1;
+    private Node<Seminar> nodeyBoi;
+    private final ByteArrayOutputStream outputStreamCaptor =
+        new ByteArrayOutputStream();
+
+    public void setUp() {
+
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        String title = "fish"; // Seminar title
+        String date = "0610071600"; // Seminar date
+        int length = 30; // Seminar length
+        String[] keywords = { "fish", "hampster", "wheel" }; // Seminar keywords
+        short x = 60; // Seminar x coord
+        short y = 20; // Seminar y coord
+        String desc =
+            "Introduction to   bioinformatics and computation biology"; // Seminar
+                                                                        // description
+        int cost = 300; // Seminar cost
+        int id = 1; // Seminar ID
+
+        trees = new BinaryTreeID<Seminar>();
+
+        whole3 = new BinaryTreeID<Seminar>();
+        council = new Seminar(id, title, date, length, x, y, cost, keywords,
+            desc);
+        council1 = new Seminar(id * 2, title, date, length, x, y, cost,
+            keywords, desc);
+        nodeyBoi = new Node<Seminar>(council);
+
+        sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
+        sem1 = new Seminar(0, title, date, length, x, y, 20, keywords, desc);
+        sem2 = new Seminar(3, title, date, length, x, y, 30, keywords, desc);
+        sem3 = new Seminar(4, title, date, length, x, y, 40, keywords, desc);
+    }
+
+
+  /*  public void testInsert() {
+        tree = new BinaryTreeID<Seminar>();
+
+        tree.insert(sem);
+        tree.insert(sem);
+        tree.insert(sem1);
+
+        String print = tree.toInOrderString(tree.returnRoot());
+        System.out.println(print);
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals(printedText,
+            "insert failed there is already a record with id 1\r\n"
+                + "id 0 title fish\r\n"
+                + "date 0610071600 length 30 x 60 y 20 cost 20\r\n"
+                + "description introduction to bioinformatics and computation biology\r\n"
+                + "keywords fish hampster wheelid 1 title fish\r\n"
+                + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+                + "description introduction to bioinformatics and computation biology\r\n"
+                + "keywords fish hampster wheel");
+
+    }*/
+
+
+   /* public void testInsert2() throws NumberFormatException, Exception {
+       /* SemSearch sem2 = new SemSearch();
+        String[] args = new String[2];
+        args[0] = "1024";
+        args[1] = "in.txt";
+        SemSearch.main(args);
+
+        String printedText = outputStreamCaptor.toString();
+        String referenceOutput = readFile("out.txt");
+
+        assertFuzzyEquals(printedText, referenceOutput);*/
+    //}
+
+
+  /*  public void testInsert4() throws NumberFormatException, Exception {
+        SemSearch sem2 = new SemSearch();
+        String[] args = new String[2];
+        args[0] = "1024";
+        args[1] = "dog.txt";
+        SemSearch.main(args);
+
+        String printedText = outputStreamCaptor.toString();
+        String referenceOutput = readFile("dogout.txt");
+
+        assertFuzzyEquals(printedText, referenceOutput);
+    }*/
+
+
+    public String readFile(String name) {
+        String fileFish = "";
+        try {
+
+            Scanner scan = new Scanner(new File(name));
+
+            while (scan.hasNextLine()) {
+                fileFish += scan.nextLine() + "\n";
+            }
+            scan.close();
+        }
+        catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+        }
+
+        return fileFish;
+    }
+
+
+    public void testgetElement() {
+
+        assertEquals(council, nodeyBoi.getElement());
+
+        nodeyBoi.setElement(council1);
+
+        assertFuzzyEquals(council1.toString(), nodeyBoi.getElement()
+            .toString());
+
+    }
+
+
+    /**
+     * 40
+     * tests get size
+     * 41
+     */
+
+    /**
+     * 49
+     * tests get size
+     * 50
+     */
+
+    /**
+     * 58
+     * tests get size
+     * 59
+     */
+
+    public void testsize() {
+        assertEquals(0, trees.size(trees.returnRoot()));
+        trees.insert(council);
+        assertEquals(1, trees.size(trees.returnRoot()));
+        trees.insert(council1);
+        assertEquals(2, trees.size(trees.returnRoot()));
+        trees.insert(sem);
+        assertEquals(2, trees.size(trees.returnRoot()));
+        trees.insert(sem1);
+        trees.insert(sem2);
+        assertEquals(4, trees.size(trees.returnRoot()));
+        trees.insert(sem3);
+        assertEquals(5, trees.size(trees.returnRoot()));
+
+    }
+
+    /**
+     * 69
+     * tests get size
+     * 70
+     */
+
+    /*
+     * public void testheight() {
+     * trees.insert(council);
+     * assertEquals(1, trees.height(trees.returnRoot()));
+     * trees.insert(council);
+     * assertEquals(1, trees.height(trees.returnRoot()));
+     * 
+     * 
+     * }
+     */
+
+
+    /**
+     * 79
+     * tests get size
+     * 80
+     */
+
+    public void testtoPreOrderString() {
+
+        assertFuzzyEquals(council.toString(), trees.toPreOrderString(nodeyBoi));
+        trees.insert(council);
+        assertFuzzyEquals(council.toString(), trees.toPreOrderString(nodeyBoi));
+        trees.insert(sem1);
+        assertFuzzyEquals(council.toString(), trees.toPreOrderString(nodeyBoi));
+
+    }
+
+
+    public void testInsert3() {
+        trees.insert(sem);
+        trees.insert(sem1);
+        trees.insert(sem2);
+        trees.insert(sem3);
+
+        String print = trees.toInOrderString(trees.returnRoot());
+
+        System.out.println(print);
+
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals(printedText, "id 0 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 20\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 1 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 3 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 30\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 4 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 40\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel");
+    }
+
+
+    /**
+     * 87
+     * tests get size
+     * 88
+     */
+
+    public void testtoInOrderString() {
+
+        assertFuzzyEquals(council.toString(), trees.toInOrderString(nodeyBoi));
+        trees.insert(council);
+        assertFuzzyEquals(council.toString(), trees.toInOrderString(nodeyBoi));
+        trees.insert(sem1);
+        assertFuzzyEquals(council.toString(), trees.toInOrderString(nodeyBoi));
+
+    }
+
+
+    /**
+     * 95
+     * tests get size
+     * 96
+     */
+
+    public void testoPostOrderString() {
+
+        assertFuzzyEquals(council.toString(), trees.toPostOrderString(
+            nodeyBoi));
+        trees.insert(council);
+        assertFuzzyEquals(council.toString(), trees.toPostOrderString(
+            nodeyBoi));
+        trees.insert(sem1);
+        assertFuzzyEquals(council.toString(), trees.toPostOrderString(
+            nodeyBoi));
+
+    }
+
+
+    public void testInOrderSearch() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        tree.inOrderSearch(tree.returnRoot(), 3);
+        tree.inOrderSearch(tree.returnRoot(), 0);
+
+        String printedText = outputStreamCaptor.toString();
+
+        assertFuzzyEquals(printedText, "Found record with ID 3:\n" + sem2
+            .toString() + "\nFound record with ID 0:\n" + sem1.toString());
+    }
+}
