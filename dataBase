@@ -5,6 +5,7 @@ public class DataBase {
     private BinaryTreeID<Seminar> treeID;
     private BinaryTreeCost<Seminar> treeCost;
     private BinaryTreeDate<Seminar> treeDate;
+    private BinaryTreeKeyWord<Seminar> treeKey;
 
     public DataBase(int initialSize) {
         // size = worldSize - 1
@@ -12,6 +13,7 @@ public class DataBase {
         treeID = new BinaryTreeID<Seminar>();
         treeCost = new BinaryTreeCost<Seminar>();
         treeDate = new BinaryTreeDate<Seminar>();
+        treeKey = new BinaryTreeKeyWord<Seminar>();
 
     }
 
@@ -27,14 +29,13 @@ public class DataBase {
             Node<Seminar> insertNode = new Node<Seminar>(trial);
             treeID.insert(trial);
             
-            
-
             System.out.println("Successfully inserted record with ID " + trial
                 .id());
             System.out.println(trial);
            
             treeCost.insert(trial);
             treeDate.insert(trial);
+            treeKey.insert(trial);
 
         }
         else {
@@ -59,7 +60,8 @@ public class DataBase {
 
 
     public void searchKeyWord(String key) {
-
+        System.out.println("Seminars matching keyword " + key + ":");
+        treeKey.inOrderSearch(treeKey.returnRoot(), key, true);
     }
 
 
