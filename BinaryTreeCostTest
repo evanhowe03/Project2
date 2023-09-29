@@ -1,36 +1,32 @@
-import student.TestCase;
+/**
+ * 
+ */
+
+import static org.junit.Assert.*;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Scanner;
+import org.junit.Test;
+import student.TestCase;
 
+
+/**
+ * 
+ */
 public class BinaryTreeCostTest extends TestCase {
-
-    private BinaryTreeCost<Seminar> trees;
-
-    private BinaryTreeCost<Seminar> whole3;
-    private Seminar council;
-    private Seminar council1;
-    private Node<Seminar> nodeyBoi;
-    private final ByteArrayOutputStream outputStreamCaptor =
-        new ByteArrayOutputStream();
-    private BinaryTreeID<Seminar> tree;
+    private BinaryTreeCost<Seminar> tree;
     private Seminar sem;
     private Seminar sem1;
-
     private Seminar sem2;
     private Seminar sem3;
-
-    /**
-     * 18
-     * tests get size
-     * 19
-     */
+    private final ByteArrayOutputStream outputStreamCaptor =
+        new ByteArrayOutputStream();
 
     public void setUp() {
 
+        tree = new BinaryTreeCost<Seminar>();
+        
         System.setOut(new PrintStream(outputStreamCaptor));
+        
         String title = "fish"; // Seminar title
         String date = "0610071600"; // Seminar date
         int length = 30; // Seminar length
@@ -41,123 +37,45 @@ public class BinaryTreeCostTest extends TestCase {
             "Introduction to   bioinformatics and computation biology"; // Seminar
                                                                         // description
         int cost = 300; // Seminar cost
-        int id = 1;
-
-        trees = new BinaryTreeCost<Seminar>();
-
-        whole3 = new BinaryTreeCost<Seminar>();
-        council = new Seminar(id, title, date, length, x, y, cost, keywords,
-            desc);
-        council1 = new Seminar(id * 2, title, date, length, x, y, cost,
-            keywords, desc);
-        nodeyBoi = new Node<Seminar>(council);
-
-        council = new Seminar(id, title, date, length, x, y, cost, keywords,
-            desc);
-        council1 = new Seminar(id * 2, title, date, length, x, y, cost,
-            keywords, desc);
-        nodeyBoi = new Node<Seminar>(council);
-
-        sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
+        //int id = 1; // Seminar ID
+        
+        sem = new Seminar(1, title, date, length, x, y, cost, keywords, desc);
         sem1 = new Seminar(0, title, date, length, x, y, 20, keywords, desc);
         sem2 = new Seminar(3, title, date, length, x, y, 30, keywords, desc);
         sem3 = new Seminar(4, title, date, length, x, y, 40, keywords, desc);
-        // nodeyBoi.setElement(council);
+    
     }
-
-
-    /**
-     * 31
-     * tests get size
-     * 32
-     */
-
-    public void testgetElement() {
-
-        assertEquals(council, nodeyBoi.getElement());
-
-        nodeyBoi.setElement(council1);
-
-        assertFuzzyEquals(council1.toString(), nodeyBoi.getElement()
-            .toString());
-
-    }
-
-
-    /**
-     * 40
-     * tests get size
-     * 41
-     */
-
-    /**
-     * 49
-     * tests get size
-     * 50
-     */
-
-    /**
-     * 58
-     * tests get size
-     * 59
-     */
-
-    public void testsize() {
-        trees.insert(council);
-        trees.insert(council1);
-        assertEquals(2, trees.size(trees.returnRoot()));
-
-    }
-
 
     public void testInsert() {
-        trees.insert(sem);
-        trees.insert(sem1);
-        trees.insert(sem2);
-        trees.insert(sem3);
-
-        String print = trees.toInOrderString(trees.returnRoot());
-
+        
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+        
+        String print = tree.toInOrderString(tree.returnRoot());
+        
         System.out.println(print);
 
         String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals(printedText, sem1.toString() + sem2.toString() + sem3
-            .toString() + sem.toString());
+        assertFuzzyEquals(printedText, sem1.toString() + sem2.toString() +sem3.toString() + sem.toString());
+   
     }
-
-
- 
-
-    /**
-     * 69
-     * tests get size
-     * 70
-     */
-
-    /*
-     * public void testheight() {
-     * 
-     * assertEquals(0, trees.height(trees.returnRoot()));
-     * trees.insert(council);
-     * assertEquals(1, trees.height(trees.returnRoot()));
-     * trees.insert(council1);
-     * assertEquals(2, trees.height(trees.returnRoot()));
-     * 
-     * 
-     * }
-     */
-
-
-    /**
-     * 79
-     * tests get size
-     * 80
-     */
-
-    public void testtoInOrderString() {
-
-        assertFuzzyEquals(council.toString(), trees.toInOrderString(nodeyBoi));
-
+    
+    public void testSearch() {
+        
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+        
+        tree.inOrderSearch(tree.returnRoot(), 20, 40, 1);
+        String printedText = outputStreamCaptor.toString();
+        
+        assertFuzzyEquals("\nSeminars with costs in range 20 to 40:\n" 
+        + sem1.toString() + "\n" + sem2.toString() 
+        + "\n" + sem3.toString(), printedText);
+        
     }
 
 }
