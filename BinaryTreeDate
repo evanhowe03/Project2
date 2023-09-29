@@ -80,8 +80,8 @@ public class BinaryTreeDate<T> implements Comparator<T> {
             // collision
             return null;
         }
-        else if (compareSem(val, root.getElement()) == 1 || compareSem(val, root
-            .getElement()) == -1) {
+        else if (compareSem(val, root.getElement()) == -1 || compareSem(val,
+            root.getElement()) == 0) {
             root.setLeft(insertRec(root.getLeft(), val));
         }
         else {
@@ -97,41 +97,48 @@ public class BinaryTreeDate<T> implements Comparator<T> {
     }
 
 
-    public void inOrderSearch(Node<Seminar> root, String lowDate, String highDate) {
+    public void inOrderSearch(
+        Node<Seminar> root,
+        String lowDate,
+        String highDate,
+        boolean groot) {
         int low = Integer.parseInt(lowDate);
         int high = Integer.parseInt(highDate);
-        
+
         int date = Integer.parseInt(root.getElement().date());
-        
-        if (date >= low && date <= high) {
+
+        if (date >= low && date <= high && groot) {
 
             System.out.println(root.getElement());
         }
 
         if (root.getLeft() != null) {
+            int dat1 = Integer.parseInt(root.getLeft().getElement().date());
 
-            if (date >= low && date <= high) {
-                
+            if (dat1 >= low && dat1 <= high) {
+
                 System.out.println(root.getLeft().getElement());
 
             }
-            else {
-                // only included the else statements in the key tree
-                inOrderSearch(root.getLeft(), lowDate, highDate);
-            }
+
+            // only included the else statements in the key tree
+            System.out.println("HIT");
+            inOrderSearch(root.getLeft(), lowDate, highDate, false);
 
         }
 
         if (root.getRight() != null) {
+            int dat2 = Integer.parseInt(root.getRight().getElement().date());
 
-            if (date >= low && date <= high) {
-                
+            if (dat2 >= low && dat2 <= high) {
+
                 System.out.println(root.getRight().getElement());
 
             }
-            else {
-                inOrderSearch(root.getRight(), lowDate, highDate);
-            }
+
+            System.out.println("HIT");
+            inOrderSearch(root.getRight(), lowDate, highDate, false);
+
         }
 
     }
@@ -365,17 +372,17 @@ public class BinaryTreeDate<T> implements Comparator<T> {
 
 
     public int compareSem(Seminar val, Seminar seminar) {
-        
+
         int o1 = Integer.parseInt(val.date());
         int o2 = Integer.parseInt(seminar.date());
 
         if (o1 > o2) {
-            return 0;
-        }
-        else if (o1 < o2) {
             return 1;
         }
-        return -1;
+        else if (o1 < o2) {
+            return -1;
+        }
+        return 0;
 
     }
 
