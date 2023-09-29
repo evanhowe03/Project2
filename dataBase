@@ -2,12 +2,13 @@
 public class DataBase {
     // private BinaryTree tree;
     private int worldSize;
-    private BinaryTreeID<Seminar> tree;
+    private BinaryTreeID<Seminar> treeID;
+    private BinaryTreeCost<Seminar> treeCost;
 
     public DataBase(int initialSize) {
         // size = worldSize - 1
         worldSize = initialSize;
-        tree = new BinaryTreeID<Seminar>();
+        treeID = new BinaryTreeID<Seminar>();
 
     }
 
@@ -21,7 +22,8 @@ public class DataBase {
         if (x >= 0 && x < worldSize && y >= 0 && y < worldSize) {
 
             Node<Seminar> insertNode = new Node<Seminar>(trial);
-            tree.insert(trial);
+            treeID.insert(trial);
+            treeCost.insert(trial);
 
             System.out.println("Successfully inserted record with ID " + trial
                 .id());
@@ -41,6 +43,10 @@ public class DataBase {
 
 
     public void searchCost(int lowCost, int highCost) {
+        
+        int nodeCount = treeCost.inOrderSearch(treeCost.returnRoot(), lowCost, highCost, 1);
+        System.out.println("Seminars with costs in range " + lowCost + " to " + highCost + ":");
+        System.out.println(nodeCount + " nodes visited in this search");
 
     }
 
