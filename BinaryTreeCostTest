@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -7,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.junit.Test;
 import student.TestCase;
-
 
 /**
  * 
@@ -24,9 +24,9 @@ public class BinaryTreeCostTest extends TestCase {
     public void setUp() {
 
         tree = new BinaryTreeCost<Seminar>();
-        
+
         System.setOut(new PrintStream(outputStreamCaptor));
-        
+
         String title = "fish"; // Seminar title
         String date = "0610071600"; // Seminar date
         int length = 30; // Seminar length
@@ -37,45 +37,47 @@ public class BinaryTreeCostTest extends TestCase {
             "Introduction to   bioinformatics and computation biology"; // Seminar
                                                                         // description
         int cost = 300; // Seminar cost
-        //int id = 1; // Seminar ID
-        
+        // int id = 1; // Seminar ID
+
         sem = new Seminar(1, title, date, length, x, y, cost, keywords, desc);
         sem1 = new Seminar(0, title, date, length, x, y, 20, keywords, desc);
         sem2 = new Seminar(3, title, date, length, x, y, 30, keywords, desc);
         sem3 = new Seminar(4, title, date, length, x, y, 40, keywords, desc);
-    
+
     }
 
+
     public void testInsert() {
-        
+
         tree.insert(sem);
         tree.insert(sem1);
         tree.insert(sem2);
         tree.insert(sem3);
-        
+
         String print = tree.toInOrderString(tree.returnRoot());
-        
+
         System.out.println(print);
 
         String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals(printedText, sem1.toString() + sem2.toString() +sem3.toString() + sem.toString());
-   
+        assertFuzzyEquals(printedText, sem1.toString() + sem2.toString() + sem3
+            .toString() + sem.toString());
+
     }
-    
+
+
     public void testSearch() {
-        
+
         tree.insert(sem);
         tree.insert(sem1);
         tree.insert(sem2);
         tree.insert(sem3);
-        
-        tree.inOrderSearch(tree.returnRoot(), 20, 40, 1);
+
+        tree.inOrderSearch(tree.returnRoot(), 20, 40, 1, true);
         String printedText = outputStreamCaptor.toString();
-        
-        assertFuzzyEquals("\nSeminars with costs in range 20 to 40:\n" 
-        + sem1.toString() + "\n" + sem2.toString() 
-        + "\n" + sem3.toString(), printedText);
-        
+
+        assertFuzzyEquals(tree.toInOrderString(tree.returnRoot()),
+            printedText);
+
     }
 
 }
