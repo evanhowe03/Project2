@@ -14,16 +14,21 @@ public class BinaryTreeIDTest extends TestCase {
     private Seminar sem;
     private final ByteArrayOutputStream outputStreamCaptor =
         new ByteArrayOutputStream();
+
     private Seminar sem1;
     private Seminar sem2;
     private Seminar sem3;
+    private Seminar sem5;
+    private Seminar sem6;
+    private Seminar sem7;
+    private Seminar sem8;
 
     public void setUp() {
 
         tree = new BinaryTreeID<Seminar>();
-        
+
         System.setOut(new PrintStream(outputStreamCaptor));
-        
+
         String title = "fish"; // Seminar title
         String date = "0610071600"; // Seminar date
         int length = 30; // Seminar length
@@ -35,63 +40,197 @@ public class BinaryTreeIDTest extends TestCase {
                                                                         // description
         int cost = 300; // Seminar cost
         int id = 1; // Seminar ID
-        
+
         sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
-        sem1 = new Seminar(0, title, date, length, x, y, 20, keywords, desc);
-        sem2 = new Seminar(3, title, date, length, x, y, 30, keywords, desc);
-        sem3 = new Seminar(4, title, date, length, x, y, 40, keywords, desc);
-    
+        sem1 = new Seminar(0, title, "0610081600", length, x, y, 20, keywords,
+            desc);
+        sem2 = new Seminar(3, title, "0210071600", length, x, y, 30, keywords,
+            desc);
+        sem3 = new Seminar(4, title, "0810071900", length, x, y, 40, keywords,
+            desc);
+        sem5 = new Seminar(7, title, date, length, x, y, cost, keywords, desc);
+        sem6 = new Seminar(6, title, "0610081600", length, x, y, 20, keywords,
+            desc);
+        sem7 = new Seminar(9, title, "0210071600", length, x, y, 30, keywords,
+            desc);
+        sem8 = new Seminar(5, title, "0810071900", length, x, y, 40, keywords,
+            desc);
+
     }
 
 
     public void testInsert() {
-        
+
         tree.insert(sem);
 
         tree.insert(sem);
-        
-        String print = tree.toPreOrderString(tree.returnRoot());
-        
+
+        String print = tree.toInOrderString(tree.returnRoot());
+
         System.out.println(print);
 
         String printedText = outputStreamCaptor.toString();
         assertFuzzyEquals(printedText,
-            "Insert FAILED - There is already a record with ID " + sem.id() + "\n" + sem.toString());
-        //assertFuzzyEquals(print, sem.toString());
+            "Insert FAILED - There is already a record with ID " + sem.id()
+                + "\n" + sem.toString());
+        // assertFuzzyEquals(print, sem.toString());
 
     }
-    
+
+
     public void testInsert1() {
         tree.insert(sem);
         tree.insert(sem1);
         tree.insert(sem2);
         tree.insert(sem3);
-        
+
         String print = tree.toInOrderString(tree.returnRoot());
-        
+
         System.out.println(print);
 
         String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals(printedText, sem1.toString() + sem.toString() +sem2.toString() +sem3.toString());
-   
+        assertFuzzyEquals(printedText, sem1.toString() + sem.toString() + sem2
+            .toString() + sem3.toString());
+
     }
-    
+
+
     public void testInOrderSearch() {
         tree.insert(sem);
         tree.insert(sem1);
         tree.insert(sem2);
         tree.insert(sem3);
-        
-        tree.inOrderSearch(tree.returnRoot(), 3);
-        tree.inOrderSearch(tree.returnRoot(), 0);
-        
-        String printedText = outputStreamCaptor.toString();
-        
+        tree.insert(sem8);
+        tree.insert(sem5);
+        tree.insert(sem6);
+        tree.insert(sem7);
 
-        assertFuzzyEquals(printedText, "Found record with ID 3:\n" + sem2.toString() + 
-            "\nFound record with ID 0:\n" + sem1.toString());
+        tree.search(tree.returnRoot(), 5);
+        tree.search(tree.returnRoot(), 9);
+
+        String printedText = outputStreamCaptor.toString();
+
+        assertFuzzyEquals(printedText, "Found record with ID 5:\n" + sem8
+            .toString() + "\nFound record with ID 9:\n" + sem7.toString());
     }
 
 
+    public void testHeight() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(3, tree.height(tree.returnRoot()));
+    }
+
+
+    public void testSize() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(4, tree.size(tree.returnRoot()));
+    }
+
+
+    public void testString() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertFuzzyEquals("id 0 title fish\r\n"
+            + "date 0610081600 length 30 x 60 y 20 cost 20\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 1 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 3 title fish\r\n"
+            + "date 0210071600 length 30 x 60 y 20 cost 30\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 4 title fish\r\n"
+            + "date 0810071900 length 30 x 60 y 20 cost 40\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel", tree.toInOrderString(tree
+                .returnRoot()));
+    }
+
+
+    public void testDepth() {
+        assertEquals(-1, tree.findDepthRecursive(tree.returnRoot(), 0, 3));
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(0, tree.findDepth(1));
+
+        assertEquals(4, tree.findDepthRecursive(tree.returnRoot(), 0, 3));
+    }
+
+
+    public void testSearch2() {
+        tree.inOrderSearch(tree.returnRoot(), 4);
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals("", printedText);
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+        tree.insert(sem8);
+        tree.insert(sem5);
+        tree.insert(sem6);
+        tree.insert(sem7);
+
+        tree.search(tree.returnRoot(), 5);
+        tree.search(tree.returnRoot(), 9);
+
+        printedText = outputStreamCaptor.toString();
+
+        assertFuzzyEquals(printedText, "Found record with ID 5:\n" + sem8
+            .toString() + "\nFound record with ID 9:\n" + sem7.toString());
+        tree.inOrderSearch(tree.returnRoot(), 93);
+        assertFuzzyEquals(printedText, "Found record with ID 5:\n" + sem8
+            .toString() + "\nFound record with ID 9:\n" + sem7.toString());
+        tree.inOrderSearch(tree.returnRoot(), 1);
+        printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals(printedText, "found record with id 5\r\n"
+            + "id 5 title fish\r\n"
+            + "date 0810071900 length 30 x 60 y 20 cost 40\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel\r\n" + "found record with id 9\r\n"
+            + "id 9 title fish\r\n"
+            + "date 0210071600 length 30 x 60 y 20 cost 30\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel\r\n" + "found record with id 1\r\n"
+            + "id 1 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel");
+    }
+
+
+    public void testSearch3() {
+        tree.insert(sem);
+        tree.search(tree.returnRoot(), 4);
+
+        String printedText = outputStreamCaptor.toString().trim();
+
+        String expectedOutput = "Search FAILED -- There is no record with ID 4";
+         assertEquals(expectedOutput, printedText);
+    }
+
+
+    public void testSearch4() {
+
+        tree.search(tree.returnRoot(), 4);
+
+        String printedText = outputStreamCaptor.toString().trim();
+
+        String expectedOutput = "Search FAILED -- There is no record with ID 4";
+         assertEquals(expectedOutput, printedText);
+    }
 
 }
