@@ -11,3 +11,6 @@ dfi
 sf
 sds
 print dos
+print
+delete
+search
