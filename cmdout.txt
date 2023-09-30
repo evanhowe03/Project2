@@ -8,12 +8,13 @@ unknown command dog
 unknown command dog
 input is not valid
 unknown command cost
-yeyye
-yeyye
-yeyye
+unknown print type do
+unknown print type fix
+unknown print type 1
 input is not a valid integer
 unknown command dog
 unknown command dfi
 unknown command sf
 unknown command sds
-yeyye
+unknown print type dos
+unknown print type delete
