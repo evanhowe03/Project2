@@ -5,7 +5,6 @@ public class DataBase {
     private BinaryTreeID<Seminar> treeID;
     private BinaryTreeCost<Seminar> treeCost;
     private BinaryTreeDate<Seminar> treeDate;
-    private BinaryTreeKeyWord<Seminar> treeKey;
 
     public DataBase(int initialSize) {
         // size = worldSize - 1
@@ -13,7 +12,6 @@ public class DataBase {
         treeID = new BinaryTreeID<Seminar>();
         treeCost = new BinaryTreeCost<Seminar>();
         treeDate = new BinaryTreeDate<Seminar>();
-        treeKey = new BinaryTreeKeyWord<Seminar>();
 
     }
 
@@ -28,48 +26,51 @@ public class DataBase {
 
             Node<Seminar> insertNode = new Node<Seminar>(trial);
             treeID.insert(trial);
-            
+
             System.out.println("Successfully inserted record with ID " + trial
                 .id());
             System.out.println(trial);
-           
+
             treeCost.insert(trial);
             treeDate.insert(trial);
-            treeKey.insert(trial);
 
         }
         else {
-            System.out.println("Insert FAILED - Bad x, y coordinates: " + x + ", " + y);
+            System.out.println("Insert FAILED - Bad x, y coordinates: " + x
+                + ", " + y);
         }
-       
+
     }
 
 
     public void searchId(int id) {
-        treeID.inOrderSearch(treeID.returnRoot(), id);
+        treeID.search(treeID.returnRoot(), id);
+
     }
 
 
     public void searchCost(int lowCost, int highCost) {
-        
-        int nodeCount = treeCost.inOrderSearch(treeCost.returnRoot(), lowCost, highCost, 1, true);
-        System.out.println("Seminars with costs in range " + lowCost + " to " + highCost + ":");
+
+        int nodeCount = treeCost.inOrderSearch(treeCost.returnRoot(), lowCost,
+            highCost, 1, true);
+        System.out.println("Seminars with costs in range " + lowCost + " to "
+            + highCost + ":");
         System.out.println(nodeCount + " nodes visited in this search");
 
     }
 
 
     public void searchKeyWord(String key) {
-        System.out.println("Seminars matching keyword " + key + ":");
-        treeKey.inOrderSearch(treeKey.returnRoot(), key, true);
+
     }
 
 
     public void searchDate(String firstDate, String secondDate) {
-        
-        System.out.println("Seminars with dates in range " + firstDate 
-            + " to " + secondDate + ":");
-        treeDate.inOrderSearch(treeCost.returnRoot(), firstDate, secondDate, true);
+
+        System.out.println("Seminars with dates in range " + firstDate + " to "
+            + secondDate + ":");
+        treeDate.inOrderSearch(treeCost.returnRoot(), firstDate, secondDate,
+            true);
     }
 
 
