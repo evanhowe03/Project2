@@ -88,4 +88,44 @@ public class BinaryTreeKeyWordTest extends TestCase {
         String printedText = outputStreamCaptor.toString();
         assertFuzzyEquals(sem2.toString(), printedText);
     }
+
+
+    public void testHeight() {
+      
+        tree.insert(sem1);
+        assertEquals(1, tree.height(tree.returnRoot()));
+        tree.insert(sem);
+        assertEquals(2, tree.height(tree.returnRoot()));
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(3, tree.height(tree.returnRoot()));
+    }
+
+
+    public void testSize() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(4, tree.size(tree.returnRoot()));
+    }
+
+
+    public void testInOrderSearch2() {
+        tree.inOrderSearch(tree.returnRoot(), "fish", true);
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals("", printedText);
+        tree.insert(sem);
+        tree.inOrderSearch(tree.returnRoot(), "SMALL", true);
+        printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals("id 1 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords small", printedText);
+      
+
+    }
+
 }
