@@ -75,9 +75,77 @@ public class BinaryTreeCostTest extends TestCase {
         tree.inOrderSearch(tree.returnRoot(), 20, 40, 1, true);
         String printedText = outputStreamCaptor.toString();
 
-        assertFuzzyEquals(tree.toInOrderString(tree.returnRoot()),
-            printedText);
+        assertFuzzyEquals("id 0 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 20\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel\r\n" + "id 3 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 30\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel\r\n" + "id 4 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 40\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel", printedText);
 
     }
 
+
+    public void testSize() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(4, tree.size(tree.returnRoot()));
+    }
+
+
+    public void testHeight() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(4, tree.height(tree.returnRoot()));
+    }
+
+
+    public void testString() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertFuzzyEquals("id 3 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 30\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 4 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 40\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 1 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel", tree.toInOrderString(tree
+                .returnRoot()));
+    }
+
+
+    public void testInOrderSearch() {
+        assertEquals(0, tree.inOrderSearch(tree.returnRoot(), 0, 99999, 0,
+            true));
+        tree.insert(sem);
+        tree.inOrderSearch(tree.returnRoot(), 0, 99999, 0, true);
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals("id 1 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel", printedText);
+        tree.insert(sem1);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(2, tree.inOrderSearch(tree.returnRoot(), 0, 99999, 0,
+            true));
+    }
 }
