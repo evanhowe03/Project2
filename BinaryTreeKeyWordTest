@@ -1,0 +1,91 @@
+import static org.junit.Assert.*;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import org.junit.Test;
+import student.TestCase;
+
+public class BinaryTreeKeyWordTest extends TestCase {
+    private BinaryTreeKeyWord<Seminar> tree;
+    private Seminar sem;
+    private Seminar sem1;
+    private Seminar sem2;
+    private Seminar sem3;
+    private Seminar sem5;
+    private Seminar sem6;
+    private Seminar sem7;
+    private Seminar sem8;
+    private final ByteArrayOutputStream outputStreamCaptor =
+        new ByteArrayOutputStream();
+
+    public void setUp() {
+
+        tree = new BinaryTreeKeyWord<Seminar>();
+
+        System.setOut(new PrintStream(outputStreamCaptor));
+
+        String title = "fish"; // Seminar title
+        String date = "0610071600"; // Seminar date
+        int length = 30; // Seminar length
+        String[] keywords = { "fish", "hampster", "wheel" }; // Seminar keywords
+        String[] bigword = { "fish", "hampster", "wheel", "supppper" };
+        String[] medium = { "fish", "hampster", "wheel", "super" };
+        String[] small = { "SMALL" }; // Seminar keywords
+        short x = 60; // Seminar x coord
+        short y = 20; // Seminar y coord
+        String desc =
+            "Introduction to   bioinformatics and computation biology"; // Seminar
+                                                                        // description
+        int cost = 300; // Seminar cost
+        int id = 1; // Seminar ID
+
+        sem = new Seminar(id, title, date, length, x, y, cost, small, desc);
+        sem1 = new Seminar(0, title, "0610081600", length, x, y, 20, medium,
+            desc);
+        sem2 = new Seminar(3, title, "0210071600", length, x, y, 30, bigword,
+            desc);
+        sem3 = new Seminar(4, title, "0810071900", length, x, y, 40, keywords,
+            desc);
+        sem5 = new Seminar(7, title, date, length, x, y, cost, keywords, desc);
+        sem6 = new Seminar(6, title, "0610081600", length, x, y, 20, keywords,
+            desc);
+        sem7 = new Seminar(9, title, "0210071600", length, x, y, 30, keywords,
+            desc);
+        sem8 = new Seminar(5, title, "1810071900", length, x, y, 40, keywords,
+            desc);
+
+    }
+
+
+    public void testInsert() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        String print = tree.toInOrderString(tree.returnRoot());
+
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals(print, sem.toString() + sem3.toString() + sem1
+            .toString() + sem2.toString());
+
+    }
+
+
+    public void testCompareSem() {
+        assertEquals(0, tree.compareSem(sem, sem));
+        assertEquals(-1, tree.compareSem(sem, sem2));
+        assertEquals(1, tree.compareSem(sem2, sem));
+    }
+
+
+    public void testInOrderSearch() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+        tree.insert(sem5);
+        tree.inOrderSearch(tree.returnRoot(), "supppper", false);
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals(sem2.toString(), printedText);
+    }
+}
