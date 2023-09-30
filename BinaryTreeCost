@@ -227,31 +227,7 @@ public class BinaryTreeCost<T> {
      *         209
      */
 
-    public String toPreOrderString(Node<T> root) {
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("(");
-
-        builder.append(root.getElement());
-
-        if (root.getLeft() != null) {
-
-            builder.append(toPreOrderString(root.getLeft()));
-
-        }
-
-        if (root.getRight() != null) {
-
-            builder.append(toPreOrderString(root.getRight()));
-
-        }
-
-        builder.append(")");
-
-        return builder.toString();
-
-    }
+ 
 
 
     // ----------------------------------------------------------
@@ -346,29 +322,5 @@ public class BinaryTreeCost<T> {
      *         279
      */
 
-    public String toPostOrderString(Node<T> root) {
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("(");
-
-        if (root.getLeft() != null) {
-
-            builder.append(toPostOrderString(root.getLeft()));
-
-        }
-
-        if (root.getRight() != null) {
-
-            builder.append(toPostOrderString(root.getRight()));
-
-        }
-
-        builder.append(root.getElement());
-
-        builder.append(")");
-
-        return builder.toString();
-
-    }
+ 
 }
