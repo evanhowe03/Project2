@@ -56,7 +56,7 @@ public class BinaryTreeDateTest extends TestCase {
             desc);
         sem7 = new Seminar(9, title, "0210071600", length, x, y, 30, keywords,
             desc);
-        sem8 = new Seminar(5, title, "0810071900", length, x, y, 40, keywords,
+        sem8 = new Seminar(5, title, "1810071900", length, x, y, 40, keywords,
             desc);
 
     }
@@ -88,14 +88,104 @@ public class BinaryTreeDateTest extends TestCase {
 
 
     public void testInOrderSearch() {
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
         tree.insert(sem);
-      
-      
+        tree.insert(sem5);
+        tree.insert(sem8);
 
-        tree.inOrderSearch(tree.returnRoot(), "0610071500", "0610071700", true);
+        tree.inOrderSearch(tree.returnRoot(), "0", "1", true);
         String printedText = outputStreamCaptor.toString();
 
-        assertFuzzyEquals("", printedText);
+        assertFuzzyEquals("id 0 title fish\r\n"
+            + "date 0610081600 length 30 x 60 y 20 cost 20\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel\r\n" + "id 3 title fish\r\n"
+            + "date 0210071600 length 30 x 60 y 20 cost 30\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel\r\n" + "id 1 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel\r\n" + "id 7 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel\r\n" + "id 4 title fish\r\n"
+            + "date 0810071900 length 30 x 60 y 20 cost 40\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel", printedText);
+
+    }
+
+
+    public void testIn2() {
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+        tree.insert(sem);
+        tree.insert(sem5);
+        tree.insert(sem8);
+
+        tree.inOrderSearch(tree.returnRoot(), "1", "2", true);
+        String printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals(sem8.toString(), printedText);
+    }
+
+
+    public void testIn3() {
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+        tree.insert(sem);
+        tree.insert(sem5);
+        tree.insert(sem8);
+
+        tree.inOrderSearch(tree.returnRoot(), "0", "0", true);
+        assertFuzzyEquals("", "");
+
+    }
+
+
+    public void testHeight() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(3, tree.height(tree.returnRoot()));
+    }
+
+
+    public void testSize() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertEquals(4, tree.size(tree.returnRoot()));
+    }
+
+
+    public void testString() {
+        tree.insert(sem);
+        tree.insert(sem1);
+        tree.insert(sem2);
+        tree.insert(sem3);
+
+        assertFuzzyEquals("id 3 title fish\r\n"
+            + "date 0210071600 length 30 x 60 y 20 cost 30\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 1 title fish\r\n"
+            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 0 title fish\r\n"
+            + "date 0610081600 length 30 x 60 y 20 cost 20\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheelid 4 title fish\r\n"
+            + "date 0810071900 length 30 x 60 y 20 cost 40\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel", tree.toInOrderString(tree
+                .returnRoot()));
     }
 
 }
