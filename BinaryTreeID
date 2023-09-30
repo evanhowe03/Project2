@@ -28,15 +28,14 @@
  */
 
 public class BinaryTreeID<T> {
-    
+
     private Node<Seminar> root;
-    
+
     public BinaryTreeID() {
-        //instantiate root node
+        // instantiate root node
         root = null;
     }
-    
-    
+
 
     // ----------------------------------------------------------
     /**
@@ -82,87 +81,82 @@ public class BinaryTreeID<T> {
         // Recursive Case 3: current node has 2 children
 
     }
-    
+
+
     public void insert(Seminar val) {
         root = insertRec(root, val);
     }
 
+
     private Node<Seminar> insertRec(Node<Seminar> root, Seminar val) {
         if (root == null) {
             root = new Node<Seminar>(val);
-            //System.out.println(val);
+            // System.out.println(val);
             return root;
         }
-        
+
         if (val.id() == root.getElement().id()) {
-            //collision
-            System.out.println("Insert FAILED - There is already a record with ID " + val.id());
+            // collision
+            System.out.println(
+                "Insert FAILED - There is already a record with ID " + val
+                    .id());
         }
         else if (val.id() < root.getElement().id()) {
             root.setLeft(insertRec(root.getLeft(), val));
-        } 
+        }
         else {
             root.setRight(insertRec(root.getRight(), val));
         }
-        //System.out.println(val);
+        // System.out.println(val);
         return root;
     }
-    
+
+
     public Node<Seminar> returnRoot() {
         return root;
     }
-    
-    public void inOrderSearch(Node<Seminar> root, int key) {
-        
+
+
+    public boolean inOrderSearch(Node<Seminar> root, int key) {
+        if (root == null) {
+            return false;
+        }
+
         if (root.getElement().id() == key) {
             System.out.println("Found record with ID " + key + ":");
             System.out.println(root.getElement());
+            return true;
         }
 
+        boolean left = false;
+        boolean right = false;
+
         if (root.getLeft() != null) {
-            
-            if (root.getLeft() == null && root.getRight() == null) {
-                System.out.println("Search FAILED -- There is no record with ID " + key);
-            }
-            
-            if (root.getLeft().getElement().id() == key) {
-                
-                System.out.println("Found record with ID " + key + ":");
-                System.out.println(root.getLeft().getElement());
-
-            } 
-            else {
-                //only included the else statements in the key tree
-                inOrderSearch(root.getLeft(), key);
-            }
-
+            left = inOrderSearch(root.getLeft(), key);
         }
 
         if (root.getRight() != null) {
-            
-            if (root.getLeft() == null && root.getRight() == null) {
-                System.out.println("Search FAILED -- There is no record with ID " + key);
-            }
-            
-            if (root.getRight().getElement().id() == key) {
-                
-                System.out.println("Found record with ID " + key + ":");
-                System.out.println(root.getRight().getElement());
-        
-            }
-            else {
-                inOrderSearch(root.getRight(), key);
-            }
+            right = inOrderSearch(root.getRight(), key);
         }
-        
-        
+
+        return left || right;
     }
-    
+
+
+    public void search(Node<Seminar> root, int key) {
+        if (!inOrderSearch(root, key)) {
+            System.out.println("Search FAILED -- There is no record with ID "
+                + key);
+        }
+    }
+
+
     public int findDepth(int key) {
         return findDepthRecursive(root, key, 0);
     }
 
-    private int findDepthRecursive(Node<Seminar> node, int key, int depth) {
+
+    public int findDepthRecursive(Node<Seminar> node, int key, int depth) {
         if (node == null) {
             return -1;
         }
@@ -173,7 +167,8 @@ public class BinaryTreeID<T> {
 
         if (key < node.getElement().id()) {
             return findDepthRecursive(node.getLeft(), key, depth + 1);
-        } else {
+        }
+        else {
             return findDepthRecursive(node.getRight(), key, depth + 1);
         }
     }
@@ -234,61 +229,6 @@ public class BinaryTreeID<T> {
 
     // ----------------------------------------------------------
     /**
-     * 198
-     * Generate a string containing the "printed version" of this binary
-     * 199
-     * tree using a pre-order traversal. The tree's contents are printed
-     * 200
-     * as a parenthesized list.
-     * 201
-     * 
-     * 202
-     * Example: (A(B)(C))
-     * 203
-     * Visually: A
-     * 204
-     * / \ Traversal: A B C
-     * 205
-     * B C
-     * 206
-     * 
-     * 207
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         208
-     *         a pre-order traversal.
-     *         209
-     */
-
-    public String toPreOrderString(Node<T> root) {
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("(");
-
-        builder.append(root.getElement());
-
-        if (root.getLeft() != null) {
-
-            builder.append(toPreOrderString(root.getLeft()));
-
-        }
-
-        if (root.getRight() != null) {
-
-            builder.append(toPreOrderString(root.getRight()));
-
-        }
-
-        builder.append(")");
-
-        return builder.toString();
-
-    }
-
-
-    // ----------------------------------------------------------
-    /**
      * 232
      * Generate a string containing the "printed version" of this binary
      * 233
@@ -333,70 +273,6 @@ public class BinaryTreeID<T> {
 
             builder.append(toInOrderString(root.getRight()));
         }
-
-        builder.append(")");
-
-        return builder.toString();
-
-    }
-
-
-    // ----------------------------------------------------------
-    /**
-     * 263
-     * Generate a string containing the "printed version" of this binary
-     * 264
-     * tree using a post-order traversal. The tree's contents are printed
-     * 265
-     * as a parenthesized list.
-     * 266
-     * 
-     * 267
-     * For example, if a tree containing the data
-     * 268
-     * value A has a left child containing B and a right child containing C,
-     * 269
-     * it would be printed as ((B)(C)A).
-     * 270
-     * Visually: A
-     * 271
-     * / \ Traversal: B C A
-     * 272
-     * B C
-     * 273
-     * 
-     * 274
-     * The parentheses directly reflect
-     * 275
-     * the structure of each node in the tree.
-     * 276
-     * 
-     * 277
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         278
-     *         a post-order traversal.
-     *         279
-     */
-    public String toPostOrderString(Node<T> root) {
-
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("(");
-
-        if (root.getLeft() != null) {
-
-            builder.append(toPostOrderString(root.getLeft()));
-
-        }
-
-        if (root.getRight() != null) {
-
-            builder.append(toPostOrderString(root.getRight()));
-
-        }
-
-        builder.append(root.getElement());
 
         builder.append(")");
 
