@@ -97,13 +97,14 @@ public class BinaryTreeDate<T> implements Comparator<T> {
     }
 
 
-    public void inOrderSearch(
+    public int inOrderSearch(
         Node<Seminar> root,
         String lowDate,
-        String highDate,
+        String highDate,int nodeCount,
         boolean groot) {
+        
         if (root == null) {
-            return;
+            return nodeCount;
         }
      
         int low = Integer.parseInt(lowDate + "000000000"); 
@@ -117,21 +118,23 @@ public class BinaryTreeDate<T> implements Comparator<T> {
         }
 
         if (root.getLeft() != null) {
+            nodeCount++;
             int dat1 = Integer.parseInt(root.getLeft().getElement().date());
 
             if (dat1 >= low && dat1 <= high) {
 
                 System.out.println(root.getLeft().getElement());
 
-            }
+            }    
+            nodeCount = inOrderSearch(root.getLeft(), lowDate, highDate, nodeCount, false);
 
-            // only included the else statements in the key tree
-      
-            inOrderSearch(root.getLeft(), lowDate, highDate, false);
-
+        }
+        else {
+            nodeCount++;
         }
 
         if (root.getRight() != null) {
+            nodeCount++;
             int dat2 = Integer.parseInt(root.getRight().getElement().date());
 
             if (dat2 >= low && dat2 <= high) {
@@ -141,9 +144,14 @@ public class BinaryTreeDate<T> implements Comparator<T> {
             }
 
         
-            inOrderSearch(root.getRight(), lowDate, highDate, false);
+            nodeCount = inOrderSearch(root.getRight(), lowDate, highDate, nodeCount, false);
 
         }
+        else {
+            nodeCount++;
+        }
+        
+        return nodeCount;
 
     }
 
