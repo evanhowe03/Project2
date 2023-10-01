@@ -145,7 +145,9 @@ public class BinaryTreeCostTest extends TestCase {
         tree.insert(sem2);
         tree.insert(sem3);
 
-        assertEquals(2, tree.inOrderSearch(tree.returnRoot(), 0, 99999, 0,
+        assertEquals(6, tree.inOrderSearch(tree.returnRoot(), 40, 20, 0,
+            true));
+        assertEquals(6, tree.inOrderSearch(tree.returnRoot(), 40, 300, 0,
             true));
     }
 }
