@@ -95,7 +95,7 @@ public class BinaryTreeDateTest extends TestCase {
         tree.insert(sem5);
         tree.insert(sem8);
 
-        tree.inOrderSearch(tree.returnRoot(), "0", "1", true);
+        tree.inOrderSearch(tree.returnRoot(), "0", "1", 0, true);
         String printedText = outputStreamCaptor.toString();
 
         assertFuzzyEquals("id 0 title fish\r\n"
@@ -126,7 +126,8 @@ public class BinaryTreeDateTest extends TestCase {
         tree.insert(sem5);
         tree.insert(sem8);
 
-        tree.inOrderSearch(tree.returnRoot(), "1", "2", true);
+        assertEquals(12, tree.inOrderSearch(tree.returnRoot(), "1", "2", 0, true));
+        
         String printedText = outputStreamCaptor.toString();
         assertFuzzyEquals(sem8.toString(), printedText);
     }
@@ -140,7 +141,8 @@ public class BinaryTreeDateTest extends TestCase {
         tree.insert(sem5);
         tree.insert(sem8);
 
-        tree.inOrderSearch(tree.returnRoot(), "0", "0", true);
+        assertEquals(12,tree.inOrderSearch(tree.returnRoot(), "0", "0", 0, true));
+        
         assertFuzzyEquals("", "");
 
     }
