@@ -102,6 +102,7 @@ public class BinaryTreeCost<T> {
 
         if (root == null) {
             return nodeCount;
+            
         }
 
         if (root.getElement().cost() >= low && root.getElement().cost() <= high
@@ -125,6 +126,9 @@ public class BinaryTreeCost<T> {
                 false);
 
         }
+        else {
+            nodeCount++;
+        }
 
         if (root.getRight() != null) {
 
@@ -141,6 +145,10 @@ public class BinaryTreeCost<T> {
                 false);
 
         }
+        else {
+            nodeCount++;
+        }
+        
         return nodeCount;
 
     }
