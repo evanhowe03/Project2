@@ -9,9 +9,10 @@ import java.util.Arrays;
 /**
  * 
  */
-public class BinaryTreeKeyWord<T> implements Comparable<T> {
+public class BinaryTreeKeyWord<K, V>
+    implements Comparable<BinaryTreeKeyWord<K, V>> {
 
-    private Node<Seminar> root;
+    private NodeK<String, Seminar> root;
 
     public BinaryTreeKeyWord() {
         // instantiate root node
@@ -30,62 +31,52 @@ public class BinaryTreeKeyWord<T> implements Comparable<T> {
      * @return The size of this tree.
      *         142
      */
-    public int size(Node<T> root) {
+    public int size(NodeK<K, V> root) {
+
+        if (root == null) {
+            return 0;
+        }
 
         int size = 1;
 
-        if (root.getLeft() == null && root.getRight() == null) {
-
-            return size;
-
-        }
-
         if (root.getLeft() != null) {
-
-            size = size + size(root.getLeft());
-
+            size += size(root.getLeft());
         }
 
         if (root.getRight() != null) {
-
-            size = size + size(root.getRight());
-
+            size += size(root.getRight());
         }
 
         return size;
-
-        // Base case: current node has 0 children
-
-        // Recursive Case 1: current node has 1 child on the left
-
-        // Recursive Case 2: current node has 1 child on the right
-
-        // Recursive Case 3: current node has 2 children
-
     }
 
 
-    public void insert(Seminar val) {
-        root = insertRec(root, val);
+    public void insert(Seminar val, String word) {
+        root = insertRec(root, word, val);
     }
 
 
-    private Node<Seminar> insertRec(Node<Seminar> root, Seminar val) {
+    private NodeK<String, Seminar> insertRec(
+
+        NodeK<String, Seminar> root,
+        String word,
+        Seminar val) {
+        System.out.println("RANNANANA");
         if (root == null) {
-            root = new Node<Seminar>(val);
+            root = new NodeK<String, Seminar>(word, val);
             // System.out.println(val);
             return root;
         }
 
-        if (val.id() == root.getElement().id()) {
+        if (compareSem(word, root.getKey()) == 0) {
+            root.setLeft(insertRec(root.getLeft(), word, val));
 
-            return null;
         }
-        else if (compareSem(val, root.getElement()) == 1) {
-            root.setRight(insertRec(root.getRight(), val));
+        else if (compareSem(word, root.getKey()) == 1) {
+            root.setRight(insertRec(root.getRight(), word, val));
         }
         else {
-            root.setLeft(insertRec(root.getLeft(), val));
+            root.setLeft(insertRec(root.getLeft(), word, val));
         }
 
         // System.out.println(val);
@@ -94,38 +85,12 @@ public class BinaryTreeKeyWord<T> implements Comparable<T> {
     }
 
 
-    public Node<Seminar> returnRoot() {
+    public NodeK<String, Seminar> returnRoot() {
         return root;
     }
 
 
-    // ----------------------------------------------------------
-    /**
-     * 168
-     * Calculate the height of this binary tree.
-     * 169
-     * The height is longest path from the root to
-     * 170
-     * a leaf node.
-     * 171
-     * Examples:
-     * 172
-     * A A A
-     * 173
-     * / / \
-     * 174
-     * B B C
-     * 175
-     * Height: 1 2 2
-     * 176
-     * 
-     * 177
-     * 
-     * @return The height of this tree.
-     *         178
-     */
-
-    public int height(Node<T> root) {
+    public int height(NodeK<K, V> root) {
 
         int height = 1; // base case returns 1 for height
 
@@ -152,66 +117,11 @@ public class BinaryTreeKeyWord<T> implements Comparable<T> {
     }
 
 
-    // ----------------------------------------------------------
-    /**
-     * 198
-     * Generate a string containing the "printed version" of this binary
-     * 199
-     * tree using a pre-order traversal. The tree's contents are printed
-     * 200
-     * as a parenthesized list.
-     * 201
-     * 
-     * 202
-     * Example: (A(B)(C))
-     * 203
-     * Visually: A
-     * 204
-     * / \ Traversal: A B C
-     * 205
-     * B C
-     * 206
-     * 
-     * 207
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         208
-     *         a pre-order traversal.
-     *         209
-     */
+    public String toInOrderString(NodeK<K, V> root) {
 
-   
-
-    // ----------------------------------------------------------
-    /**
-     * 232
-     * Generate a string containing the "printed version" of this binary
-     * 233
-     * tree using a in-order traversal. The tree's contents are printed as
-     * 234
-     * a parenthesized list.
-     * 235
-     * 
-     * 236
-     * Example: ((B)A(C))
-     * 237
-     * Visually: A
-     * 238
-     * / \ Traversal: B A C
-     * 239
-     * B C
-     * 240
-     * 
-     * 241
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         242
-     *         an in-order traversal.
-     *         243
-     */
-
-    public String toInOrderString(Node<T> root) {
-
+        if (root == null) {
+            return "";
+        }
         StringBuilder builder = new StringBuilder();
 
         builder.append("(");
@@ -274,28 +184,9 @@ public class BinaryTreeKeyWord<T> implements Comparable<T> {
      *         279
      */
 
- 
+    public int compareSem(String key, String word) {
 
-
-    public int compareSem(Seminar val, Seminar seminar) {
-
-        Seminar o1 = val;
-        Seminar o2 = seminar;
-        String[] one = new String[o1.keywords().length];
-        String[] two = new String[o2.keywords().length];
-        one = o1.keywords();
-        two = o2.keywords();
-
-        String first = "";
-        String second = "";
-
-        for (int x = 0; x < one.length; x++) {
-            first += one[x];
-        }
-        for (int y = 0; y < two.length; y++) {
-            second += two[y];
-        }
-        int compare = first.compareTo(second);
+        int compare = key.compareTo(word);
         if (compare == 0) {
 
             return compare;
@@ -312,8 +203,8 @@ public class BinaryTreeKeyWord<T> implements Comparable<T> {
 
 
     public void inOrderSearch(
-        Node<Seminar> root,
         String keyWords,
+        NodeK<String, Seminar> root,
         boolean groot) {
         if (root == null) {
             return;
@@ -338,7 +229,7 @@ public class BinaryTreeKeyWord<T> implements Comparable<T> {
             }
 
             // only included the else statements in the key tree
-            inOrderSearch(root.getLeft(), keyWords, false);
+            inOrderSearch(keyWords, root.getLeft(), false);
 
         }
 
@@ -353,17 +244,136 @@ public class BinaryTreeKeyWord<T> implements Comparable<T> {
 
             }
 
-            inOrderSearch(root.getRight(), keyWords, false);
+            inOrderSearch(keyWords, root.getRight(), false);
 
         }
 
     }
 
+    /*
+     * public void printReverse(NodeK<String, Seminar> root, boolean groot) {
+     * 
+     * if (root == null && groot) {
+     * System.out.println("This tree is empty");
+     * return;
+     * 
+     * }
+     * 
+     * if (root.getRight() != null) {
+     * 
+     * printReverse(root.getRight(), false);
+     * 
+     * 
+     * }
+     * else {
+     * 
+     * for (int y = 0; y <= findDepth(root.getKey()); y++) {
+     * System.out.print("  ");
+     * 
+     * }
+     * System.out.println("null");
+     * }
+     * for (int x = 0; x < findDepth(root.getKey()); x++) {
+     * System.out.print("  ");
+     * 
+     * }
+     * System.out.println(root.getKey());
+     * 
+     * if (root.getLeft() != null) {
+     * 
+     * printReverse(root.getLeft(), false);
+     * 
+     * }
+     * else {
+     * 
+     * for (int x = 0; x <= findDepth(root.getKey()); x++) {
+     * System.out.print("  ");
+     * 
+     * }
+     * System.out.println("null");
+     * }
+     * 
+     * }
+     */
+
+
+    public int findDepth(String key) {
+        return findDepthRecursive(root, key, 0);
+    }
+
+
+    public int findDepthRecursive(
+        NodeK<String, Seminar> node,
+        String key,
+        int depth) {
+        if (node == null) {
+            return -1;
+        }
+
+        if (compareSem(key, node.getKey()) == 0) {
+            return depth;
+        }
+
+        if (compareSem(key, node.getKey()) < 0) {
+            return findDepthRecursive(node.getLeft(), key, depth + 1);
+        }
+        else {
+            return findDepthRecursive(node.getRight(), key, depth + 1);
+        }
+    }
+
 
     @Override
-    public int compareTo(T o) {
+    public int compareTo(BinaryTreeKeyWord<K, V> o) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+
+    public void printReverse(
+        NodeK<String, Seminar> root,
+        boolean groot,
+        int level) {
+
+        if (root == null && groot) {
+            System.out.println("This tree is empty");
+            return;
+
+        }
+
+        if (root.getRight() != null) {
+
+            printReverse(root.getRight(), false, level++);
+
+        }
+        else {
+
+            for (int y = 0; y < level; y++) {
+                System.out.print("  ");
+
+            }
+            System.out.println("null");
+        }
+        for (int x = 0; x < level; x++) {
+            System.out.print("  ");
+
+        }
+        System.out.println(root.getKey());
+
+        if (root.getLeft() != null) {
+
+            printReverse(root.getLeft(), false, level++);
+
+        }
+        else {
+
+            for (int x = 0; x < level; x++) {
+                System.out.print("  ");
+
+            }
+            System.out.println("null");
+        }
+
     }
 
 }
