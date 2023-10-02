@@ -1,0 +1,58 @@
+public class NodeK<K, V> {
+    private boolean isLeaf;
+    private K key;
+    private V value;
+    private NodeK<K, V> left;
+    private NodeK<K, V> right;
+
+    // Constructor for leaf nodes
+    public NodeK(K key, V value) {
+        isLeaf = true;
+        this.key = key;
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+
+    // Constructor for non-leaf nodes
+    public NodeK(K key, V value, NodeK<K, V> leftChild, NodeK<K, V> rightChild) {
+        isLeaf = false;
+        this.key = key;
+        this.value = value;
+        this.left = leftChild;
+        this.right = rightChild;
+    }
+
+
+    public K getKey() {
+        return key;
+    }
+
+    public void setKey(K key) {
+        this.key = key;
+    }
+
+    public V getElement() {
+        return value;
+    }
+
+    public void setValue(V value) {
+        this.value = value;
+    }
+
+    public NodeK<K, V> getLeft() {
+        return left;
+    }
+
+    public void setLeft(NodeK<K, V> left) {
+        this.left = left;
+    }
+
+    public NodeK<K, V> getRight() {
+        return right;
+    }
+
+    public void setRight(NodeK<K, V> right) {
+        this.right = right;
+    }
+}
