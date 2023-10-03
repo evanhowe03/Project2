@@ -30,7 +30,9 @@ public class BinaryTreeDate<T> implements Comparator<T> {
      *         142
      */
     public int size(Node<T> root) {
-
+        if (root == null) {
+            return 0;
+        }
         int size = 1;
 
         if (root.getLeft() == null && root.getRight() == null) {
@@ -78,7 +80,7 @@ public class BinaryTreeDate<T> implements Comparator<T> {
 
         if (val.id() == root.getElement().id()) {
             // collision
-            return null;
+            return root;
         }
         else if (compareSem(val, root.getElement()) == -1 || compareSem(val,
             root.getElement()) == 0) {
@@ -100,17 +102,18 @@ public class BinaryTreeDate<T> implements Comparator<T> {
     public int inOrderSearch(
         Node<Seminar> root,
         String lowDate,
-        String highDate,int nodeCount,
+        String highDate,
+        int nodeCount,
         boolean groot) {
-        
+
         if (root == null) {
             return nodeCount;
         }
-     
-        int low = Integer.parseInt(lowDate + "000000000"); 
-        int high = Integer.parseInt(highDate + "000000000");  
 
-        int date = Integer.parseInt(root.getElement().date());
+        long low = Long.parseLong(lowDate + "000000000");
+        long high = Long.parseLong(highDate + "000000000");
+
+        long date = Long.parseLong(root.getElement().date());
 
         if (date >= low && date <= high && groot) {
 
@@ -125,8 +128,9 @@ public class BinaryTreeDate<T> implements Comparator<T> {
 
                 System.out.println(root.getLeft().getElement());
 
-            }    
-            nodeCount = inOrderSearch(root.getLeft(), lowDate, highDate, nodeCount, false);
+            }
+            nodeCount = inOrderSearch(root.getLeft(), lowDate, highDate,
+                nodeCount, false);
 
         }
         else {
@@ -143,14 +147,14 @@ public class BinaryTreeDate<T> implements Comparator<T> {
 
             }
 
-        
-            nodeCount = inOrderSearch(root.getRight(), lowDate, highDate, nodeCount, false);
+            nodeCount = inOrderSearch(root.getRight(), lowDate, highDate,
+                nodeCount, false);
 
         }
         else {
             nodeCount++;
         }
-        
+
         return nodeCount;
 
     }
@@ -208,7 +212,6 @@ public class BinaryTreeDate<T> implements Comparator<T> {
 
     }
 
-
     // ----------------------------------------------------------
     /**
      * 198
@@ -237,7 +240,6 @@ public class BinaryTreeDate<T> implements Comparator<T> {
      *         209
      */
 
-   
 
     // ----------------------------------------------------------
     /**
@@ -331,9 +333,6 @@ public class BinaryTreeDate<T> implements Comparator<T> {
      *         279
      */
 
- 
-
-
     public int compareSem(Seminar val, Seminar seminar) {
 
         int o1 = Integer.parseInt(val.date());
@@ -354,6 +353,51 @@ public class BinaryTreeDate<T> implements Comparator<T> {
     public int compare(T o1, T o2) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+
+    public void printReverse(Node<Seminar> root, boolean groot, int level) {
+
+        if (root == null && groot) {
+            System.out.println("This tree is empty");
+            return;
+
+        }
+
+        if (root.getRight() != null) {
+
+            printReverse(root.getRight(), false, level + 1);
+
+        }
+        else {
+
+            for (int y = 0; y <= level; y++) {
+                System.out.print("  ");
+
+            }
+            System.out.println("null");
+        }
+        for (int x = 0; x < level; x++) {
+            System.out.print("  ");
+
+        }
+        String dateLine = root.getElement().date().trim();
+        System.out.println(dateLine);
+
+        if (root.getLeft() != null) {
+
+            printReverse(root.getLeft(), false, level + 1);
+
+        }
+        else {
+
+            for (int x = 0; x <= level; x++) {
+                System.out.print("  ");
+
+            }
+            System.out.println("null");
+        }
+
     }
 
 }
