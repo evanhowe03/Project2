@@ -52,7 +52,7 @@ public class BinaryTreeKeyWord<K, V>
 
 
     public void insert(Seminar val, String word) {
-      
+
         root = insertRec(root, word, val);
     }
 
@@ -62,13 +62,12 @@ public class BinaryTreeKeyWord<K, V>
         NodeK<String, Seminar> root,
         String word,
         Seminar val) {
-        
+
         if (root == null) {
             root = new NodeK<String, Seminar>(word, val);
             // System.out.println(val);
             return root;
         }
-      
 
         if (compareSem(word, root.getKey()) == 0) {
             root.setLeft(insertRec(root.getLeft(), word, val));
@@ -81,7 +80,6 @@ public class BinaryTreeKeyWord<K, V>
             root.setLeft(insertRec(root.getLeft(), word, val));
         }
 
- 
         return root;
 
     }
@@ -176,53 +174,76 @@ public class BinaryTreeKeyWord<K, V>
 
     }
 
+/*
+ * public void inOrderSearch(
+ * String keyWords,
+ * NodeK<String, Seminar> root,
+ * boolean groot) {
+ * if (root == null) {
+ * return;
+ * }
+ * 
+ * if (root.getKey().equalsIgnoreCase(keyWords)) {
+ * System.out.println(root.getElement());
+ * inOrderSearch(keyWords, root.getLeft(), true);
+ * }
+ * if (root.getLeft() != null) {
+ * inOrderSearch(keyWords, root.getLeft(), true);
+ * }
+ * if (root.getRight() != null) {
+ * inOrderSearch(keyWords, root.getRight(), true);
+ * }
+ * 
+ * }
+ */
 
-    public void inOrderSearch(
-        String keyWords,
+
+   /* public void inOrderSearch(
+        String keyWord,
         NodeK<String, Seminar> root,
-        boolean groot) {
+        boolean t) {
+
         if (root == null) {
+
             return;
-        }
-        for (int x = 0; x < root.getElement().keywords().length; x++) {
-            if (root.getElement().keywords()[x].equals(keyWords) && groot) {
-
-                System.out.println(root.getElement());
-            }
 
         }
+
+        
 
         if (root.getLeft() != null) {
-            for (int x = 0; x < root.getLeft().getElement()
-                .keywords().length; x++) {
-                if (root.getLeft().getElement().keywords()[x].equals(
-                    keyWords)) {
 
-                    System.out.println(root.getLeft().getElement());
-                }
+            inOrderSearch(keyWord, root.getLeft(), true);
 
-            }
+        }
+        if (root.getKey().equalsIgnoreCase(keyWord)) {
 
-            // only included the else statements in the key tree
-            inOrderSearch(keyWords, root.getLeft(), false);
+            System.out.println(root.getElement());
 
         }
 
         if (root.getRight() != null) {
-            for (int x = 0; x < root.getRight().getElement()
-                .keywords().length; x++) {
-                if (root.getRight().getElement().keywords()[x].equals(
-                    keyWords)) {
 
-                    System.out.println(root.getRight().getElement());
-                }
-
-            }
-
-            inOrderSearch(keyWords, root.getRight(), false);
+            inOrderSearch(keyWord, root.getRight(), true);
 
         }
 
+    }*/
+    public void inOrderSearch(String keyWord, NodeK<String, Seminar> root, boolean t) {
+        if (root == null) {
+            return;
+        }
+
+        // Search left subtree
+        inOrderSearch(keyWord, root.getLeft(),true);
+
+        // Check the current node
+        if (root.getKey().equalsIgnoreCase(keyWord)) {
+            System.out.println(root.getElement());
+        }
+
+        // Search right subtree
+        inOrderSearch(keyWord, root.getRight(),true);
     }
 
     /*
