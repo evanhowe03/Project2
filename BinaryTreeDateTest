@@ -1,193 +1,359 @@
 
+// -------------------------------------------------------------------------
 /**
+ * 
+ * Represents a binary tree of arbitrary structure. This class is different
+ * 
+ * from those in the textbook. It does not use a separate node class.
+ * 
+ *
+ * 
+ * 
+ * @param <T>
+ * 
+ *            The type of data elements contained in the tree.
+ * 
+ *
+ * 
+ *            Created by: John Lewis (lewis63) and Stephen Edwards (stedwar2)
+ * 
+ *            Revised (2015.04.30) by: Megan Rigsbee (mrigsbee)
+ * 
+ * 
+ * 
+ * @author <Evan Howe> <evanhowe03>
+ * 
+ * @version <11/16/2022>
  * 
  */
 
-import static org.junit.Assert.*;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import org.junit.Test;
-import student.TestCase;
+public class BinaryTreeID<T> {
 
-/**
- * 
- */
-public class BinaryTreeDateTest extends TestCase {
+    private Node<Seminar> root;
+    private BinaryTreeKeyWord<String, Seminar> treeKey;
 
-    private BinaryTreeDate<Seminar> tree;
-    private Seminar sem;
-    private Seminar sem1;
-    private Seminar sem2;
-    private Seminar sem3;
-    private Seminar sem5;
-    private Seminar sem6;
-    private Seminar sem7;
-    private Seminar sem8;
-    private final ByteArrayOutputStream outputStreamCaptor =
-        new ByteArrayOutputStream();
+    public BinaryTreeID() {
+        // instantiate root node
+        treeKey = new BinaryTreeKeyWord<String, Seminar>();
+        root = null;
+    }
 
-    public void setUp() {
 
-        tree = new BinaryTreeDate<Seminar>();
+    // ----------------------------------------------------------
+    /**
+     * 139
+     * Calculate the size of this binary tree.
+     * 140
+     * 
+     * 141
+     * 
+     * @return The size of this tree.
+     *         142
+     */
+    public int size(Node<T> root) {
+        if (root == null) {
+            return 0;
+        }
 
-        System.setOut(new PrintStream(outputStreamCaptor));
+        int size = 1;
 
-        String title = "fish"; // Seminar title
-        String date = "0610071600"; // Seminar date
-        int length = 30; // Seminar length
-        String[] keywords = { "fish", "hampster", "wheel" }; // Seminar keywords
-        short x = 60; // Seminar x coord
-        short y = 20; // Seminar y coord
-        String desc =
-            "Introduction to   bioinformatics and computation biology"; // Seminar
-                                                                        // description
-        int cost = 300; // Seminar cost
-        int id = 1; // Seminar ID
+        if (root.getLeft() == null && root.getRight() == null) {
 
-        sem = new Seminar(id, title, date, length, x, y, cost, keywords, desc);
-        sem1 = new Seminar(0, title, "0610081600", length, x, y, 20, keywords,
-            desc);
-        sem2 = new Seminar(3, title, "0210071600", length, x, y, 30, keywords,
-            desc);
-        sem3 = new Seminar(4, title, "0810071900", length, x, y, 40, keywords,
-            desc);
-        sem5 = new Seminar(7, title, date, length, x, y, cost, keywords, desc);
-        sem6 = new Seminar(6, title, "0610081600", length, x, y, 20, keywords,
-            desc);
-        sem7 = new Seminar(9, title, "0210071600", length, x, y, 30, keywords,
-            desc);
-        sem8 = new Seminar(5, title, "1810071900", length, x, y, 40, keywords,
-            desc);
+            return size;
+
+        }
+
+        if (root.getLeft() != null) {
+
+            size = size + size(root.getLeft());
+
+        }
+
+        if (root.getRight() != null) {
+
+            size = size + size(root.getRight());
+
+        }
+
+        return size;
+
+        // Base case: current node has 0 children
+
+        // Recursive Case 1: current node has 1 child on the left
+
+        // Recursive Case 2: current node has 1 child on the right
+
+        // Recursive Case 3: current node has 2 children
 
     }
 
 
-    public void testInsert() {
-
-        tree.insert(sem);
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
-
-        String print = tree.toInOrderString(tree.returnRoot());
-
-        System.out.println(print);
-
-        String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals(printedText, sem2.toString() + sem.toString() + sem1
-            .toString() + sem3.toString());
+    public void insert(Seminar val, BinaryTreeKeyWord<String, Seminar> helpMe) {
+        root = insertRec(root, val, helpMe);
 
     }
 
 
-    public void testCompareSem() {
-        assertEquals(1, tree.compareSem(sem3, sem1));
-        assertEquals(-1, tree.compareSem(sem2, sem3));
-        assertEquals(0, tree.compareSem(sem1, sem1));
+    private Node<Seminar> insertRec(
+        Node<Seminar> root,
+        Seminar val,
+        BinaryTreeKeyWord<String, Seminar> pleaseWork) {
+        if (root == null) {
+            root = new Node<Seminar>(val);
+            System.out.println("Successfully inserted record with ID " + val
+                .id());
+            System.out.println(val);
+
+            for (int i = 0; i < val.keywords().length; i++) {
+              
+                pleaseWork.insert(val, val.keywords()[i]);
+
+            }
+            // System.out.println(val);
+            return root;
+        }
+
+        if (val.id() == root.getElement().id()) {
+            // collision
+            System.out.println(
+                "Insert FAILED - There is already a record with ID " + val
+                    .id());
+            return root;
+
+        }
+        else if (val.id() < root.getElement().id()) {
+            root.setLeft(insertRec(root.getLeft(), val, pleaseWork));
+
+        }
+        else {
+            root.setRight(insertRec(root.getRight(), val, pleaseWork));
+        }
+
+        // System.out.println(val);
+        return root;
     }
 
 
-    public void testInOrderSearch() {
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
-        tree.insert(sem);
-        tree.insert(sem5);
-        tree.insert(sem8);
+    public Node<Seminar> returnRoot() {
+        return root;
+    }
 
-        tree.inOrderSearch(tree.returnRoot(), "0", "1", 0, true);
-        String printedText = outputStreamCaptor.toString();
 
-        assertFuzzyEquals("id 0 title fish\r\n"
-            + "date 0610081600 length 30 x 60 y 20 cost 20\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheel\r\n" + "id 3 title fish\r\n"
-            + "date 0210071600 length 30 x 60 y 20 cost 30\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheel\r\n" + "id 1 title fish\r\n"
-            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheel\r\n" + "id 7 title fish\r\n"
-            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheel\r\n" + "id 4 title fish\r\n"
-            + "date 0810071900 length 30 x 60 y 20 cost 40\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheel", printedText);
+    public boolean inOrderSearch(Node<Seminar> root, int key) {
+        if (root == null) {
+            return false;
+        }
+
+        if (root.getElement().id() == key) {
+            System.out.println("Found record with ID " + key + ":");
+            System.out.println(root.getElement());
+            return true;
+        }
+
+        boolean left = false;
+        boolean right = false;
+
+        if (root.getLeft() != null) {
+            left = inOrderSearch(root.getLeft(), key);
+        }
+
+        if (root.getRight() != null) {
+            right = inOrderSearch(root.getRight(), key);
+        }
+
+        return left || right;
+    }
+
+
+    public void search(Node<Seminar> root, int key) {
+        if (!inOrderSearch(root, key)) {
+            System.out.println("Search FAILED -- There is no record with ID "
+                + key);
+        }
+    }
+
+
+    public int findDepth(int key) {
+        return findDepthRecursive(root, key, 0);
+    }
+
+
+    public int findDepthRecursive(Node<Seminar> node, int key, int depth) {
+        if (node == null) {
+            return -1;
+        }
+
+        if (key == node.getElement().id()) {
+            return depth;
+        }
+
+        if (key < node.getElement().id()) {
+            return findDepthRecursive(node.getLeft(), key, depth + 1);
+        }
+        else {
+            return findDepthRecursive(node.getRight(), key, depth + 1);
+        }
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * 168
+     * Calculate the height of this binary tree.
+     * 169
+     * The height is longest path from the root to
+     * 170
+     * a leaf node.
+     * 171
+     * Examples:
+     * 172
+     * A A A
+     * 173
+     * / / \
+     * 174
+     * B B C
+     * 175
+     * Height: 1 2 2
+     * 176
+     * 
+     * 177
+     * 
+     * @return The height of this tree.
+     *         178
+     */
+
+
+    // ----------------------------------------------------------
+    /**
+     * 232
+     * Generate a string containing the "printed version" of this binary
+     * 233
+     * tree using a in-order traversal. The tree's contents are printed as
+     * 234
+     * a parenthesized list.
+     * 235
+     * 
+     * 236
+     * Example: ((B)A(C))
+     * 237
+     * Visually: A
+     * 238
+     * / \ Traversal: B A C
+     * 239
+     * B C
+     * 240
+     * 
+     * 241
+     * 
+     * @return a printable representation of this tree's contents, using
+     *         242
+     *         an in-order traversal.
+     *         243
+     */
+
+    public String toInOrderString(Node<T> root) {
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("(");
+
+        if (root.getLeft() != null) {
+
+            builder.append(toInOrderString(root.getLeft()));
+
+        }
+
+        builder.append(root.getElement());
+
+        if (root.getRight() != null) {
+
+            builder.append(toInOrderString(root.getRight()));
+        }
+
+        builder.append(")");
+
+        return builder.toString();
 
     }
 
 
-    public void testIn2() {
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
-        tree.insert(sem);
-        tree.insert(sem5);
-        tree.insert(sem8);
+    /*
+     * public void printReverse(Node<Seminar> root, boolean groot) {
+     * System.out.println("ID Tree:");
+     * if (root == null && groot) {
+     * System.out.println("This tree is empty");
+     * return;
+     * 
+     * }
+     * groot = false;
+     * if (root != null) {
+     * System.out.println("SOMETHING HEHE");
+     * }
+     * 
+     * 
+     * if (root.getRight() != null) {
+     * 
+     * System.out.println("SOMETHING HEHE");
+     * printReverse(root.getRight(), false);
+     * 
+     * }
+     * else {
+     * System.out.println("null");
+     * 
+     * }
+     * 
+     * if (root.getLeft() != null) {
+     * System.out.println("SOMETHING HEHE");
+     * printReverse(root.getLeft(), false);
+     * 
+     * }
+     * else {
+     * 
+     * System.out.println("null");
+     * }
+     * 
+     * }
+     */
+    public void printReverse(Node<Seminar> root, boolean groot, int level) {
 
-        assertEquals(12, tree.inOrderSearch(tree.returnRoot(), "1", "2", 0, true));
-        
-        String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals(sem8.toString(), printedText);
-    }
+        if (root == null && groot) {
+            System.out.println("This tree is empty");
+            return;
 
+        }
 
-    public void testIn3() {
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
-        tree.insert(sem);
-        tree.insert(sem5);
-        tree.insert(sem8);
+        if (root.getRight() != null) {
 
-        assertEquals(12,tree.inOrderSearch(tree.returnRoot(), "0", "0", 0, true));
-        
-        assertFuzzyEquals("", "");
+            printReverse(root.getRight(), false, level + 1);
 
-    }
+        }
+        else {
 
+            for (int y = 0; y <= level; y++) {
+                System.out.print("  ");
 
-    public void testHeight() {
-        tree.insert(sem);
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
+            }
+            System.out.println("null");
+        }
+        for (int x = 0; x < level; x++) {
+            System.out.print("  ");
 
-        assertEquals(3, tree.height(tree.returnRoot()));
-    }
+        }
+        System.out.println(root.getElement().id());
 
+        if (root.getLeft() != null) {
 
-    public void testSize() {
-        tree.insert(sem);
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
+            printReverse(root.getLeft(), false, level + 1);
 
-        assertEquals(4, tree.size(tree.returnRoot()));
-    }
+        }
+        else {
 
+            for (int x = 0; x <= level; x++) {
+                System.out.print("  ");
 
-    public void testString() {
-        tree.insert(sem);
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
+            }
+            System.out.println("null");
+        }
 
-        assertFuzzyEquals("id 3 title fish\r\n"
-            + "date 0210071600 length 30 x 60 y 20 cost 30\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheelid 1 title fish\r\n"
-            + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheelid 0 title fish\r\n"
-            + "date 0610081600 length 30 x 60 y 20 cost 20\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheelid 4 title fish\r\n"
-            + "date 0810071900 length 30 x 60 y 20 cost 40\r\n"
-            + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords fish hampster wheel", tree.toInOrderString(tree
-                .returnRoot()));
     }
 
 }
