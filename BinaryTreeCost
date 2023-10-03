@@ -26,7 +26,9 @@ public class BinaryTreeCost<T> {
      *         142
      */
     public int size(Node<T> root) {
-
+        if (root == null) {
+            return 0;
+        }
         int size = 1;
 
         if (root.getLeft() == null && root.getRight() == null) {
@@ -74,7 +76,7 @@ public class BinaryTreeCost<T> {
 
         if (val.id() == root.getElement().id()) {
             // collision
-            return null;
+            return root;
         }
         else if (val.cost() < root.getElement().cost()) {
             root.setLeft(insertRec(root.getLeft(), val));
@@ -91,66 +93,83 @@ public class BinaryTreeCost<T> {
         return root;
     }
 
-
     // always pass in 1 for initial inOrderSearch call to account for root node
+    /*
+     * public int inOrderSearch(
+     * Node<Seminar> root,
+     * int low,
+     * int high,
+     * int nodeCount,
+     * boolean groot) {
+     * if (root == null) {
+     * return 0;
+     * }
+     * int counter = 0;
+     * if (root.getElement().cost() >= low && root.getElement().cost() <= high
+     * && groot) {
+     * System.out.println(root.getElement());
+     * }
+     * if (root.getLeft() != null) {
+     * nodeCount++;
+     * if (root.getLeft().getElement().cost() >= low && root.getLeft()
+     * .getElement().cost() <= high) {
+     * 
+     * System.out.println(root.getLeft().getElement());
+     * }
+     * nodeCount = inOrderSearch(root.getLeft(), low, high, nodeCount,
+     * false);
+     * }
+     * else {
+     * nodeCount++;
+     * }
+     * if (root.getRight() != null) {
+     * nodeCount++;
+     * if (root.getRight().getElement().cost() >= low && root.getRight()
+     * .getElement().cost() <= high) {
+     * System.out.println(root.getRight().getElement());
+     * }
+     * nodeCount = inOrderSearch(root.getRight(), low, high, nodeCount,
+     * false);
+     * }
+     * else {
+     * nodeCount++;
+     * }
+     * return nodeCount;
+     * }
+     */
+
+
     public int inOrderSearch(
         Node<Seminar> root,
         int low,
         int high,
-        int nodeCount,
-        boolean groot) {
-
+        int fb,
+        boolean f) {
         if (root == null) {
-            return nodeCount;
-            
+            return 0;
         }
 
-        if (root.getElement().cost() >= low && root.getElement().cost() <= high
-            && groot) {
+        int counter = 0;
+
+        if (root.getElement().cost() >= low) {
+            // Search in the left subtree
+            counter += inOrderSearch(root.getLeft(), low, high, 0, true);
+            counter++;
+        }
+
+        // Process the current node
+        if (root.getElement().cost() >= low && root.getElement()
+            .cost() <= high) {
             System.out.println(root.getElement());
+            counter++;
         }
 
-        if (root.getLeft() != null) {
-
-            nodeCount++;
-
-            if (root.getLeft().getElement().cost() >= low && root.getLeft().getElement()
-                .cost() <= high) {
-
-                System.out.println(root.getLeft().getElement());
-
-            }
-
-            // only included the else statements in the key tree
-            nodeCount = inOrderSearch(root.getLeft(), low, high, nodeCount,
-                false);
-
-        }
-        else {
-            nodeCount++;
+        if (root.getElement().cost() <= high) {
+            // Search in the right subtree
+            counter += inOrderSearch(root.getRight(), low, high, 0, true);
         }
 
-        if (root.getRight() != null) {
-
-            nodeCount++;
-
-            if (root.getRight().getElement().cost() >= low && root.getRight().getElement()
-                .cost() <= high) {
-
-                System.out.println(root.getRight().getElement());
-
-            }
-
-            nodeCount = inOrderSearch(root.getRight(), low, high, nodeCount,
-                false);
-
-        }
-        else {
-            nodeCount++;
-        }
-        
-        return nodeCount;
-
+        return counter;
     }
 
 
@@ -206,65 +225,6 @@ public class BinaryTreeCost<T> {
 
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * 198
-     * Generate a string containing the "printed version" of this binary
-     * 199
-     * tree using a pre-order traversal. The tree's contents are printed
-     * 200
-     * as a parenthesized list.
-     * 201
-     * 
-     * 202
-     * Example: (A(B)(C))
-     * 203
-     * Visually: A
-     * 204
-     * / \ Traversal: A B C
-     * 205
-     * B C
-     * 206
-     * 
-     * 207
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         208
-     *         a pre-order traversal.
-     *         209
-     */
-
- 
-
-
-    // ----------------------------------------------------------
-    /**
-     * 232
-     * Generate a string containing the "printed version" of this binary
-     * 233
-     * tree using a in-order traversal. The tree's contents are printed as
-     * 234
-     * a parenthesized list.
-     * 235
-     * 
-     * 236
-     * Example: ((B)A(C))
-     * 237
-     * Visually: A
-     * 238
-     * / \ Traversal: B A C
-     * 239
-     * B C
-     * 240
-     * 
-     * 241
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         242
-     *         an in-order traversal.
-     *         243
-     */
 
     public String toInOrderString(Node<T> root) {
 
@@ -329,6 +289,47 @@ public class BinaryTreeCost<T> {
      *         a post-order traversal.
      *         279
      */
+    public void printReverse(Node<Seminar> root, boolean groot, int level) {
 
- 
+        if (root == null && groot) {
+            System.out.println("This tree is empty");
+            return;
+
+        }
+
+        if (root.getRight() != null) {
+
+            printReverse(root.getRight(), false, level + 1);
+
+        }
+        else {
+
+            for (int y = 0; y <= level; y++) {
+                System.out.print("  ");
+
+            }
+            System.out.println("null");
+        }
+        for (int x = 0; x < level; x++) {
+            System.out.print("  ");
+
+        }
+        System.out.println(root.getElement().cost());
+
+        if (root.getLeft() != null) {
+
+            printReverse(root.getLeft(), false, level + 1);
+
+        }
+        else {
+
+            for (int x = 0; x <= level; x++) {
+                System.out.print("  ");
+
+            }
+            System.out.println("null");
+        }
+
+    }
+
 }
