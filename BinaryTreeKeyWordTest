@@ -1,11 +1,14 @@
 import static org.junit.Assert.*;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import org.junit.Test;
 import student.TestCase;
 
 public class BinaryTreeKeyWordTest extends TestCase {
-    private BinaryTreeKeyWord<Seminar> tree;
+    private BinaryTreeKeyWord<String, Seminar> tree;
     private Seminar sem;
     private Seminar sem1;
     private Seminar sem2;
@@ -19,7 +22,7 @@ public class BinaryTreeKeyWordTest extends TestCase {
 
     public void setUp() {
 
-        tree = new BinaryTreeKeyWord<Seminar>();
+        tree = new BinaryTreeKeyWord<String, Seminar>();
 
         System.setOut(new PrintStream(outputStreamCaptor));
 
@@ -28,8 +31,10 @@ public class BinaryTreeKeyWordTest extends TestCase {
         int length = 30; // Seminar length
         String[] keywords = { "fish", "hampster", "wheel" }; // Seminar keywords
         String[] bigword = { "fish", "hampster", "wheel", "supppper" };
+        String[] bigword1 = { "vt", "hampster", "wheel", "supppper" };
         String[] medium = { "fish", "hampster", "wheel", "super" };
         String[] small = { "SMALL" }; // Seminar keywords
+        String[] smalls = { "SMALL", "vt" };
         short x = 60; // Seminar x coord
         short y = 20; // Seminar y coord
         String desc =
@@ -43,88 +48,149 @@ public class BinaryTreeKeyWordTest extends TestCase {
             desc);
         sem2 = new Seminar(3, title, "0210071600", length, x, y, 30, bigword,
             desc);
-        sem3 = new Seminar(4, title, "0810071900", length, x, y, 40, keywords,
+        sem3 = new Seminar(4, title, "0810071900", length, x, y, 40, smalls,
             desc);
         sem5 = new Seminar(7, title, date, length, x, y, cost, keywords, desc);
         sem6 = new Seminar(6, title, "0610081600", length, x, y, 20, keywords,
             desc);
         sem7 = new Seminar(9, title, "0210071600", length, x, y, 30, keywords,
             desc);
-        sem8 = new Seminar(5, title, "1810071900", length, x, y, 40, keywords,
+        sem8 = new Seminar(5, title, "1810071900", length, x, y, 40, bigword1,
             desc);
 
     }
 
 
     public void testInsert() {
-        tree.insert(sem);
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
+        tree.insert(sem1, "");
 
         String print = tree.toInOrderString(tree.returnRoot());
 
         String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals(print, sem.toString() + sem3.toString() + sem1
-            .toString() + sem2.toString());
+        assertFuzzyEquals(sem1.toString(), print);
 
     }
 
 
-    public void testCompareSem() {
-        assertEquals(0, tree.compareSem(sem, sem));
-        assertEquals(-1, tree.compareSem(sem, sem2));
-        assertEquals(1, tree.compareSem(sem2, sem));
+    public void testcompareSem() {
+        tree.insert(sem1, "ds");
+        tree.insert(sem1, "fish");
+
+        tree.insert(sem1, "sdsds");
+
+        assertEquals(0, tree.compareSem("ds", tree.returnRoot().getKey()));
+
+        assertEquals(0, tree.compareSem("ds", "ds"));
+        assertEquals(-1, tree.compareSem("ds", "dsss"));
+        assertEquals(1, tree.compareSem("dssadasdas", tree.returnRoot()
+            .getKey()));
+
     }
 
 
-    public void testInOrderSearch() {
-        tree.insert(sem);
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
-        tree.insert(sem5);
-        tree.inOrderSearch(tree.returnRoot(), "supppper", false);
+    public void testprintReverse() {
+        tree.printReverse(tree.returnRoot(), true, 0);
         String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals(sem2.toString(), printedText);
-    }
+        assertEquals("This tree is empty\r\n"
+            + "", printedText);
+        
+        
+        tree.insert(sem1, "ds");
+        tree.insert(sem1, "fish");
 
-
-    public void testHeight() {
-      
-        tree.insert(sem1);
-        assertEquals(1, tree.height(tree.returnRoot()));
-        tree.insert(sem);
-        assertEquals(2, tree.height(tree.returnRoot()));
-        tree.insert(sem2);
-        tree.insert(sem3);
-
-        assertEquals(3, tree.height(tree.returnRoot()));
+        tree.insert(sem1, "sdsds");
+        tree.printReverse(tree.returnRoot(), true, 0);
+        printedText = outputStreamCaptor.toString();
+        assertFuzzyEquals("this tree is empty\r\n"
+            + "null\r\n"
+            + "sdsds\r\n"
+            + "null\r\n"
+            + "fish\r\n"
+            + "null\r\n"
+            + "ds\r\n"
+            + "null", printedText);
     }
 
 
     public void testSize() {
-        tree.insert(sem);
-        tree.insert(sem1);
-        tree.insert(sem2);
-        tree.insert(sem3);
+        assertEquals(0, tree.size(tree.returnRoot()));
+        tree.insert(sem1, "fish");
+        tree.insert(sem1, "ds");
+        assertEquals(2, tree.size(tree.returnRoot()));
 
-        assertEquals(4, tree.size(tree.returnRoot()));
+        tree.insert(sem1, "sdsds");
+        assertEquals(3, tree.size(tree.returnRoot()));
     }
 
 
-    public void testInOrderSearch2() {
-        tree.inOrderSearch(tree.returnRoot(), "fish", true);
-        String printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals("", printedText);
-        tree.insert(sem);
-        tree.inOrderSearch(tree.returnRoot(), "SMALL", true);
-        printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals("id 1 title fish\r\n"
+    public void testtoInOrderString() {
+        assertEquals("", tree.toInOrderString(tree.returnRoot()));
+        tree.insert(sem1, "fish");
+        tree.insert(sem1, "ds");
+        tree.insert(sem, "fsfsdfsdfs");
+        assertFuzzyEquals("id 0 title fish\r\n"
+            + "date 0610081600 length 30 x 60 y 20 cost 20\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel superid 0 title fish\r\n"
+            + "date 0610081600 length 30 x 60 y 20 cost 20\r\n"
+            + "description introduction to bioinformatics and computation biology\r\n"
+            + "keywords fish hampster wheel superid 1 title fish\r\n"
             + "date 0610071600 length 30 x 60 y 20 cost 300\r\n"
             + "description introduction to bioinformatics and computation biology\r\n"
-            + "keywords small", printedText);
-      
+            + "keywords small", tree.toInOrderString(tree.returnRoot()));
+
+    }
+
+
+    public void testtoInOrderToSting() {
+
+        tree.insert(sem1, "fish");
+        tree.insert(sem1, "ds");
+        tree.insert(sem, "vt");
+        tree.insert(sem3, "vt");
+        tree.inOrderSearch("vt", tree.returnRoot(), true);
+        String printedText = outputStreamCaptor.toString();
+        assertEquals("ID: 4, Title: fish\r\n"
+            + "Date: 0810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
+            + "Description: Introduction to   bioinformatics and computation biology\r\n"
+            + "Keywords: SMALL, vt\r\n" + "", printedText);
+
+    }
+
+
+    public static String readFile(String path) throws IOException
+
+    {
+        final byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded);
+
+    }
+
+
+    public void testinOrderSearch() {
+        tree.inOrderSearch("vt", tree.returnRoot(), true);
+        String printedText = outputStreamCaptor.toString();
+        assertEquals("", printedText);
+        tree.insert(sem3, "vt");
+        tree.inOrderSearch("vt", tree.returnRoot(), true);
+        String r = outputStreamCaptor.toString();
+        assertEquals("ID: 4, Title: fish\r\n"
+            + "Date: 0810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
+            + "Description: Introduction to   bioinformatics and computation biology\r\n"
+            + "Keywords: SMALL, vt\r\n" + "", r);
+        tree.insert(sem8, "vt");
+        tree.inOrderSearch("vt", tree.returnRoot(), true);
+        String r2 = outputStreamCaptor.toString();
+        assertEquals("ID: 4, Title: fish\r\n"
+            + "Date: 0810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
+            + "Description: Introduction to   bioinformatics and computation biology\r\n"
+            + "Keywords: SMALL, vt\r\n" + "ID: 4, Title: fish\r\n"
+            + "Date: 0810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
+            + "Description: Introduction to   bioinformatics and computation biology\r\n"
+            + "Keywords: SMALL, vt\r\n" + "ID: 5, Title: fish\r\n"
+            + "Date: 1810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
+            + "Description: Introduction to   bioinformatics and computation biology\r\n"
+            + "Keywords: vt, hampster, wheel, supppper\r\n" + "", r2);
 
     }
 
