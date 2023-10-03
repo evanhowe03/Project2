@@ -5,6 +5,7 @@ public class DataBase {
     private BinaryTreeID<Seminar> treeID;
     private BinaryTreeCost<Seminar> treeCost;
     private BinaryTreeDate<Seminar> treeDate;
+    private BinaryTreeKeyWord<String, Seminar> treeKeyWord;
 
     public DataBase(int initialSize) {
         // size = worldSize - 1
@@ -12,6 +13,7 @@ public class DataBase {
         treeID = new BinaryTreeID<Seminar>();
         treeCost = new BinaryTreeCost<Seminar>();
         treeDate = new BinaryTreeDate<Seminar>();
+        treeKeyWord = new BinaryTreeKeyWord<String, Seminar>();
 
     }
 
@@ -25,17 +27,15 @@ public class DataBase {
         if (x >= 0 && x < worldSize && y >= 0 && y < worldSize) {
 
             Node<Seminar> insertNode = new Node<Seminar>(trial);
-            treeID.insert(trial);
-
-            System.out.println("Successfully inserted record with ID " + trial
-                .id());
-            System.out.println(trial);
+            treeID.insert(trial, treeKeyWord);
 
             treeCost.insert(trial);
             treeDate.insert(trial);
 
         }
-        else {
+        else
+
+        {
             System.out.println("Insert FAILED - Bad x, y coordinates: " + x
                 + ", " + y);
         }
@@ -50,17 +50,19 @@ public class DataBase {
 
 
     public void searchCost(int lowCost, int highCost) {
+        System.out.println("Seminars with costs in range " + lowCost + " to "
+            + highCost + ":");
 
         int nodeCount = treeCost.inOrderSearch(treeCost.returnRoot(), lowCost,
             highCost, 1, true);
-        System.out.println("Seminars with costs in range " + lowCost + " to "
-            + highCost + ":");
         System.out.println(nodeCount + " nodes visited in this search");
 
     }
 
 
     public void searchKeyWord(String key) {
+        System.out.println("Seminars matching keyword " + key + ":");
+        treeKeyWord.inOrderSearch(key, treeKeyWord.returnRoot(), false);
 
     }
 
@@ -69,7 +71,7 @@ public class DataBase {
 
         System.out.println("Seminars with dates in range " + firstDate + " to "
             + secondDate + ":");
-        treeDate.inOrderSearch(treeCost.returnRoot(), firstDate, secondDate,
+        treeDate.inOrderSearch(treeCost.returnRoot(), firstDate, secondDate, 0,
             true);
     }
 
@@ -85,25 +87,49 @@ public class DataBase {
 
 
     public void printDate() {
+        System.out.println("Date Tree:");
+        treeDate.printReverse(treeDate.returnRoot(), true, 0);
+        if (treeDate.size(treeDate.returnRoot()) > 0) {
+            System.out.println("Number of records: " + treeDate.size(treeDate
+                .returnRoot()));
+        }
 
     }
 
 
     public void printKeyword() {
+        System.out.println("Keyword Tree:");
+        treeKeyWord.printReverse(treeKeyWord.returnRoot(), true, 0);
+        if (treeKeyWord.size(treeKeyWord.returnRoot()) > 0) {
+            System.out.println("Number of records: " + treeKeyWord.size(
+                treeKeyWord.returnRoot()));
+        }
     }
 
 
     public void printCost() {
-
+        System.out.println("Cost Tree:");
+        treeCost.printReverse(treeCost.returnRoot(), true, 0);
+        if (treeCost.size(treeCost.returnRoot()) > 0) {
+            System.out.println("Number of records: " + treeCost.size(treeCost
+                .returnRoot()));
+        }
     }
 
 
     public void printID() {
-
+        System.out.println("ID Tree:");
+        treeID.printReverse(treeID.returnRoot(), true, 0);
+        if (treeID.size(treeID.returnRoot()) > 0) {
+            System.out.println("Number of records: " + treeID.size(treeID
+                .returnRoot()));
+        }
     }
 
 
     public void printLocation() {
+        System.out.println("Location Tree:");
+        System.out.println("E");
     }
 
 }
