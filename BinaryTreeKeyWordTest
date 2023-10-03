@@ -91,24 +91,17 @@ public class BinaryTreeKeyWordTest extends TestCase {
     public void testprintReverse() {
         tree.printReverse(tree.returnRoot(), true, 0);
         String printedText = outputStreamCaptor.toString();
-        assertEquals("This tree is empty\r\n"
-            + "", printedText);
-        
-        
+        assertEquals("This tree is empty\r\n" + "", printedText);
+
         tree.insert(sem1, "ds");
         tree.insert(sem1, "fish");
 
         tree.insert(sem1, "sdsds");
         tree.printReverse(tree.returnRoot(), true, 0);
         printedText = outputStreamCaptor.toString();
-        assertFuzzyEquals("this tree is empty\r\n"
-            + "null\r\n"
-            + "sdsds\r\n"
-            + "null\r\n"
-            + "fish\r\n"
-            + "null\r\n"
-            + "ds\r\n"
-            + "null", printedText);
+        assertFuzzyEquals("this tree is empty\r\n" + "null\r\n" + "sdsds\r\n"
+            + "null\r\n" + "fish\r\n" + "null\r\n" + "ds\r\n" + "null",
+            printedText);
     }
 
 
@@ -153,7 +146,10 @@ public class BinaryTreeKeyWordTest extends TestCase {
         assertEquals("ID: 4, Title: fish\r\n"
             + "Date: 0810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
             + "Description: Introduction to   bioinformatics and computation biology\r\n"
-            + "Keywords: SMALL, vt\r\n" + "", printedText);
+            + "Keywords: SMALL, vt\r\n" + "ID: 1, Title: fish\r\n"
+            + "Date: 0610071600, Length: 30, X: 60, Y: 20, Cost: 300\r\n"
+            + "Description: Introduction to   bioinformatics and computation biology\r\n"
+            + "Keywords: SMALL\r\n" + "", printedText);
 
     }
 
@@ -184,13 +180,14 @@ public class BinaryTreeKeyWordTest extends TestCase {
         assertEquals("ID: 4, Title: fish\r\n"
             + "Date: 0810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
             + "Description: Introduction to   bioinformatics and computation biology\r\n"
-            + "Keywords: SMALL, vt\r\n" + "ID: 4, Title: fish\r\n"
-            + "Date: 0810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
-            + "Description: Introduction to   bioinformatics and computation biology\r\n"
             + "Keywords: SMALL, vt\r\n" + "ID: 5, Title: fish\r\n"
             + "Date: 1810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
             + "Description: Introduction to   bioinformatics and computation biology\r\n"
-            + "Keywords: vt, hampster, wheel, supppper\r\n" + "", r2);
+            + "Keywords: vt, hampster, wheel, supppper\r\n"
+            + "ID: 4, Title: fish\r\n"
+            + "Date: 0810071900, Length: 30, X: 60, Y: 20, Cost: 40\r\n"
+            + "Description: Introduction to   bioinformatics and computation biology\r\n"
+            + "Keywords: SMALL, vt\r\n" + "", r2);
 
     }
 
