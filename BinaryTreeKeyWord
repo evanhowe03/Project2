@@ -52,6 +52,7 @@ public class BinaryTreeKeyWord<K, V>
 
 
     public void insert(Seminar val, String word) {
+      
         root = insertRec(root, word, val);
     }
 
@@ -61,12 +62,13 @@ public class BinaryTreeKeyWord<K, V>
         NodeK<String, Seminar> root,
         String word,
         Seminar val) {
-        System.out.println("RANNANANA");
+        
         if (root == null) {
             root = new NodeK<String, Seminar>(word, val);
             // System.out.println(val);
             return root;
         }
+      
 
         if (compareSem(word, root.getKey()) == 0) {
             root.setLeft(insertRec(root.getLeft(), word, val));
@@ -79,7 +81,7 @@ public class BinaryTreeKeyWord<K, V>
             root.setLeft(insertRec(root.getLeft(), word, val));
         }
 
-        // System.out.println(val);
+ 
         return root;
 
     }
@@ -87,33 +89,6 @@ public class BinaryTreeKeyWord<K, V>
 
     public NodeK<String, Seminar> returnRoot() {
         return root;
-    }
-
-
-    public int height(NodeK<K, V> root) {
-
-        int height = 1; // base case returns 1 for height
-
-        if (root.getLeft() == null && root.getRight() == null) {
-
-            return 1;
-
-        }
-
-        if (root.getLeft() != null) {
-
-            height = Math.max(height, 1 + height(root.getLeft()));
-
-        }
-
-        if (root.getRight() != null) {
-
-            height = Math.max(height, 1 + height(root.getRight()));
-
-        }
-
-        return height;
-
     }
 
 
@@ -297,32 +272,6 @@ public class BinaryTreeKeyWord<K, V>
      */
 
 
-    public int findDepth(String key) {
-        return findDepthRecursive(root, key, 0);
-    }
-
-
-    public int findDepthRecursive(
-        NodeK<String, Seminar> node,
-        String key,
-        int depth) {
-        if (node == null) {
-            return -1;
-        }
-
-        if (compareSem(key, node.getKey()) == 0) {
-            return depth;
-        }
-
-        if (compareSem(key, node.getKey()) < 0) {
-            return findDepthRecursive(node.getLeft(), key, depth + 1);
-        }
-        else {
-            return findDepthRecursive(node.getRight(), key, depth + 1);
-        }
-    }
-
-
     @Override
     public int compareTo(BinaryTreeKeyWord<K, V> o) {
         // TODO Auto-generated method stub
@@ -343,12 +292,12 @@ public class BinaryTreeKeyWord<K, V>
 
         if (root.getRight() != null) {
 
-            printReverse(root.getRight(), false, level++);
+            printReverse(root.getRight(), false, level + 1);
 
         }
         else {
 
-            for (int y = 0; y < level; y++) {
+            for (int y = 0; y <= level; y++) {
                 System.out.print("  ");
 
             }
@@ -362,12 +311,12 @@ public class BinaryTreeKeyWord<K, V>
 
         if (root.getLeft() != null) {
 
-            printReverse(root.getLeft(), false, level++);
+            printReverse(root.getLeft(), false, level + 1);
 
         }
         else {
 
-            for (int x = 0; x < level; x++) {
+            for (int x = 0; x <= level; x++) {
                 System.out.print("  ");
 
             }
