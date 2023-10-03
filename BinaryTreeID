@@ -30,9 +30,11 @@
 public class BinaryTreeID<T> {
 
     private Node<Seminar> root;
+    private BinaryTreeKeyWord<String, Seminar> treeKey;
 
     public BinaryTreeID() {
         // instantiate root node
+        treeKey = new BinaryTreeKeyWord<String, Seminar>();
         root = null;
     }
 
@@ -49,6 +51,9 @@ public class BinaryTreeID<T> {
      *         142
      */
     public int size(Node<T> root) {
+        if (root == null) {
+            return 0;
+        }
 
         int size = 1;
 
@@ -83,14 +88,27 @@ public class BinaryTreeID<T> {
     }
 
 
-    public void insert(Seminar val) {
-        root = insertRec(root, val);
+    public void insert(Seminar val, BinaryTreeKeyWord<String, Seminar> helpMe) {
+        root = insertRec(root, val, helpMe);
+
     }
 
 
-    private Node<Seminar> insertRec(Node<Seminar> root, Seminar val) {
+    private Node<Seminar> insertRec(
+        Node<Seminar> root,
+        Seminar val,
+        BinaryTreeKeyWord<String, Seminar> pleaseWork) {
         if (root == null) {
             root = new Node<Seminar>(val);
+            System.out.println("Successfully inserted record with ID " + val
+                .id());
+            System.out.println(val);
+
+            for (int i = 0; i < val.keywords().length; i++) {
+              
+                pleaseWork.insert(val, val.keywords()[i]);
+
+            }
             // System.out.println(val);
             return root;
         }
@@ -100,13 +118,17 @@ public class BinaryTreeID<T> {
             System.out.println(
                 "Insert FAILED - There is already a record with ID " + val
                     .id());
+            return root;
+
         }
         else if (val.id() < root.getElement().id()) {
-            root.setLeft(insertRec(root.getLeft(), val));
+            root.setLeft(insertRec(root.getLeft(), val, pleaseWork));
+
         }
         else {
-            root.setRight(insertRec(root.getRight(), val));
+            root.setRight(insertRec(root.getRight(), val, pleaseWork));
         }
+
         // System.out.println(val);
         return root;
     }
@@ -173,7 +195,6 @@ public class BinaryTreeID<T> {
         }
     }
 
-
     // ----------------------------------------------------------
     /**
      * 168
@@ -199,32 +220,6 @@ public class BinaryTreeID<T> {
      * @return The height of this tree.
      *         178
      */
-
-    public int height(Node<T> root) {
-
-        int height = 1; // base case returns 1 for height
-
-        if (root.getLeft() == null && root.getRight() == null) {
-
-            return 1;
-
-        }
-
-        if (root.getLeft() != null) {
-
-            height = Math.max(height, 1 + height(root.getLeft()));
-
-        }
-
-        if (root.getRight() != null) {
-
-            height = Math.max(height, 1 + height(root.getRight()));
-
-        }
-
-        return height;
-
-    }
 
 
     // ----------------------------------------------------------
@@ -277,6 +272,87 @@ public class BinaryTreeID<T> {
         builder.append(")");
 
         return builder.toString();
+
+    }
+
+
+    /*
+     * public void printReverse(Node<Seminar> root, boolean groot) {
+     * System.out.println("ID Tree:");
+     * if (root == null && groot) {
+     * System.out.println("This tree is empty");
+     * return;
+     * 
+     * }
+     * groot = false;
+     * if (root != null) {
+     * System.out.println("SOMETHING HEHE");
+     * }
+     * 
+     * 
+     * if (root.getRight() != null) {
+     * 
+     * System.out.println("SOMETHING HEHE");
+     * printReverse(root.getRight(), false);
+     * 
+     * }
+     * else {
+     * System.out.println("null");
+     * 
+     * }
+     * 
+     * if (root.getLeft() != null) {
+     * System.out.println("SOMETHING HEHE");
+     * printReverse(root.getLeft(), false);
+     * 
+     * }
+     * else {
+     * 
+     * System.out.println("null");
+     * }
+     * 
+     * }
+     */
+    public void printReverse(Node<Seminar> root, boolean groot, int level) {
+
+        if (root == null && groot) {
+            System.out.println("This tree is empty");
+            return;
+
+        }
+
+        if (root.getRight() != null) {
+
+            printReverse(root.getRight(), false, level + 1);
+
+        }
+        else {
+
+            for (int y = 0; y <= level; y++) {
+                System.out.print("  ");
+
+            }
+            System.out.println("null");
+        }
+        for (int x = 0; x < level; x++) {
+            System.out.print("  ");
+
+        }
+        System.out.println(root.getElement().id());
+
+        if (root.getLeft() != null) {
+
+            printReverse(root.getLeft(), false, level + 1);
+
+        }
+        else {
+
+            for (int x = 0; x <= level; x++) {
+                System.out.print("  ");
+
+            }
+            System.out.println("null");
+        }
 
     }
 
