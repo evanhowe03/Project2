@@ -5,8 +5,8 @@
 /**
  * 
  */
-public class BinaryTreeCost<T> {
-    private Node<Seminar> root;
+public class BinaryTreeCost<K, V> {
+    private NodeK<Integer, Seminar> root;
 
     public BinaryTreeCost() {
         // instantiate root node
@@ -25,7 +25,7 @@ public class BinaryTreeCost<T> {
      * @return The size of this tree.
      *         142
      */
-    public int size(Node<T> root) {
+    public int size(NodeK<Integer, Seminar> root) {
         if (root == null) {
             return 0;
         }
@@ -63,13 +63,16 @@ public class BinaryTreeCost<T> {
 
 
     public void insert(Seminar val) {
-        root = insertRec(root, val);
+        root = insertRec(root, val, val.cost());
     }
 
 
-    private Node<Seminar> insertRec(Node<Seminar> root, Seminar val) {
+    private NodeK<Integer, Seminar> insertRec(
+        NodeK<Integer, Seminar> root,
+        Seminar val,
+        Integer id) {
         if (root == null) {
-            root = new Node<Seminar>(val);
+            root = new NodeK<Integer, Seminar>(id, val);
             // System.out.println(val);
             return root;
         }
@@ -78,98 +81,55 @@ public class BinaryTreeCost<T> {
             // collision
             return root;
         }
-        else if (val.cost() < root.getElement().cost()) {
-            root.setLeft(insertRec(root.getLeft(), val));
+        else if (id < root.getKey()) {
+            root.setLeft(insertRec(root.getLeft(), val, id));
         }
         else {
-            root.setRight(insertRec(root.getRight(), val));
+            root.setRight(insertRec(root.getRight(), val, id));
         }
         // System.out.println(val);
         return root;
     }
 
 
-    public Node<Seminar> returnRoot() {
+    public NodeK<Integer, Seminar> returnRoot() {
         return root;
     }
 
-    // always pass in 1 for initial inOrderSearch call to account for root node
-    /*
-     * public int inOrderSearch(
-     * Node<Seminar> root,
-     * int low,
-     * int high,
-     * int nodeCount,
-     * boolean groot) {
-     * if (root == null) {
-     * return 0;
-     * }
-     * int counter = 0;
-     * if (root.getElement().cost() >= low && root.getElement().cost() <= high
-     * && groot) {
-     * System.out.println(root.getElement());
-     * }
-     * if (root.getLeft() != null) {
-     * nodeCount++;
-     * if (root.getLeft().getElement().cost() >= low && root.getLeft()
-     * .getElement().cost() <= high) {
-     * 
-     * System.out.println(root.getLeft().getElement());
-     * }
-     * nodeCount = inOrderSearch(root.getLeft(), low, high, nodeCount,
-     * false);
-     * }
-     * else {
-     * nodeCount++;
-     * }
-     * if (root.getRight() != null) {
-     * nodeCount++;
-     * if (root.getRight().getElement().cost() >= low && root.getRight()
-     * .getElement().cost() <= high) {
-     * System.out.println(root.getRight().getElement());
-     * }
-     * nodeCount = inOrderSearch(root.getRight(), low, high, nodeCount,
-     * false);
-     * }
-     * else {
-     * nodeCount++;
-     * }
-     * return nodeCount;
-     * }
-     */
-
 
     public int inOrderSearch(
-        Node<Seminar> root,
+
+        NodeK<Integer, Seminar> root,
         int low,
-        int high,
-        int fb,
-        boolean f) {
+        int high) {
+
         if (root == null) {
-            return 0;
+
+            return 1;
+
         }
 
-        int counter = 0;
+        int counter = 1;
 
-        if (root.getElement().cost() >= low) {
-            // Search in the left subtree
-            counter += inOrderSearch(root.getLeft(), low, high, 0, true);
-            counter++;
+        if (root.getKey() < low) {
+
+            counter += inOrderSearch(root.getRight(), low, high);
+
         }
-
-        // Process the current node
-        if (root.getElement().cost() >= low && root.getElement()
-            .cost() <= high) {
+        else if (root.getKey() > high) {
+            counter += inOrderSearch(root.getLeft(), low, high);
+        }
+        else {
+            counter += inOrderSearch(root.getLeft(), low, high);
             System.out.println(root.getElement());
-            counter++;
-        }
 
-        if (root.getElement().cost() <= high) {
-            // Search in the right subtree
-            counter += inOrderSearch(root.getRight(), low, high, 0, true);
+            if (root.getKey() != high) {
+                counter += inOrderSearch(root.getRight(), low, high);
+            }
         }
 
         return counter;
+
     }
 
 
@@ -199,7 +159,7 @@ public class BinaryTreeCost<T> {
      *         178
      */
 
-    public int height(Node<T> root) {
+    public int height(NodeK<Integer, Seminar> root) {
 
         int height = 1; // base case returns 1 for height
 
@@ -226,7 +186,7 @@ public class BinaryTreeCost<T> {
     }
 
 
-    public String toInOrderString(Node<T> root) {
+    public String toInOrderString(NodeK<Integer, Seminar> root) {
 
         StringBuilder builder = new StringBuilder();
 
@@ -289,7 +249,10 @@ public class BinaryTreeCost<T> {
      *         a post-order traversal.
      *         279
      */
-    public void printReverse(Node<Seminar> root, boolean groot, int level) {
+    public void printReverse(
+        NodeK<Integer, Seminar> root,
+        boolean groot,
+        int level) {
 
         if (root == null && groot) {
             System.out.println("This tree is empty");
@@ -314,7 +277,7 @@ public class BinaryTreeCost<T> {
             System.out.print("  ");
 
         }
-        System.out.println(root.getElement().cost());
+        System.out.println(root.getKey());
 
         if (root.getLeft() != null) {
 
