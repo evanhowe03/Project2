@@ -8,9 +8,9 @@ import java.util.Comparator;
 /**
  * 
  */
-public class BinaryTreeDate<T> implements Comparator<T> {
+public class BinaryTreeDate<K, V> implements Comparator<BinaryTreeDate<K, V>> {
 
-    private Node<Seminar> root;
+    private NodeK<String, Seminar> root;
 
     public BinaryTreeDate() {
         // instantiate root node
@@ -29,7 +29,7 @@ public class BinaryTreeDate<T> implements Comparator<T> {
      * @return The size of this tree.
      *         142
      */
-    public int size(Node<T> root) {
+    public int size(NodeK<String, Seminar> root) {
         if (root == null) {
             return 0;
         }
@@ -67,13 +67,16 @@ public class BinaryTreeDate<T> implements Comparator<T> {
 
 
     public void insert(Seminar val) {
-        root = insertRec(root, val);
+        root = insertRec(root, val, val.date());
     }
 
 
-    private Node<Seminar> insertRec(Node<Seminar> root, Seminar val) {
+    private NodeK<String, Seminar> insertRec(
+        NodeK<String, Seminar> root,
+        Seminar val,
+        String id) {
         if (root == null) {
-            root = new Node<Seminar>(val);
+            root = new NodeK<String, Seminar>(id, val);
             // System.out.println(val);
             return root;
         }
@@ -84,79 +87,87 @@ public class BinaryTreeDate<T> implements Comparator<T> {
         }
         else if (compareSem(val, root.getElement()) == -1 || compareSem(val,
             root.getElement()) == 0) {
-            root.setLeft(insertRec(root.getLeft(), val));
+            root.setLeft(insertRec(root.getLeft(), val, id));
         }
         else {
-            root.setRight(insertRec(root.getRight(), val));
+            root.setRight(insertRec(root.getRight(), val, id));
         }
         // System.out.println(val);
         return root;
     }
 
 
-    public Node<Seminar> returnRoot() {
+    public NodeK<String, Seminar> returnRoot() {
         return root;
     }
 
+    /*
+     * public int inOrderSearch(
+     * Node<Seminar> root,
+     * String lowDate,
+     * String highDate,
+     * int nodeCount,
+     * boolean groot) {
+     * int counter = 1;
+     * if (root == null) {
+     * 
+     * return counter;
+     * }
+     * 
+     * long low = Long.parseLong(lowDate + "000000000");
+     * long high = Long.parseLong(highDate + "000000000");
+     * 
+     * long date = Long.parseLong(root.getElement().date());
+     * 
+     * // Process the current node if it's within range
+     * 
+     * if (date > low) {
+     * counter += inOrderSearch(root.getLeft(), lowDate, highDate, 0,
+     * true);
+     * }
+     * if (date >= low && date <= high) {
+     * System.out.println(root.getElement());
+     * 
+     * }
+     * 
+     * // Search in the right subtree
+     * if (date < high) {
+     * counter += inOrderSearch(root.getRight(), lowDate, highDate, 0,
+     * true);
+     * }
+     * 
+     * return counter;
+     * }
+     */
+
 
     public int inOrderSearch(
-        Node<Seminar> root,
+        NodeK<String, Seminar> root,
         String lowDate,
-        String highDate,
-        int nodeCount,
-        boolean groot) {
-
+        String highDate) {
+        int counter = 1;
         if (root == null) {
-            return nodeCount;
+
+            return 1;
         }
 
-        long low = Long.parseLong(lowDate + "000000000");
-        long high = Long.parseLong(highDate + "000000000");
+        if (root.getKey().compareTo(lowDate) < 0) {
+            counter += inOrderSearch(root.getRight(), lowDate, highDate);
+        }
 
-        long date = Long.parseLong(root.getElement().date());
+        else if (root.getKey().compareTo(highDate) > 0) {
 
-        if (date >= low && date <= high && groot) {
-
+            counter += inOrderSearch(root.getLeft(), lowDate, highDate);
+        }
+        else {
+            counter += inOrderSearch(root.getLeft(), lowDate, highDate);
             System.out.println(root.getElement());
-        }
 
-        if (root.getLeft() != null) {
-            nodeCount++;
-            int dat1 = Integer.parseInt(root.getLeft().getElement().date());
-
-            if (dat1 >= low && dat1 <= high) {
-
-                System.out.println(root.getLeft().getElement());
-
+            if (root.getKey().compareTo(highDate) != 0) {
+                counter += inOrderSearch(root.getRight(), lowDate, highDate);
             }
-            nodeCount = inOrderSearch(root.getLeft(), lowDate, highDate,
-                nodeCount, false);
-
         }
-        else {
-            nodeCount++;
-        }
-
-        if (root.getRight() != null) {
-            nodeCount++;
-            int dat2 = Integer.parseInt(root.getRight().getElement().date());
-
-            if (dat2 >= low && dat2 <= high) {
-
-                System.out.println(root.getRight().getElement());
-
-            }
-
-            nodeCount = inOrderSearch(root.getRight(), lowDate, highDate,
-                nodeCount, false);
-
-        }
-        else {
-            nodeCount++;
-        }
-
-        return nodeCount;
-
+        return counter;
     }
 
 
@@ -186,7 +197,7 @@ public class BinaryTreeDate<T> implements Comparator<T> {
      *         178
      */
 
-    public int height(Node<T> root) {
+    public int height(NodeK<String, Seminar> root) {
 
         int height = 1; // base case returns 1 for height
 
@@ -269,7 +280,7 @@ public class BinaryTreeDate<T> implements Comparator<T> {
      *         243
      */
 
-    public String toInOrderString(Node<T> root) {
+    public String toInOrderString(NodeK<String, Seminar> root) {
 
         StringBuilder builder = new StringBuilder();
 
@@ -349,14 +360,10 @@ public class BinaryTreeDate<T> implements Comparator<T> {
     }
 
 
-    @Override
-    public int compare(T o1, T o2) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-
-    public void printReverse(Node<Seminar> root, boolean groot, int level) {
+    public void printReverse(
+        NodeK<String, Seminar> root,
+        boolean groot,
+        int level) {
 
         if (root == null && groot) {
             System.out.println("This tree is empty");
@@ -381,7 +388,7 @@ public class BinaryTreeDate<T> implements Comparator<T> {
             System.out.print("  ");
 
         }
-        String dateLine = root.getElement().date().trim();
+        String dateLine = root.getKey().trim();
         System.out.println(dateLine);
 
         if (root.getLeft() != null) {
@@ -398,6 +405,13 @@ public class BinaryTreeDate<T> implements Comparator<T> {
             System.out.println("null");
         }
 
+    }
+
+
+    @Override
+    public int compare(BinaryTreeDate<K, V> o1, BinaryTreeDate<K, V> o2) {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
 }
