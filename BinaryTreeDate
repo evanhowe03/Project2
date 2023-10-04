@@ -223,62 +223,6 @@ public class BinaryTreeDate<K, V> implements Comparator<BinaryTreeDate<K, V>> {
 
     }
 
-    // ----------------------------------------------------------
-    /**
-     * 198
-     * Generate a string containing the "printed version" of this binary
-     * 199
-     * tree using a pre-order traversal. The tree's contents are printed
-     * 200
-     * as a parenthesized list.
-     * 201
-     * 
-     * 202
-     * Example: (A(B)(C))
-     * 203
-     * Visually: A
-     * 204
-     * / \ Traversal: A B C
-     * 205
-     * B C
-     * 206
-     * 
-     * 207
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         208
-     *         a pre-order traversal.
-     *         209
-     */
-
-
-    // ----------------------------------------------------------
-    /**
-     * 232
-     * Generate a string containing the "printed version" of this binary
-     * 233
-     * tree using a in-order traversal. The tree's contents are printed as
-     * 234
-     * a parenthesized list.
-     * 235
-     * 
-     * 236
-     * Example: ((B)A(C))
-     * 237
-     * Visually: A
-     * 238
-     * / \ Traversal: B A C
-     * 239
-     * B C
-     * 240
-     * 
-     * 241
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         242
-     *         an in-order traversal.
-     *         243
-     */
 
     public String toInOrderString(NodeK<String, Seminar> root) {
 
@@ -305,44 +249,6 @@ public class BinaryTreeDate<K, V> implements Comparator<BinaryTreeDate<K, V>> {
 
     }
 
-
-    // ----------------------------------------------------------
-    /**
-     * 263
-     * Generate a string containing the "printed version" of this binary
-     * 264
-     * tree using a post-order traversal. The tree's contents are printed
-     * 265
-     * as a parenthesized list.
-     * 266
-     * 
-     * 267
-     * For example, if a tree containing the data
-     * 268
-     * value A has a left child containing B and a right child containing C,
-     * 269
-     * it would be printed as ((B)(C)A).
-     * 270
-     * Visually: A
-     * 271
-     * / \ Traversal: B C A
-     * 272
-     * B C
-     * 273
-     * 
-     * 274
-     * The parentheses directly reflect
-     * 275
-     * the structure of each node in the tree.
-     * 276
-     * 
-     * 277
-     * 
-     * @return a printable representation of this tree's contents, using
-     *         278
-     *         a post-order traversal.
-     *         279
-     */
 
     public int compareSem(Seminar val, Seminar seminar) {
 
@@ -412,6 +318,65 @@ public class BinaryTreeDate<K, V> implements Comparator<BinaryTreeDate<K, V>> {
     public int compare(BinaryTreeDate<K, V> o1, BinaryTreeDate<K, V> o2) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+
+    public void delete(int id) {
+        root = deleteRec(root, id);
+    }
+
+
+    public NodeK<String, Seminar> deleteRec(
+        NodeK<String, Seminar> root,
+        int id) {
+
+        if (root == null) {
+            return root;
+        }
+
+        if (id < root.getElement().id()) {
+
+            root.setLeft(deleteRec(root.getLeft(), id));
+
+        }
+        else if (id > root.getElement().id()) {
+            root.setRight(deleteRec(root.getRight(), id));
+        }
+        else {
+            if (root.getLeft() == null) {
+                return root.getRight();
+            }
+            else if (root.getRight() == null) {
+                return root.getLeft();
+            }
+
+            root.setKey(minValue(root.getRight()));
+            root.setValue(minSem(root.getRight()));
+
+            root.setRight(deleteRec(root.getRight(), root.getElement().id()));
+        }
+
+        return root;
+    }
+
+    //returns the date in the lowest node
+    private String minValue(NodeK<String, Seminar> root) {
+        String minValue = root.getElement().date();
+        while (root.getLeft() != null) {
+            minValue = root.getLeft().getElement().date();
+            root = root.getLeft();
+        }
+        return minValue;
+    }
+
+    //returns the seminar in the lowest node
+    private Seminar minSem(NodeK<String, Seminar> root) {
+        Seminar minSem = root.getElement();
+        while (root.getLeft() != null) {
+            minSem = root.getLeft().getElement();
+            root = root.getLeft();
+        }
+        return minSem;
     }
 
 }
