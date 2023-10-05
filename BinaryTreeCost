@@ -295,52 +295,33 @@ public class BinaryTreeCost<K, V> {
 
 
     public void delete(int id) {
-
         root = deleteRec(id, root);
-
     }
 
-
-    public NodeK<Integer, Seminar> deleteRec(
-        int id, NodeK<Integer, Seminar> root) {
-
+    public NodeK<Integer, Seminar> deleteRec(int id, NodeK<Integer, Seminar> root) {
         if (root == null) {
-
             return root;
-
         }
 
-        root.setLeft(deleteRec(id, root.getLeft()));
-        
+        // Check if the current node has the matching ID
         if (root.getElement().id() == id) {
-            
             if (root.getLeft() == null) {
-
                 return root.getRight();
-
-            }
-
-            else if (root.getRight() == null) {
-
+            } else if (root.getRight() == null) {
                 return root.getLeft();
-
             }
-      
+
             root.setKey(maxValue(root.getLeft()));
-
             root.setValue(maxSem(root.getLeft()));
-
             root.setLeft(deleteRec(id, root.getLeft()));
-         
-            
+        } else {
+            // If not, traverse the left and right subtrees
+            root.setLeft(deleteRec(id, root.getLeft()));
+            root.setRight(deleteRec(id, root.getRight()));
         }
-        
-        root.setRight(deleteRec(id, root.getRight()));
-        
+
         return root;
-
     }
-
 
     public int maxValue(NodeK<Integer, Seminar> root) {
         int maxValue = root.getKey();
@@ -351,7 +332,6 @@ public class BinaryTreeCost<K, V> {
         return maxValue;
     }
 
-
     public Seminar maxSem(NodeK<Integer, Seminar> root) {
         Seminar maxSem = root.getElement();
         while (root.getRight() != null) {
@@ -360,5 +340,6 @@ public class BinaryTreeCost<K, V> {
         }
         return maxSem;
     }
+
 
 }
