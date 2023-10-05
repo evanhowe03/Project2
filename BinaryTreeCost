@@ -310,7 +310,7 @@ public class BinaryTreeCost<K, V> {
 
         }
 
-        deleteRec(id, root.getLeft());
+        root.setLeft(deleteRec(id, root.getLeft()));
         
         if (root.getElement().id() == id) {
             
@@ -330,12 +330,12 @@ public class BinaryTreeCost<K, V> {
 
             root.setValue(maxSem(root.getLeft()));
 
-            root.setRight(deleteRec(id, root.getLeft()));
-            return root;
+            root.setLeft(deleteRec(id, root.getLeft()));
+         
             
         }
         
-        deleteRec(id, root.getRight());
+        root.setRight(deleteRec(id, root.getRight()));
         
         return root;
 
