@@ -102,14 +102,12 @@ public class BinaryTreeCost<K, V> {
         NodeK<Integer, Seminar> root,
         int low,
         int high) {
-
+        int counter = 1;
         if (root == null) {
 
             return 1;
 
         }
-
-        int counter = 1;
 
         if (root.getKey() < low) {
 
@@ -293,6 +291,74 @@ public class BinaryTreeCost<K, V> {
             System.out.println("null");
         }
 
+    }
+
+
+    public void delete(int id) {
+
+        root = deleteRec(id, root);
+
+    }
+
+
+    public NodeK<Integer, Seminar> deleteRec(
+        int id, NodeK<Integer, Seminar> root) {
+
+        if (root == null) {
+
+            return root;
+
+        }
+
+        deleteRec(id, root.getLeft());
+        
+        if (root.getElement().id() == id) {
+            
+            if (root.getLeft() == null) {
+
+                return root.getRight();
+
+            }
+
+            else if (root.getRight() == null) {
+
+                return root.getLeft();
+
+            }
+      
+            root.setKey(maxValue(root.getLeft()));
+
+            root.setValue(maxSem(root.getLeft()));
+
+            root.setRight(deleteRec(id, root.getLeft()));
+            return root;
+            
+        }
+        
+        deleteRec(id, root.getRight());
+        
+        return root;
+
+    }
+
+
+    public int maxValue(NodeK<Integer, Seminar> root) {
+        int maxValue = root.getKey();
+        while (root.getRight() != null) {
+            maxValue = root.getRight().getKey();
+            root = root.getRight();
+        }
+        return maxValue;
+    }
+
+
+    public Seminar maxSem(NodeK<Integer, Seminar> root) {
+        Seminar maxSem = root.getElement();
+        while (root.getRight() != null) {
+            maxSem = root.getRight().getElement();
+            root = root.getRight();
+        }
+        return maxSem;
     }
 
 }
