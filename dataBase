@@ -72,16 +72,14 @@ public class DataBase {
      * @param id
      */
     public void searchId(int id) {
-        boolean found = treeID.specificSearch(treeID.returnRoot(), id);
-        Seminar foundSem = treeID.searchAndReturn(treeID.returnRoot(), id);
         
-        if (found) {
-            System.out.println("Found record with ID " + id + ":");
-            System.out.println(foundSem);
-        }
-        else {
+        boolean found = treeID.searchID(treeID.returnRoot(), id);
+        
+        if (!found) {
             System.out.println("Search FAILED -- There is no record with ID " + id);
         }
+   
+    
     }
 
     /*
