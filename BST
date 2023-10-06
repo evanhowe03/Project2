@@ -190,24 +190,29 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
         return left || right;
     }
     
-    public V searchAndReturn(NodeK<K, V> root, K key) {
+    public boolean searchID(NodeK<K, V> root, K key) {
         if (root == null) {
-            return null;
+            return false;
         }
 
         if (root.getKey() == key) {
-            return root.getElement();
+            System.out.println("Found record with ID " + key + ":");
+            System.out.println(root.getElement());
+            return true;
         }
 
+        boolean left = false;
+        boolean right = false;
 
         if (root.getLeft() != null) {
-            specificSearch(root.getLeft(), key);
+            left = searchID(root.getLeft(), key);
         }
 
         if (root.getRight() != null) {
-            specificSearch(root.getRight(), key);
+            right = searchID(root.getRight(), key);
         }
-        return null;
+
+        return left || right;
     }
     
     /*
