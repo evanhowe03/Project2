@@ -10,6 +10,7 @@ import java.util.Comparator;
 public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
     private NodeK<K, V> root;
+    private NodeK<K, V> removing;
 
     /*
      * Constructor for BST
@@ -17,24 +18,32 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
      */
     public BST() {
         root = null;
+        removing = null;
     }
 
+
     /*
-     * insert seminar based on 
+     * insert seminar based on
      * its key
+     * 
      * @param key to insert
+     * 
      * @param val to insert
      */
     public void insert(K key, V val) {
         root = insertRec(root, key, val);
     }
 
+
     /*
      * helper method for insert
      * 
      * @param root this is root
+     * 
      * @param key this is key
+     * 
      * @param val this is value
+     * 
      * @return the new node
      */
     private NodeK<K, V> insertRec(NodeK<K, V> root, K key, V val) {
@@ -53,7 +62,6 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
         // System.out.println(val);
         return root;
     }
-
 
 
     /*
@@ -93,10 +101,13 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
         }
         return counter;
     }
-    
+
+
     /*
      * Use this search for keywords
+     * 
      * @param root this is root
+     * 
      * @param key this is key
      */
     public void inOrderSearch(NodeK<K, V> root, K key) {
@@ -113,8 +124,9 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
         // Search right subtree
         inOrderSearch(root.getRight(), key);
-        
+
     }
+
 
     /*
      * This search is for the ID tree
@@ -150,7 +162,8 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
         return left || right;
     }
-    
+
+
     public boolean searchID(NodeK<K, V> root, K key) {
         if (root == null) {
             return false;
@@ -175,7 +188,8 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
         return left || right;
     }
-    
+
+
     /*
      * calls the specific Search method
      * prints a failure method
@@ -234,12 +248,12 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
     }
 
 
-  
     /**
      * 
-     * @param root this is root
+     * @param root
+     *            this is root
      * @return the key from
-     * the greatest node
+     *         the greatest node
      */
     public K maxValue(NodeK<K, V> root) {
         K maxValue = root.getKey();
@@ -251,9 +265,11 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
     }
 
+
     /*
      * 
-     * @param root this is root 
+     * @param root this is root
+     * 
      * @return the seminar from the
      * greatest node
      */
@@ -265,11 +281,13 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
         }
         return maxSem;
     }
-    
+
+
     /*
      * 
      * @param root root of tree
-     * @return the size of 
+     * 
+     * @return the size of
      * the tree
      */
     public int size(NodeK<K, V> root) {
@@ -292,7 +310,8 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
         return size;
     }
-    
+
+
     /*
      * in order traversal of the tree
      * 
@@ -323,13 +342,15 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
         return builder.toString();
     }
-    
+
+
     /*
      * @return the root
      */
     public NodeK<K, V> returnRoot() {
         return root;
     }
+
 
     @Override
     public int compare(BST<K, V> o1, BST<K, V> o2) {
@@ -338,4 +359,44 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
     }
 
 
+    public void delete(K id) {
+        removing = removeHelper(id);
+        root = deleteRec(root, id, removing);
+
+    }
+
+
+    public NodeK<K, V> removeHelper(K id) {
+    
+    }
+
+
+    public NodeK<K, V> deleteRec(NodeK<K, V> root, K id, NodeK<K, V> removing) {
+
+        if (root == null) {
+            return root;
+        }
+
+        if (id.compareTo(root.getKey()) < 0) {
+            root.setLeft(deleteRec(root.getLeft(), id, removing));
+        }
+        else if (id.compareTo(root.getKey()) > 0) {
+            root.setRight(deleteRec(root.getRight(), id, removing));
+        }
+        else {
+            if (root.getLeft() == null) {
+                return root.getRight();
+            }
+            else if (root.getRight() == null) {
+                return root.getLeft();
+            }
+            if (root.getLeft() == null && root.getRight() == null) {
+                return null;
+            }
+            root.setKey(maxValue(root.getLeft()));
+            root.setValue(maxSem(root.getLeft()));
+            root.setRight(deleteRec(root.getLeft(), root.getKey(), removing));
+        }
+        return root;
+    }
 }
