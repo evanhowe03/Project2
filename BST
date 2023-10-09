@@ -188,7 +188,8 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
         return left || right;
     }
-    
+
+
     public NodeK<K, V> returnNode(NodeK<K, V> root, K key) {
         if (root == null) {
             return null;
@@ -211,11 +212,11 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
         if (leftResult != null) {
             return leftResult;
-        } else {
+        }
+        else {
             return rightResult;
         }
     }
-
 
 
     /*
@@ -412,56 +413,54 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
     }
 
 
-    public NodeK<K, V> deleteRec(NodeK<K, V> root, NodeK<K, V> value) {
-        if (root == null) {
-            return root;
+    public NodeK<K, V> deleteRec(NodeK<K, V> currentRoot, NodeK<K, V> value) {
+        if (currentRoot == null) {
+            return currentRoot;
         }
 
-        if (root.compareTo(value) > 0) {
-            root.setLeft(deleteRec(root.getLeft(), value));
+        if (currentRoot.getKey().compareTo(value.getKey()) > 0) {
+            currentRoot.setLeft(deleteRec(currentRoot.getLeft(), value));
         }
-        else if (root.compareTo(value) > 0) {
-            root.setRight(deleteRec(root.getLeft(), value));
+        else if (currentRoot.getKey().compareTo(value.getKey()) < 0) {
+            currentRoot.setRight(deleteRec(currentRoot.getRight(), value));
         }
         else {
-            if (root.getLeft() == null) {
-                return root.getRight();
+            if (currentRoot.getLeft() == null) {
+                return currentRoot.getRight();
             }
-            else if (root.getRight() == null) {
-                return root.getLeft();
+            else if (currentRoot.getRight() == null) {
+                return currentRoot.getLeft();
             }
             else {
-                NodeK<K, V> temp = getMax(root.getLeft());
-                root.setKey(temp.getKey());
-                root.setValue(temp.getElement());
-                root.setLeft(deleteMax(root.getLeft()));
+                NodeK<K, V> temp = getMax(currentRoot.getLeft());
+                currentRoot.setKey(temp.getKey());
+                currentRoot.setValue(temp.getElement());
+                currentRoot.setLeft(deleteMax(currentRoot.getLeft()));
             }
         }
-        return root;
+        return currentRoot;
     }
 
 
     public NodeK<K, V> removeDuplicates(NodeK<K, V> value) {
-        root = removeDuplicatesHelp(root, value);
+        root = remHelper(root, value);
         return root;
+
     }
 
 
-    public NodeK<K, V> removeDuplicatesHelp(
-        NodeK<K, V> root,
-        NodeK<K, V> value) {
+    public NodeK<K, V> remHelper(NodeK<K, V> root, NodeK<K, V> value) {
         if (root == null) {
             return root;
         }
-
-        if (root.compareTo(value) > 0) {
-            root.setLeft(removeDuplicatesHelp(root.getLeft(), value));
+        if (root.getKey().compareTo(value.getKey()) > 0) {
+            root.setLeft(remHelper(root.getLeft(), value));
         }
-        else if (root.compareTo(value) > 0) {
-            root.setRight(removeDuplicatesHelp(root.getRight(), value));
+        else if (root.getKey().compareTo(value.getKey()) < 0) {
+            root.setRight(remHelper(root.getRight(), value));
         }
         else {
-            if (root.getKey() == value.getKey()) {
+            if (root.getElement().equals(value.getElement())) {
                 if (root.getLeft() == null) {
                     return root.getRight();
                 }
@@ -471,14 +470,16 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
                 else {
                     NodeK<K, V> temp = getMax(root.getLeft());
                     root.setValue(temp.getElement());
+                    root.setKey(temp.getKey());
                     root.setLeft(deleteMax(root.getLeft()));
                 }
             }
             else {
-                root.setRight(removeDuplicatesHelp(root.getLeft(), value));
-                root.setLeft(removeDuplicatesHelp(root.getRight(), value));
+                root.setLeft(remHelper(root.getLeft(), value));
+                root.setRight(remHelper(root.getRight(), value));
             }
         }
         return root;
+
     }
 }
