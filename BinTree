@@ -1,51 +1,45 @@
 
-public class BinTree implements BinNode {
+public class BinTree {
     private BinNode root;
-    
-    public BinTree () {
-        root = null;
+
+    public BinTree() {
+        root = EmptyNode.getEmpty();
     }
 
-    @Override
-    public boolean isLeaf() {
-        // TODO Auto-generated method stub
-        return false;
+
+    public void insert(
+        Seminar sem,
+        int widthLow,
+        int widthHigh,
+        int heightLow,
+        int heightHigh,
+        int level) {
+
+        root = root.insert(sem, 0, widthHigh, 0, heightHigh, 0);
+
     }
 
-    @Override
-    public boolean isInternal() {
-        // TODO Auto-generated method stub
-        return false;
-    }
 
-    @Override
-    public void traverse() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void insert() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
     public void search() {
         // TODO Auto-generated method stub
-        
+
     }
 
-    @Override
+
     public void delete() {
         // TODO Auto-generated method stub
-        
+
     }
 
-    @Override
     public void print() {
         // TODO Auto-generated method stub
-        
+
+    }
+
+
+    public boolean isEmpty() {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }
