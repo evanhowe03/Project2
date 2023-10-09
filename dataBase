@@ -17,6 +17,7 @@ public class DataBase {
 
     }
 
+
     /*
      * use the specificSearch to determine if seminar
      * already exists in the tree
@@ -26,8 +27,9 @@ public class DataBase {
      * use a for loop to loop through keywords and insert
      * each one
      * 
-     * if the seminar already exists print the 
+     * if the seminar already exists print the
      * failure message
+     * 
      * @param sem to insert
      */
     public void add(Seminar sem) {
@@ -37,24 +39,27 @@ public class DataBase {
         int y = trial.y();
 
         if (x >= 0 && x < worldSize && y >= 0 && y < worldSize) {
-            
-            boolean found = treeID.specificSearch(treeID.returnRoot(), trial.id());
-            
+
+            boolean found = treeID.specificSearch(treeID.returnRoot(), trial
+                .id());
+
             if (!found) {
-                System.out.println("Successfully inserted record with ID " + trial.id());
+                System.out.println("Successfully inserted record with ID "
+                    + trial.id());
                 System.out.println(trial);
-                
+
                 treeID.insert(trial.id(), trial);
                 treeCost.insert(trial.cost(), trial);
                 treeDate.insert(trial.date(), trial);
-                
+
                 for (int i = 0; i < trial.keywords().length; i++) {
                     treeKeyWord.insert(trial.keywords()[i], trial);
                 }
             }
             else {
                 System.out.println(
-                    "Insert FAILED - There is already a record with ID " + trial.id());
+                    "Insert FAILED - There is already a record with ID " + trial
+                        .id());
             }
         }
         else
@@ -64,27 +69,32 @@ public class DataBase {
                 + ", " + y);
         }
     }
-    
+
+
     /*
      * Call the specificSearch method
      * to find the matching key in the ID
      * tree
+     * 
      * @param id
      */
     public void searchId(int id) {
-        
+
         boolean found = treeID.searchID(treeID.returnRoot(), id);
-        
+
         if (!found) {
-            System.out.println("Search FAILED -- There is no record with ID " + id);
+            System.out.println("Search FAILED -- There is no record with ID "
+                + id);
         }
-   
-    
+
     }
+
 
     /*
      * Use the range search
+     * 
      * @param lowCost low range
+     * 
      * @param highCost high range
      */
     public void searchCost(int lowCost, int highCost) {
@@ -97,8 +107,10 @@ public class DataBase {
 
     }
 
+
     /*
      * use the inOrderSearch
+     * 
      * @param key the key
      * to find
      */
@@ -108,9 +120,12 @@ public class DataBase {
 
     }
 
+
     /*
      * use the range search
+     * 
      * @param firstDate low range
+     * 
      * @param secondDate high range
      */
     public void searchDate(String firstDate, String secondDate) {
@@ -127,16 +142,17 @@ public class DataBase {
 
     }
 
-/**
+
     public void delete(int delete) {
         int x = treeID.size(treeID.returnRoot());
-
-        treeID.delete(delete);
+        NodeK<Integer, Seminar> node = treeID.returnNode(treeID.returnRoot(),
+            delete);
+        treeID.delete(node);
         int y = treeID.size(treeID.returnRoot());
         if (x != y) {
-            treeDate.delete(delete);
-            treeCost.delete(delete);
-            treeKeyWord.delete(delete);
+            treeDate.delete(node);
+            treeCost.delete(node);
+            treeKeyWord.delete(node);
 
             System.out.println("Record with ID " + delete
                 + " successfully deleted from the database");
@@ -146,7 +162,7 @@ public class DataBase {
                 + delete);
         }
     }
-**/
+
 
     public void printDate() {
         System.out.println("Date Tree:");
