@@ -6,6 +6,7 @@ public class DataBase {
     private BST<Integer, Seminar> treeCost;
     private BST<String, Seminar> treeDate;
     private BST<String, Seminar> treeKeyWord;
+    private BinTree locationTree;
 
     public DataBase(int initialSize) {
         // size = worldSize - 1
@@ -14,6 +15,7 @@ public class DataBase {
         treeCost = new BST<Integer, Seminar>();
         treeDate = new BST<String, Seminar>();
         treeKeyWord = new BST<String, Seminar>();
+        locationTree = new BinTree();
 
     }
 
@@ -39,7 +41,7 @@ public class DataBase {
         int y = trial.y();
 
         if (x >= 0 && x < worldSize && y >= 0 && y < worldSize) {
-
+            locationTree.insert(sem, 0, worldSize, 0, worldSize, );
             boolean found = treeID.specificSearch(treeID.returnRoot(), trial
                 .id());
 
