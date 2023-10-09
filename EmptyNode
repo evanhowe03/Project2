@@ -1,17 +1,35 @@
 
 public class EmptyNode implements BinNode{
     
-    private EmptyNode root;
+    private static EmptyNode fw = null;
     
     public EmptyNode() {
-        root = null;
-        
+
+//        
+    }
+    
+    static public EmptyNode getEmpty() {
+        return fw;
     }
     
     @Override
-    public void insert() {
-        //Should return pointer to a leaf node
-        
+    public BinNode insert(Seminar sem,
+        int widthLow,
+        int widthHigh,
+        int heightLow,
+        int heightHigh,
+        int level) {
+        //returns a new leaf node that contains the seminar record
+        /**
+         * 
+         * creating a leaf node 
+            leaf.insert(node)
+          return leaf 
+         */
+        ////.insert(sem, width, height, worldWidth, worldHeight, level);
+        LeafNode leafNode = new LeafNode(sem);
+        return leafNode;
+    
     }
     @Override
     public boolean isLeaf() {
@@ -19,36 +37,29 @@ public class EmptyNode implements BinNode{
         return true;
     }
 
-    @Override
-    public boolean isInternal() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public void traverse() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    
-
-    @Override
-    public void search() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void delete() {
-        // TODO Auto-generated method stub
-        
-    }
-
+ 
     @Override
     public void print() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public boolean isEmpty() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public int search() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public BinNode delete() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
