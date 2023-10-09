@@ -9,19 +9,49 @@ public class IntlNode implements BinNode {
 
     private BinNode left; // Left child
     private BinNode right; // Right child
-    private Seminar operator; // Operator value
+   // private Seminar operator; // Operator value
 
-    public IntlNode(Seminar sem, BinNode l, BinNode r) {
-        operator = sem;
+    public IntlNode( BinNode l, BinNode r) {
+     //   operator = sem;
         left = l;
         right = r;
     }
 
-    @Override
-    public void insert() {
-        //return the reference to the internal node
 
+    @Override
+    public BinNode insert(
+        Seminar sem,
+        int widthLow,
+        int widthHigh,
+        int heightLow,
+        int heightHigh,
+        int level) {
+
+        if (level % 2 ==0) {
+            if (sem.x() <= widthHigh/2 && sem.x() >= widthLow && sem.y() >= heightLow && sem.y() <= heightHigh) {
+               
+                left = left.insert(sem, widthLow, widthHigh/2, heightLow, heightHigh, level+1);
+                
+            }
+            else {
+                right = right.insert(sem, widthHigh/2, widthHigh, heightLow, heightHigh, level+1);
+            }
+        
+
+        }
+        else {
+            if (sem.y() <= heightHigh/2 && sem.y() >= heightLow && sem.x() >= widthLow && sem.x() <= widthHigh) {
+                
+                left = left.insert(sem, widthLow, widthHigh, heightLow, heightHigh/2, level+1);
+            }
+            else {
+                right = right.insert(sem, widthHigh, widthHigh, heightHigh/2, heightHigh, level+1);
+            }
+        }
+ 
+        return this;
     }
+
 
     public BinNode left() {
         return left;
@@ -33,10 +63,6 @@ public class IntlNode implements BinNode {
     }
 
 
-    public Seminar value() {
-        return operator;
-    }
-
     @Override
     public boolean isLeaf() {
         // TODO Auto-generated method stub
@@ -45,29 +71,23 @@ public class IntlNode implements BinNode {
 
 
     @Override
-    public boolean isInternal() {
+    public boolean isEmpty() {
         // TODO Auto-generated method stub
         return false;
     }
 
 
     @Override
-    public void traverse() {
+    public int search() {
         // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void search() {
-        // TODO Auto-generated method stub
-
+        return 0;
     }
 
 
     @Override
-    public void delete() {
+    public BinNode delete() {
         // TODO Auto-generated method stub
-
+        return null;
     }
 
 
