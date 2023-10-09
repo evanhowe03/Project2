@@ -1,0 +1,80 @@
+/**
+ * 
+ */
+
+/**
+ * 
+ */
+public class IntlNode implements BinNode {
+
+    private BinNode left; // Left child
+    private BinNode right; // Right child
+    private Seminar operator; // Operator value
+
+    public IntlNode(Seminar sem, BinNode l, BinNode r) {
+        operator = sem;
+        left = l;
+        right = r;
+    }
+
+    @Override
+    public void insert() {
+        //return the reference to the internal node
+
+    }
+
+    public BinNode left() {
+        return left;
+    }
+
+
+    public BinNode rightchild() {
+        return right;
+    }
+
+
+    public Seminar value() {
+        return operator;
+    }
+
+    @Override
+    public boolean isLeaf() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+
+    @Override
+    public boolean isInternal() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+
+    @Override
+    public void traverse() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void search() {
+        // TODO Auto-generated method stub
+
+    }
+
+
+    @Override
+    public void delete() {
+        // TODO Auto-generated method stub
+
+    }
+
+
+    @Override
+    public void print() {
+        // TODO Auto-generated method stub
+
+    }
+
+}
