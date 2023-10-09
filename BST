@@ -358,30 +358,37 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
         return 0;
     }
 
-
-    public void delete(K id) {
-        removing = removeHelper(id);
-        root = deleteRec(root, id, removing);
+    public NodeK<K, V> getMax(NodeK<K, V> root) {
+        if (root.getRight() == null) {
+            return root;
+        }
+        return getMax(root.getRight());
+    }
+    public NodeK<K, V> delete(NodeK<K, V> id) {
+       
+        root = deleteRec(root, id);
+        return root;
 
     }
-
-
-    public NodeK<K, V> removeHelper(K id) {
     
+    public NodeK<K, V> deleteMax(NodeK<K, V> root) {
+        if (root.getRight() == null) {
+            return root.getLeft();
+        }
+        root.setRight(deleteMax(root.getRight()));
+        return root;
     }
 
-
-    public NodeK<K, V> deleteRec(NodeK<K, V> root, K id, NodeK<K, V> removing) {
-
+    public NodeK<K, V> deleteRec(NodeK<K, V> root, NodeK<K, V> value) {
         if (root == null) {
             return root;
         }
-
-        if (id.compareTo(root.getKey()) < 0) {
-            root.setLeft(deleteRec(root.getLeft(), id, removing));
+        
+        if (root.compareTo(value) > 0) {
+            root.setLeft(deleteRec(root.getLeft(), value));
         }
-        else if (id.compareTo(root.getKey()) > 0) {
-            root.setRight(deleteRec(root.getRight(), id, removing));
+        else if (root.compareTo(value) > 0) {
+            root.setRight(deleteRec(root.getLeft(), value));
         }
         else {
             if (root.getLeft() == null) {
@@ -390,12 +397,50 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
             else if (root.getRight() == null) {
                 return root.getLeft();
             }
-            if (root.getLeft() == null && root.getRight() == null) {
-                return null;
+            else {
+                NodeK<K, V> temp = getMax(root.getLeft());
+                root.setKey(temp.getKey());
+                root.setValue(temp.getElement());
+                root.setLeft(deleteMax(root.getLeft()));
             }
-            root.setKey(maxValue(root.getLeft()));
-            root.setValue(maxSem(root.getLeft()));
-            root.setRight(deleteRec(root.getLeft(), root.getKey(), removing));
+        }
+        return root;
+    }
+
+    public NodeK<K, V> removeDuplicates(NodeK<K, V> value) {
+        root = removeDuplicatesHelp(root, value);
+        return root;
+    }
+    
+    public NodeK<K, V> removeDuplicatesHelp(NodeK<K, V> root, NodeK<K, V> value) {
+        if (root == null) {
+            return root;
+        }
+        
+        if (root.compareTo(value) > 0) {
+            root.setLeft(removeDuplicatesHelp(root.getLeft(), value));
+        }
+        else if (root.compareTo(value) > 0) {
+            root.setRight(removeDuplicatesHelp(root.getRight(), value));
+        }
+        else {
+            if (root.getKey() == value.getKey()) {
+                if (root.getLeft() == null) {
+                    return root.getRight();
+                }
+                else if (root.getRight() == null) {
+                    return root.getLeft();
+                }
+                else {
+                    NodeK<K, V> temp = getMax(root.getLeft());
+                    root.setValue(temp.getElement());
+                    root.setLeft(deleteMax(root.getLeft()));
+                }
+            }
+            else {
+                root.setRight(removeDuplicatesHelp(root.getLeft(), value));
+                root.setLeft(removeDuplicatesHelp(root.getRight(), value));
+            }
         }
         return root;
     }
