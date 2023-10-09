@@ -6,55 +6,92 @@
  * 
  */
 public class LeafNode implements BinNode{
-    
+    private SinglyLinkedList<Seminar> list;
+    private boolean isLeaf;
+    private Seminar value;
 
-
-    public LeafNode() { 
-        
-    }
-
-    @Override
-    public void insert() {
-        //leaf node should change to an internal node
-        //should return reference to the internal node
-        
+    public LeafNode(Seminar sem) { 
+        isLeaf = true;
+        this.value = sem;
+        this.list = new SinglyLinkedList<Seminar>();
     }
     
+    public void setElement() {
+        
+    }
     
+
     @Override
     public boolean isLeaf() {
         // TODO Auto-generated method stub
-        return true;
-    }
-
-    @Override
-    public boolean isInternal() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public void traverse() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void search() {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void delete() {
-        // TODO Auto-generated method stub
-        
+        return isLeaf;
     }
 
     @Override
     public void print() {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public BinNode insert(Seminar sem,
+        int widthLow,
+        int widthHigh,
+        int heightLow,
+        int heightHigh,
+        int level) {
+        
+      //if i have am empty node
+        //add it to the list
+        //return this
+        
+      //if i have matching coordinates
+        //add seminar to the list
+        //return this
+        
+        
+      //if i have coordinates that don't match
+        //create an internal node
+        //for loop that goes through all elements in the list
+            //call the insert method
+        //after the for loop, return the internal node
+        
+        if(list.isEmpty()) {
+            list.add(sem);
+            return this;
+        }
+        else if (sem.x() == list.get(0).x() && sem.y() == list.get(0).y()) {
+            list.add(sem);
+            return this;
+        }
+        else {
+            IntlNode newNode = new IntlNode( EmptyNode.getEmpty(), EmptyNode.getEmpty());
+            for (int i = 0; i < list.size(); i++) {
+                insert(list.get(i), widthLow, widthHigh, heightLow, heightHigh,level);
+                
+            }
+            return newNode;
+        } 
+    }
+    
+    
+
+    @Override
+    public boolean isEmpty() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public int search() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public BinNode delete() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
