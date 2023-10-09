@@ -188,6 +188,34 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
 
         return left || right;
     }
+    
+    public NodeK<K, V> returnNode(NodeK<K, V> root, K key) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.getKey().equals(key)) {
+            return root;
+        }
+
+        NodeK<K, V> leftResult = null;
+        NodeK<K, V> rightResult = null;
+
+        if (root.getLeft() != null) {
+            leftResult = returnNode(root.getLeft(), key);
+        }
+
+        if (leftResult == null && root.getRight() != null) {
+            rightResult = returnNode(root.getRight(), key);
+        }
+
+        if (leftResult != null) {
+            return leftResult;
+        } else {
+            return rightResult;
+        }
+    }
+
 
 
     /*
@@ -358,19 +386,23 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
         return 0;
     }
 
+
     public NodeK<K, V> getMax(NodeK<K, V> root) {
         if (root.getRight() == null) {
             return root;
         }
         return getMax(root.getRight());
     }
+
+
     public NodeK<K, V> delete(NodeK<K, V> id) {
-       
+
         root = deleteRec(root, id);
         return root;
 
     }
-    
+
+
     public NodeK<K, V> deleteMax(NodeK<K, V> root) {
         if (root.getRight() == null) {
             return root.getLeft();
@@ -379,11 +411,12 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
         return root;
     }
 
+
     public NodeK<K, V> deleteRec(NodeK<K, V> root, NodeK<K, V> value) {
         if (root == null) {
             return root;
         }
-        
+
         if (root.compareTo(value) > 0) {
             root.setLeft(deleteRec(root.getLeft(), value));
         }
@@ -407,16 +440,20 @@ public class BST<K extends Comparable<K>, V> implements Comparator<BST<K, V>> {
         return root;
     }
 
+
     public NodeK<K, V> removeDuplicates(NodeK<K, V> value) {
         root = removeDuplicatesHelp(root, value);
         return root;
     }
-    
-    public NodeK<K, V> removeDuplicatesHelp(NodeK<K, V> root, NodeK<K, V> value) {
+
+
+    public NodeK<K, V> removeDuplicatesHelp(
+        NodeK<K, V> root,
+        NodeK<K, V> value) {
         if (root == null) {
             return root;
         }
-        
+
         if (root.compareTo(value) > 0) {
             root.setLeft(removeDuplicatesHelp(root.getLeft(), value));
         }
