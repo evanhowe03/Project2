@@ -147,13 +147,24 @@ public class DataBase {
         int x = treeID.size(treeID.returnRoot());
         NodeK<Integer, Seminar> node = treeID.returnNode(treeID.returnRoot(),
             delete);
-        treeID.delete(node);
+        if (node == null) {
+            System.out.println("Delete FAILED -- There is no record with ID "
+                + delete);
+            return;
+        }
+        Seminar sem = node.getElement();
+        treeID.delete(new NodeK<Integer, Seminar>(delete, sem));
         int y = treeID.size(treeID.returnRoot());
         if (x != y) {
-            treeDate.delete(node);
-            treeCost.delete(node);
-            treeKeyWord.delete(node);
-
+            treeCost.removeDuplicates(new NodeK<Integer, Seminar>(sem.cost(),
+                sem));
+            treeDate.removeDuplicates(new NodeK<String, Seminar>(sem.date(),
+                sem));
+            for (int i = 0; i < sem.keywords().length; i++) {
+                String word = sem.keywords()[i];
+                treeKeyWord.removeDuplicates(new NodeK<String, Seminar>(word,
+                    sem));
+            }
             System.out.println("Record with ID " + delete
                 + " successfully deleted from the database");
         }
