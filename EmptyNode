@@ -1,0 +1,54 @@
+
+public class EmptyNode implements BinNode{
+    
+    private EmptyNode root;
+    
+    public EmptyNode() {
+        root = null;
+        
+    }
+    
+    @Override
+    public void insert() {
+        //Should return pointer to a leaf node
+        
+    }
+    @Override
+    public boolean isLeaf() {
+        // TODO Auto-generated method stub
+        return true;
+    }
+
+    @Override
+    public boolean isInternal() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void traverse() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    
+
+    @Override
+    public void search() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void delete() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void print() {
+        // TODO Auto-generated method stub
+        
+    }
+
+}
