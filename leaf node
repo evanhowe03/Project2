@@ -117,7 +117,7 @@ public class LeafNode implements BinNode {
         System.out.print("Leaf with " + list.size() + " objects: ");
         for (int x = 0; x < list.size(); x++) {
 
-            System.out.print(" "+list.get(x).id());
+            System.out.print(" " + list.get(x).id());
         }
         System.out.println();
     }
@@ -131,9 +131,22 @@ public class LeafNode implements BinNode {
 
 
     @Override
-    public BinNode delete() {
-        // TODO Auto-generated method stub
-        return null;
+    public BinNode delete(int x, int y, Seminar sem) {
+        // there are multiple things int he linked list
+        // delte 1
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).id() == sem.id()) {
+                list.remove(i);
+            }
+        }
+        
+        if (list.isEmpty()) {
+            return EmptyNode.getEmpty();
+        }
+        
+        return this;
+
     }
 
 }
