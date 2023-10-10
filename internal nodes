@@ -29,8 +29,8 @@ public class IntlNode implements BinNode {
 
         if (level % 2 == 0) {
             int diff = (widthHigh - widthLow) / 2;
-            if (sem.x() <= diff + widthLow && sem.x() >= widthLow && sem.y() >= heightLow
-                && sem.y() <= heightHigh) {
+            if (sem.x() <= diff + widthLow && sem.x() >= widthLow && sem
+                .y() >= heightLow && sem.y() <= heightHigh) {
 
                 left = left.insert(sem, widthLow, widthLow + diff, heightLow,
                     heightHigh, level + 1);
@@ -44,8 +44,8 @@ public class IntlNode implements BinNode {
         }
         else {
             int diff = (heightHigh - heightLow) / 2;
-            if (sem.y() <= diff + heightLow && sem.y() >= heightLow && sem.x() >= widthLow
-                && sem.x() <= widthHigh) {
+            if (sem.y() <= diff + heightLow && sem.y() >= heightLow && sem
+                .x() >= widthLow && sem.x() <= widthHigh) {
 
                 left = left.insert(sem, widthLow, widthHigh, heightLow,
                     heightLow + diff, level + 1);
@@ -65,7 +65,7 @@ public class IntlNode implements BinNode {
     }
 
 
-    public BinNode right() {
+    public BinNode rightchild() {
         return right;
     }
 
@@ -83,55 +83,17 @@ public class IntlNode implements BinNode {
         return false;
     }
 
-    public Boolean intersects(int x1, int y1, int radius, int x0, int width0, int y0, int height0) {
-        int radiusbound = 2* radius +1;
-        x1 = x1 - radius;
-        y1 = y1 - radius;
-        
-        return !((x0 + width0) <= x1 || (x1 + radiusbound) <= x0 || (y0 
-            + height0) <= y1 || (y1 + radiusbound) <= y0);
-    }
+
     @Override
-    public int search(int x, int y, int dist, int widthLow, int widthHigh, int heightLow, int heightHigh, int level, int nodesVisited) {
-       int nodes = 1;
-       
-       int disc = level % 2;
-       if (disc == 0) {
-           int diff = (widthHigh - widthLow)/ 2;
-           
-           //diff == x
-           //intersects(x, y, dist, widthLow, diff, heightLow, heightHigh)
-           if ((x - dist) < widthLow) {
-               nodes += left.search(x, y, dist, widthLow, widthLow + diff, heightLow, heightHigh, level + 1, nodesVisited);
-           }
-           //x-dist + (2*dist +1) < widthLow + diff
-           //intersects(x, y, dist, widthLow + diff, diff, heightLow, heightHigh)
-           if (((x - dist) + 2*dist+1) > widthLow) {
-               nodes += right.search(x, y, dist, widthLow + diff , widthHigh, heightLow, heightHigh, level + 1, nodesVisited);
-           }
-           
-       }
-       else {
-           int diff = (heightHigh - heightLow) / 2;
-           //intersects(x, y, dist, widthLow, widthHigh, heightLow, diff)
-           if ((y - dist) < heightLow) {
-               nodes += left.search(x, y, dist, widthLow, widthLow, heightLow, heightLow + diff, level + 1, nodesVisited);
-               
-           }
-           //intersects(x, y, dist, widthLow, widthHigh, heightLow + diff, diff)
-           if (((y - dist) + 2*dist+1) > heightLow) {
-               nodes += right.search(x, y, dist, widthLow, widthHigh, heightLow + diff, heightHigh, level + 1, nodesVisited);
-           }
-       }
-       
-       return nodes;
+    public int search() {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
 
     @Override
     public BinNode delete(int x, int y, Seminar sem) {
-      
-        //check if there's a leaf node
+        // check if there's a leaf node
         if (left.isLeaf() && right.isEmpty()) {
             left = left.delete(x, y, sem);
             if (left.isEmpty()) {
@@ -144,13 +106,12 @@ public class IntlNode implements BinNode {
                 return left;
             }
         }
-       
         else {
             left = left.delete(x, y, sem);
             right = right.delete(x, y, sem);
         }
-         //then undo the split from insert
-        
+        // then undo the split from insert
+
         return this;
     }
 
