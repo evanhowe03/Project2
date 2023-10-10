@@ -1,18 +1,16 @@
 /**
  * 
- */
-
-/**
+ * @author Pallavi Chavan pallucha21 and Evan Howe evanhowe03
+ * @version 10/10/23
  * @param <T>
- * 
+ * Node class
  */
 public class Node<T> {
     private boolean isLeaf;
     private T element;
     private Node<T> left;
     private Node<T> right;
-    
- // ----------------------------------------------------------
+
     /**
      * 
      * Creates a single binary tree node containing the
@@ -72,7 +70,7 @@ public class Node<T> {
     
     /**
      * Return whether the node is a leaf or not
-     * @return
+     * @return whether it's a leaf or not
      */
     public boolean getLeaf() {
         return isLeaf;
