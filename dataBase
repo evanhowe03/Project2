@@ -44,7 +44,7 @@ public class DataBase {
             
         if (x >= 0 && x < worldSize && y >= 0 && y < worldSize) {
             
-            locationTree.insert(sem, 0, worldSize, 0, worldSize);
+            
             boolean found = treeID.specificSearch(treeID.returnRoot(), trial
                 .id());
 
@@ -52,7 +52,7 @@ public class DataBase {
                 System.out.println("Successfully inserted record with ID "
                     + trial.id());
                 System.out.println(trial);
-
+                locationTree.insert(sem, 0, worldSize, 0, worldSize);
                 treeID.insert(trial.id(), trial);
                 treeCost.insert(trial.cost(), trial);
                 treeDate.insert(trial.date(), trial);
@@ -158,6 +158,7 @@ public class DataBase {
             return;
         }
         Seminar sem = node.getElement();
+       // locationTree.delete(sem.x(), sem.y(), sem);
         treeID.delete(new NodeK<Integer, Seminar>(delete, sem));
         int y = treeID.size(treeID.returnRoot());
         if (x != y) {
@@ -222,8 +223,9 @@ public class DataBase {
 
 
     public void printLocation() {
-        System.out.println("Location Tree:");
-        System.out.println("E");
+       System.out.println("Location Tree:");
+        //System.out.println("E");
+       locationTree.print();
     }
 
 }
