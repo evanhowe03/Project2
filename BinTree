@@ -13,17 +13,16 @@ public class BinTree {
         int widthHigh,
         int heightLow,
         int heightHigh) {
-     
+
         // root = root.insert(sem, 0, widthHigh, 0, heightHigh, 0);
         root = root.insert(sem, 0, widthHigh, 0, heightHigh, 0);
-       
 
     }
 
 
-    public int search(int x, int y, int dist, int size) {
-        int count = root.search(x, y, dist, 0, size, 0, size, 0, 0);
-        return count;
+    public void search() {
+        // TODO Auto-generated method stub
+
     }
 
 
