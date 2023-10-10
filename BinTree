@@ -27,8 +27,8 @@ public class BinTree {
     }
 
 
-    public void delete() {
-        // TODO Auto-generated method stub
+    public void delete(int x, int y, Seminar sem) {
+        root = root.delete(x, y, sem);
 
     }
 
