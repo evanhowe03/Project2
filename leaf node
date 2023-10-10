@@ -9,12 +9,28 @@ public class LeafNode implements BinNode {
     private SinglyLinkedList<Seminar> list;
     // private boolean isLeaf;
     private Seminar value;
+    private int oWidthLow;
+    private int oWidthHigh;
+    private int oHeightLow;
+    private int oHeightHigh;
+    private int oLevel;
 
-    public LeafNode(Seminar sem) {
-        // isLeaf = true;
+    public LeafNode(
+        Seminar sem,
+        int widthLow,
+        int widthHigh,
+        int heightLow,
+        int heightHigh,
+        int level) {
         this.value = sem;
+        this.oWidthLow = widthLow;
+        this.oWidthHigh = widthHigh;
+        this.oHeightLow = heightLow;
+        this.oHeightHigh = heightHigh;
+        this.oLevel = level;
         this.list = new SinglyLinkedList<Seminar>();
-        // list.add(sem);
+        list.add(sem);
+
     }
 
 
@@ -64,7 +80,7 @@ public class LeafNode implements BinNode {
         else {
             IntlNode newNode = new IntlNode(EmptyNode.getEmpty(), EmptyNode
                 .getEmpty());
-            list.add(sem);
+
             int size = list.size();
 
             for (int i = 0; i < size; i++) {
@@ -73,6 +89,8 @@ public class LeafNode implements BinNode {
                     heightHigh, level);
 
             }
+            newNode.insert(sem, widthLow, widthHigh, heightLow, heightHigh,
+                level);
             // Insert the new seminar
 
             // Clear the list
@@ -91,10 +109,17 @@ public class LeafNode implements BinNode {
 
 
     @Override
-    public void print() {
-        System.out.println("Leaf with " + (list.size() + 1) + " objects: "
-            + value.id());
+    public void print(int level) {
+        for (int i = 0; i < level * 2; i++) {
+            System.out.print(" ");
+        }
 
+        System.out.print("Leaf with " + list.size() + " objects: ");
+        for (int x = 0; x < list.size(); x++) {
+
+            System.out.print(" "+list.get(x).id());
+        }
+        System.out.println();
     }
 
 
