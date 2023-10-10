@@ -64,14 +64,15 @@ public class EmptyNode implements BinNode {
 
 
     @Override
-    public int search() {
-        // TODO Auto-generated method stub
-        return 0;
+    public int search(int x, int y, int dist, int widthLow, int widthHigh, int heightLow, int heightHigh, int level, int nodesVisited) {
+        return 1;
+
     }
 
 
     @Override
     public BinNode delete(int x, int y, Seminar sem) {
+
         // return the flyweight
         return fw;
     }
