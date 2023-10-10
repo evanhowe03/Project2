@@ -5,58 +5,55 @@
 /**
  * 
  */
-public class LeafNode implements BinNode{
+public class LeafNode implements BinNode {
     private SinglyLinkedList<Seminar> list;
-    private boolean isLeaf;
+    // private boolean isLeaf;
     private Seminar value;
 
-    public LeafNode(Seminar sem) { 
-        isLeaf = true;
+    public LeafNode(Seminar sem) {
+        // isLeaf = true;
         this.value = sem;
         this.list = new SinglyLinkedList<Seminar>();
+        // list.add(sem);
     }
-    
+
+
     public void setElement() {
-        
+
     }
-    
+
 
     @Override
     public boolean isLeaf() {
         // TODO Auto-generated method stub
-        return isLeaf;
+        return true;
     }
 
-    @Override
-    public void print() {
-        // TODO Auto-generated method stub
-        
-    }
 
     @Override
-    public BinNode insert(Seminar sem,
+    public BinNode insert(
+        Seminar sem,
         int widthLow,
         int widthHigh,
         int heightLow,
         int heightHigh,
         int level) {
-        
-      //if i have am empty node
-        //add it to the list
-        //return this
-        
-      //if i have matching coordinates
-        //add seminar to the list
-        //return this
-        
-        
-      //if i have coordinates that don't match
-        //create an internal node
-        //for loop that goes through all elements in the list
-            //call the insert method
-        //after the for loop, return the internal node
-        
-        if(list.isEmpty()) {
+
+        // if i have am empty node
+        // add it to the list
+        // return this
+
+        // if i have matching coordinates
+        // add seminar to the list
+        // return this
+
+        // if i have coordinates that don't match
+        // create an internal node
+        // for loop that goes through all elements in the list
+        // call the insert method
+        // after the for loop, return the internal node
+
+        if (list.isEmpty()) {
             list.add(sem);
             return this;
         }
@@ -65,16 +62,26 @@ public class LeafNode implements BinNode{
             return this;
         }
         else {
-            IntlNode newNode = new IntlNode( EmptyNode.getEmpty(), EmptyNode.getEmpty());
-            for (int i = 0; i < list.size(); i++) {
-                insert(list.get(i), widthLow, widthHigh, heightLow, heightHigh,level);
-                
+            IntlNode newNode = new IntlNode(EmptyNode.getEmpty(), EmptyNode
+                .getEmpty());
+            list.add(sem);
+            int size = list.size();
+
+            for (int i = 0; i < size; i++) {
+
+                newNode.insert(list.get(i), widthLow, widthHigh, heightLow,
+                    heightHigh, level);
+
             }
+            // Insert the new seminar
+
+            // Clear the list
+            // list.clear();
             return newNode;
-        } 
+        }
+
     }
-    
-    
+
 
     @Override
     public boolean isEmpty() {
@@ -82,11 +89,21 @@ public class LeafNode implements BinNode{
         return false;
     }
 
+
+    @Override
+    public void print() {
+        System.out.println("Leaf with " + (list.size() + 1) + " objects: "
+            + value.id());
+
+    }
+
+
     @Override
     public int search() {
         // TODO Auto-generated method stub
         return 0;
     }
+
 
     @Override
     public BinNode delete() {
