@@ -124,9 +124,28 @@ public class LeafNode implements BinNode {
 
 
     @Override
-    public int search() {
-        // TODO Auto-generated method stub
-        return 0;
+    public int search(int x, int y, int dist, int widthLow, int widthHigh, int heightLow, int heightHigh, int level, int nodesVisited) {
+        //check if the location of the seminar is less 
+        //than or equal to radius distance from the search point.
+        //Euclidian's algorithm
+        int aX = x;
+        int aY = y;
+        int bX = list.get(0).x();
+        int bY = list.get(0).y();
+        double xPower = Math.pow((aX - bX), 2);
+        double yPower = Math.pow((aY - bY), 2);
+        double result = Math.sqrt(xPower + yPower);
+      
+        if (result <= dist) {
+          //if it is IDK maybe print the found message
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println("Found a record with key value " + list.get(i).id()
+                    + " at " + list.get(i).x() + ", " + list.get(i).y());
+            }
+
+        }
+ 
+        return 1;
     }
 
 
@@ -137,6 +156,7 @@ public class LeafNode implements BinNode {
 
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).id() == sem.id()) {
+      
                 list.remove(i);
             }
         }
