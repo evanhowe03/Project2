@@ -10,8 +10,8 @@ public interface BinNode {
     public boolean isLeaf();
     public boolean isEmpty();
     public int search();
-    public BinNode delete();
-    public void print();
+    public BinNode delete(int x, int y, Seminar sem);
+    public void print(int level);
     public BinNode insert(Seminar sem, int width, int height, int worldWidth, int worldHeight,  int level);
     
 }
