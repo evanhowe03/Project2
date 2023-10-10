@@ -1,9 +1,7 @@
 /**
- * 
- */
-
-/**
- * 
+ * @author Pallavi Chavan pallucha21 and Evan Howe evanhowe03
+ * @version 10/10/23
+ * Node class
  */
 public class LeafNode implements BinNode {
     private SinglyLinkedList<Seminar> list;
@@ -14,7 +12,16 @@ public class LeafNode implements BinNode {
     private int oHeightLow;
     private int oHeightHigh;
     private int oLevel;
-
+    
+    /**
+     * this is the constructor
+     * @param sem the seminar
+     * @param widthLow low range
+     * @param widthHigh high range
+     * @param heightLow low range
+     * @param heightHigh high range
+     * @param level we're on
+     */
     public LeafNode(
         Seminar sem,
         int widthLow,
@@ -34,14 +41,8 @@ public class LeafNode implements BinNode {
     }
 
 
-    public void setElement() {
-
-    }
-
-
     @Override
     public boolean isLeaf() {
-        // TODO Auto-generated method stub
         return true;
     }
 
@@ -103,7 +104,6 @@ public class LeafNode implements BinNode {
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -122,11 +122,39 @@ public class LeafNode implements BinNode {
         System.out.println();
     }
 
-
     @Override
-    public int search() {
-        // TODO Auto-generated method stub
-        return 0;
+    public int search(
+        int x,
+        int y,
+        int dist,
+        int widthLow,
+        int widthHigh,
+        int heightLow,
+        int heightHigh,
+        int level,
+        int nodesVisited) {
+        // check if the location of the seminar is less
+        // than or equal to radius distance from the search point.
+        // Euclidian's algorithm
+        int aX = x;
+        int aY = y;
+        int bX = list.get(0).x();
+        int bY = list.get(0).y();
+        double xPower = Math.pow((aX - bX), 2);
+        double yPower = Math.pow((aY - bY), 2);
+        double result = Math.sqrt(xPower + yPower);
+
+        if (result <= dist) {
+            // if it is IDK maybe print the found message
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println("Found a record with key value " + list.get(
+                    i).id() + " at " + list.get(i).x() + ", " + list.get(i)
+                        .y());
+            }
+
+        }
+
+        return 1;
     }
 
 
