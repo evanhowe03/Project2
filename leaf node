@@ -5,13 +5,7 @@
  */
 public class LeafNode implements BinNode {
     private SinglyLinkedList<Seminar> list;
-    // private boolean isLeaf;
-    private Seminar value;
-    private int oWidthLow;
-    private int oWidthHigh;
-    private int oHeightLow;
-    private int oHeightHigh;
-    private int oLevel;
+ 
     
     /**
      * this is the constructor
@@ -29,12 +23,7 @@ public class LeafNode implements BinNode {
         int heightLow,
         int heightHigh,
         int level) {
-        this.value = sem;
-        this.oWidthLow = widthLow;
-        this.oWidthHigh = widthHigh;
-        this.oHeightLow = heightLow;
-        this.oHeightHigh = heightHigh;
-        this.oLevel = level;
+       
         this.list = new SinglyLinkedList<Seminar>();
         list.add(sem);
 
