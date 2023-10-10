@@ -29,7 +29,7 @@ public class IntlNode implements BinNode {
 
         if (level % 2 == 0) {
             int diff = (widthHigh - widthLow) / 2;
-            if (sem.x() <= diff && sem.x() >= widthLow && sem.y() >= heightLow
+            if (sem.x() <= diff + widthLow && sem.x() >= widthLow && sem.y() >= heightLow
                 && sem.y() <= heightHigh) {
 
                 left = left.insert(sem, widthLow, widthLow + diff, heightLow,
@@ -44,7 +44,7 @@ public class IntlNode implements BinNode {
         }
         else {
             int diff = (heightHigh - heightLow) / 2;
-            if (sem.y() <= diff && sem.y() >= heightLow && sem.x() >= widthLow
+            if (sem.y() <= diff + heightLow && sem.y() >= heightLow && sem.x() >= widthLow
                 && sem.x() <= widthHigh) {
 
                 left = left.insert(sem, widthLow, widthHigh, heightLow,
@@ -92,9 +92,27 @@ public class IntlNode implements BinNode {
 
 
     @Override
-    public BinNode delete() {
-        // TODO Auto-generated method stub
-        return null;
+    public BinNode delete(int x, int y, Seminar sem) {
+        //check if there's a leaf node
+        if (left.isLeaf() && right.isEmpty()) {
+            left = left.delete(x, y, sem);
+            if (left.isEmpty()) {
+                return right;
+            }
+        }
+        else if (right.isLeaf() && left.isEmpty()) {
+            right = right.delete(x, y, sem);
+            if (right.isEmpty()) {
+                return left;
+            }
+        }
+        else {
+            left = left.delete(x, y, sem);
+            right = right.delete(x, y, sem);
+        }
+         //then undo the split from insert
+        
+        return this;
     }
 
 
