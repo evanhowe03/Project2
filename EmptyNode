@@ -1,48 +1,55 @@
 
-public class EmptyNode implements BinNode{
-    
-    private static EmptyNode fw = null;
-    
-    public EmptyNode() {
+public class EmptyNode implements BinNode {
 
-//        
-    }
+    private static EmptyNode fw = new EmptyNode();
+
+    public EmptyNode() {
     
+//
+    }
+
+
     static public EmptyNode getEmpty() {
         return fw;
     }
-    
+
+
     @Override
-    public BinNode insert(Seminar sem,
+    public BinNode insert(
+        Seminar sem,
         int widthLow,
         int widthHigh,
         int heightLow,
         int heightHigh,
         int level) {
-        //returns a new leaf node that contains the seminar record
+        // returns a new leaf node that contains the seminar record
         /**
          * 
-         * creating a leaf node 
-            leaf.insert(node)
-          return leaf 
+         * creating a leaf node
+         * leaf.insert(node)
+         * return leaf
          */
-        ////.insert(sem, width, height, worldWidth, worldHeight, level);
+        //// .insert(sem, width, height, worldWidth, worldHeight, level);
+    
         LeafNode leafNode = new LeafNode(sem);
         return leafNode;
-    
+
     }
+
+
     @Override
     public boolean isLeaf() {
         // TODO Auto-generated method stub
         return true;
     }
 
- 
+
     @Override
     public void print() {
-        // TODO Auto-generated method stub
-        
+        System.out.println("e");
+
     }
+
 
     @Override
     public boolean isEmpty() {
@@ -50,11 +57,13 @@ public class EmptyNode implements BinNode{
         return true;
     }
 
+
     @Override
     public int search() {
         // TODO Auto-generated method stub
         return 0;
     }
+
 
     @Override
     public BinNode delete() {
