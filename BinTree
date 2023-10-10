@@ -13,26 +13,33 @@ public class BinTree {
         int widthHigh,
         int heightLow,
         int heightHigh) {
-
-       // root = root.insert(sem, 0, widthHigh, 0, heightHigh, 0);
+     
+        // root = root.insert(sem, 0, widthHigh, 0, heightHigh, 0);
         root = root.insert(sem, 0, widthHigh, 0, heightHigh, 0);
+       
 
     }
+
 
     public void search() {
         // TODO Auto-generated method stub
 
     }
 
+
     public void delete() {
         // TODO Auto-generated method stub
 
     }
 
+
     public void print() {
-        // TODO Auto-generated method stub
+        if (root != null) {
+            root.print();
+        }
 
     }
+
 
     public boolean isEmpty() {
         // TODO Auto-generated method stub
