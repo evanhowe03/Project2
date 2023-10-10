@@ -9,9 +9,9 @@ public interface BinNode {
     
     public boolean isLeaf();
     public boolean isEmpty();
-    public int search();
+    public int search(int x, int y, int dist, int widthLow, int widthHigh, int heightLow, int heightHigh, int level, int nodesVisited);
     public BinNode delete(int x, int y, Seminar sem);
     public void print(int level);
-    public BinNode insert(Seminar sem, int width, int height, int worldWidth, int worldHeight,  int level);
+    public BinNode insert(Seminar sem, int widthLow, int widthHigh, int heightLow, int heightHigh,  int level);
     
 }
