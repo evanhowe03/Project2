@@ -27,25 +27,28 @@ public class IntlNode implements BinNode {
         int heightHigh,
         int level) {
     
-        if (level % 2 ==0) {
+        if (level % 2 == 0) {
+            int diff = (widthHigh - widthLow)/2; 
             if (sem.x() <= widthHigh/2 && sem.x() >= widthLow && sem.y() >= heightLow && sem.y() <= heightHigh) {
                
-                left = left.insert(sem, widthLow, widthHigh/2, heightLow, heightHigh, level+1);
+                
+                left = left.insert(sem, widthLow, widthLow + diff, heightLow, heightHigh, level+1);
                 
             }
             else {
-                right = right.insert(sem, widthHigh/2, widthHigh, heightLow, heightHigh, level+1);
+                right = right.insert(sem, widthLow + diff, widthHigh, heightLow, heightHigh, level+1);
             }
         
 
         }
         else {
+            int diff = (heightHigh - heightLow)/2; 
             if (sem.y() <= heightHigh/2 && sem.y() >= heightLow && sem.x() >= widthLow && sem.x() <= widthHigh) {
                 
-                left = left.insert(sem, widthLow, widthHigh, heightLow, heightHigh/2, level+1);
+                left = left.insert(sem, widthLow, widthHigh, heightLow, heightLow + diff, level+1);
             }
             else {
-                right = right.insert(sem, widthHigh, widthHigh, heightHigh/2, heightHigh, level+1);
+                right = right.insert(sem, widthHigh, widthHigh, heightLow + diff, heightHigh, level+1);
             }
         }
  
