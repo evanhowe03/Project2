@@ -26,7 +26,7 @@ public class IntlNode implements BinNode {
         int heightLow,
         int heightHigh,
         int level) {
-
+    
         if (level % 2 ==0) {
             if (sem.x() <= widthHigh/2 && sem.x() >= widthLow && sem.y() >= heightLow && sem.y() <= heightHigh) {
                
@@ -93,7 +93,17 @@ public class IntlNode implements BinNode {
 
     @Override
     public void print() {
-        // TODO Auto-generated method stub
+        System.out.println("I");
+
+        // Now, print the left child
+        if (left != null) {
+            left.print();
+        }
+
+        // And then print the right child
+        if (right != null) {
+            right.print();
+        }
 
     }
 
