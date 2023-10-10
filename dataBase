@@ -144,11 +144,7 @@ public class DataBase {
 
 
     public void searchLocation(int x, int y, int radius) {
-        System.out.println("Seminars within " + radius + 
-            " units of " + x + ", " + y + ":");
-        int nodes = locationTree.search(x, y, radius, worldSize);
-        
-        System.out.println(nodes + " nodes visited in this search");
+
     }
 
 
