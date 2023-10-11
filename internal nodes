@@ -1,9 +1,7 @@
 /**
- * 
- */
-
-/**
- * 
+ * @author Pallavi Chavan pallucha21 and Evan Howe evanhowe03
+ * @version 10/10/23
+ *          Internal Node class
  */
 public class IntlNode implements BinNode {
 
@@ -11,6 +9,15 @@ public class IntlNode implements BinNode {
     private BinNode right; // Right child
     // private Seminar operator; // Operator value
 
+    /**
+     * constructor that initializes
+     * children
+     * 
+     * @param l
+     *            left child
+     * @param r
+     *            right child
+     */
     public IntlNode(BinNode l, BinNode r) {
         // operator = sem;
         left = l;
@@ -60,11 +67,21 @@ public class IntlNode implements BinNode {
     }
 
 
+    /**
+     * get it
+     * 
+     * @return the left child
+     */
     public BinNode left() {
         return left;
     }
 
 
+    /**
+     * get it
+     * 
+     * @return the right child
+     */
     public BinNode rightchild() {
         return right;
     }
@@ -72,22 +89,65 @@ public class IntlNode implements BinNode {
 
     @Override
     public boolean isLeaf() {
-        // TODO Auto-generated method stub
         return false;
     }
 
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
         return false;
     }
 
 
     @Override
-    public int search() {
-        // TODO Auto-generated method stub
-        return 0;
+    public int search(
+        int x,
+        int y,
+        int dist,
+        int widthLow,
+        int widthHigh,
+        int heightLow,
+        int heightHigh,
+        int level,
+        int nodesVisited) {
+        int nodes = 1;
+
+        int disc = level % 2;
+        if (disc == 0) {
+            int diff = (widthHigh - widthLow) / 2;
+
+            // diff == x
+            // intersects(x, y, dist, widthLow, diff, heightLow, heightHigh)
+            if ((x - dist) < widthLow) {
+                nodes += left.search(x, y, dist, widthLow, widthLow + diff,
+                    heightLow, heightHigh, level + 1, nodesVisited);
+            }
+            // x-dist + (2*dist +1) < widthLow + diff
+            // intersects(x, y, dist, widthLow + diff, diff, heightLow,
+            // heightHigh)
+            if (((x - dist) + 2 * dist + 1) > widthLow) {
+                nodes += right.search(x, y, dist, widthLow + diff, widthHigh,
+                    heightLow, heightHigh, level + 1, nodesVisited);
+            }
+
+        }
+        else {
+            int diff = (heightHigh - heightLow) / 2;
+            // intersects(x, y, dist, widthLow, widthHigh, heightLow, diff)
+            if ((y - dist) < heightLow) {
+                nodes += left.search(x, y, dist, widthLow, widthLow, heightLow,
+                    heightLow + diff, level + 1, nodesVisited);
+
+            }
+            // intersects(x, y, dist, widthLow, widthHigh, heightLow + diff,
+            // diff)
+            if (((y - dist) + 2 * dist + 1) > heightLow) {
+                nodes += right.search(x, y, dist, widthLow, widthHigh, heightLow
+                    + diff, heightHigh, level + 1, nodesVisited);
+            }
+        }
+
+        return nodes;
     }
 
 
